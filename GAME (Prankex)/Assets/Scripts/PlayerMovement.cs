@@ -94,12 +94,17 @@ public class PlayerMovement : MonoBehaviour
         {
             StartCoroutine(Dash());
         }
+        if (IsDashing)
+        {
+            rb.gravityScale = 0f;
+        }
 
     }
 
     void FixedUpdate()
     {
-      
+        if (!IsDashing)
+        {
             #region Run
             float targetSpeed = dirX * MoveSpeed;
             float speedDif = targetSpeed - rb.velocity.x;
@@ -109,6 +114,7 @@ public class PlayerMovement : MonoBehaviour
             rb.AddForce(movement * Vector2.right);
 
             #endregion
+        }
     }
 
     private bool IsGrounded()
@@ -223,7 +229,8 @@ public class PlayerMovement : MonoBehaviour
         CanDash = false;
         IsDashing = true;
         float originalGravity = rb.gravityScale;
-        
+        //cancel velocity before dash to avoid inertia
+        rb.velocity = new Vector2(0, 0);
         rb.gravityScale = 0f;
         
         
