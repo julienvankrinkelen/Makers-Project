@@ -48,6 +48,9 @@ public class PlayerMovement : MonoBehaviour
     private BoxCollider2D coll;
     private Rigidbody2D rb;
     private SpriteRenderer sprite;
+    private Animator anim;
+
+    private enum MovementState { idle, running, jumping, falling, rolling, sliding }
 
     // Start is called before the first frame update
     void Start()
@@ -55,6 +58,7 @@ public class PlayerMovement : MonoBehaviour
         coll = GetComponent<BoxCollider2D>();
         rb = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
+        anim = GetComponent<Animator>();
         tr.emitting = false;
         
     }
@@ -98,7 +102,7 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.gravityScale = 0f;
         }
-
+        UpdateAnimationState();
     }
 
     void FixedUpdate()
@@ -248,5 +252,38 @@ public class PlayerMovement : MonoBehaviour
         IsDashing = false;
         yield return new WaitForSeconds(DashingCooldown);
         CanDash = true;
+    }
+    private void UpdateAnimationState()
+    {
+        MovementState state;
+        if (dirX > 0f)
+        {
+            state = MovementState.running;
+        }
+        else if (dirX < 0f)
+        {
+            state = MovementState.running;
+        }
+        else
+        {
+            state = MovementState.idle;
+        }
+        if (isJumping == true || isWallJumping == true)
+        {
+            state = MovementState.jumping;
+        }
+        else if (rb.velocity.y < -.1f && !isWallSliding)
+        {
+            state = MovementState.falling;
+        }
+        else if (IsDashing == true)
+        {
+            state = MovementState.rolling;
+        }
+        else if (isWallSliding == true)
+        {
+            state = MovementState.sliding;
+        }
+        anim.SetInteger("state", (int)state);
     }
 }
