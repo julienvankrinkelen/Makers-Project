@@ -233,11 +233,13 @@ public class PlayerMovement : MonoBehaviour
         CanDash = false;
         IsDashing = true;
         float originalGravity = rb.gravityScale;
+        Vector2 ColliderSize = coll.size;
         //cancel velocity before dash to avoid inertia
         rb.velocity = new Vector2(0, 0);
         rb.gravityScale = 0f;
-        
-        
+        coll.size = new Vector2((float)0.8855777, (float)0.4);
+
+
 
         if (isFacingTheRight == true)
         { rb.velocity = new Vector2(transform.position.x + DashForce, 0f); }
@@ -248,6 +250,7 @@ public class PlayerMovement : MonoBehaviour
         tr.emitting = true;
         yield return new WaitForSeconds(DashingTime);
         tr.emitting = false;
+        coll.size = ColliderSize;
         rb.gravityScale = originalGravity;
         IsDashing = false;
         yield return new WaitForSeconds(DashingCooldown);
