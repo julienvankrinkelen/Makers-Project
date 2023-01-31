@@ -29,7 +29,7 @@ public class PlayerMovement : MonoBehaviour
     private bool isJumping;
     private bool isWallJumping;
     private bool isWallSliding;
-    private float wallSlidingSpeed = 2f;
+    private float wallSlidingSpeed = 1f;
 
     private float wallJumpingDirection;
     private float wallJumpingTime = 0.2f;
@@ -250,7 +250,7 @@ public class PlayerMovement : MonoBehaviour
         tr.emitting = true;
         yield return new WaitForSeconds(DashingTime);
         tr.emitting = false;
-        coll.size = ColliderSize;
+        coll.size = ColliderSize; 
         rb.gravityScale = originalGravity;
         IsDashing = false;
         yield return new WaitForSeconds(DashingCooldown);
@@ -271,6 +271,7 @@ public class PlayerMovement : MonoBehaviour
         {
             state = MovementState.idle;
         }
+
         if (isJumping == true || isWallJumping == true)
         {
             state = MovementState.jumping;
