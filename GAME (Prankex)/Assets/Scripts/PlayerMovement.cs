@@ -26,8 +26,8 @@ public class PlayerMovement : MonoBehaviour
 
     private bool isFacingTheRight = true;
     
-    private bool isJumping;
-    private bool isWallJumping;
+    [SerializeField] private bool isJumping;
+    [SerializeField] private bool isWallJumping;
     private bool isWallSliding;
     private float wallSlidingSpeed = 1f;
 
@@ -67,17 +67,16 @@ public class PlayerMovement : MonoBehaviour
         dirX = Input.GetAxisRaw("Horizontal");
         var jumpInput = Input.GetButtonDown("Jump");
 
-        if (jumpInput && IsGrounded()) 
-        {
-            rb.AddForce(Vector2.up * JumpForce, ForceMode2D.Impulse);
-            isJumping = true;
-
-        }
-
         if (IsGrounded())
         {
             isJumping = false;
         }
+        if (jumpInput && IsGrounded())
+        {
+            isJumping = true;
+            rb.AddForce(Vector2.up * JumpForce, ForceMode2D.Impulse);
+        }
+
         if (!isWallJumping)
         {
             Flip();
@@ -134,7 +133,8 @@ public class PlayerMovement : MonoBehaviour
     private void WallSlide()
     {
         dirX = Input.GetAxisRaw("Horizontal");
-        if (IsWalled() && !IsGrounded() && dirX!=0f)
+        //remove dirX!=0f if you want automatic slide
+        if (IsWalled() && !IsGrounded() && dirX != 0f)
         {
             isWallSliding = true;
 
@@ -173,6 +173,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (rb.velocity.y < -0.01f)
         {
+            isJumping = false;
             //To set minmal move speed
             rb.gravityScale = Mathf.Min(rb.gravityScale * fallGravityMultiplier, maxGravity);
         }
@@ -184,9 +185,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void JumpCut()
     {
+        
         var jumpInputReleased = Input.GetButtonUp("Jump");
         if (jumpInputReleased && rb.velocity.y > 0)
         {
+            isJumping = false;
             rb.AddForce(Vector2.down * rb.velocity.y * (1 - jumpCutMultiplier), ForceMode2D.Impulse);
         }
     }
