@@ -245,10 +245,10 @@ public class PlayerMovement : MonoBehaviour
 
 
         if (isFacingTheRight == true)
-        { rb.velocity = new Vector2(transform.position.x + DashForce, 0f); }
+        { rb.velocity = new Vector2(DashForce, 0f); }
 
         else if (isFacingTheRight == false)
-        { rb.velocity = new Vector2(transform.position.x - DashForce, 0f); }
+        { rb.velocity = new Vector2(-DashForce, 0f); }
 
         tr.emitting = true;
         yield return new WaitForSeconds(DashingTime);
