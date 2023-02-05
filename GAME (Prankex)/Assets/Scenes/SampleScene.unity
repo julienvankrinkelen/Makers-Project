@@ -425,7 +425,7 @@ MonoBehaviour:
   fallGravityMultiplier: 1.1
   jumpCutMultiplier: 0.4
   maxGravity: 3
-  DashForce: 40
+  DashForce: 25
   tr: {fileID: 539998098}
   jumpableGround:
     serializedVersion: 2
@@ -435,6 +435,17 @@ MonoBehaviour:
     m_Bits: 128
   wallCheck: {fileID: 1352217958}
   isWalledBool: 1
+  isJumping: 0
+  isWallJumping: 0
+  rightPressed: 0
+  leftPressed: 0
+  upPressed: 0
+  downPressed: 0
+  uprightPressed: 0
+  upleftPressed: 0
+  downrightPressed: 0
+  downleftPressed: 0
+  INPUTTEST: 0
 --- !u!96 &539998098
 TrailRenderer:
   serializedVersion: 2

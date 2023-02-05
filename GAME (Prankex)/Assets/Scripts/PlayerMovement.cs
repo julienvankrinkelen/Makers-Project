@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -43,6 +44,7 @@ public class PlayerMovement : MonoBehaviour
     private float DashingCooldown = 1f;
 
     private float dirX;
+    private float dirY;
     private float gravityScale = 1.1f;
     
     private BoxCollider2D coll;
@@ -50,6 +52,18 @@ public class PlayerMovement : MonoBehaviour
     private SpriteRenderer sprite;
     private Animator anim;
 
+
+    [SerializeField] private bool rightPressed;
+    [SerializeField] private bool leftPressed;
+    [SerializeField] private bool upPressed;
+    [SerializeField] private bool downPressed;
+    [SerializeField] private bool uprightPressed;
+    [SerializeField] private bool upleftPressed;
+    [SerializeField] private bool downrightPressed;
+    [SerializeField] private bool downleftPressed;
+    [SerializeField] private bool INPUTTEST;
+    private enum directions { up, upright, right, downright, down, downleft, left,upleft };
+    private directions direction;
     private enum MovementState { idle, running, jumping, falling, rolling, sliding }
 
     // Start is called before the first frame update
@@ -65,7 +79,23 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         dirX = Input.GetAxisRaw("Horizontal");
+        dirY = Input.GetAxisRaw("Vertical");
         var jumpInput = Input.GetButtonDown("Jump");
+
+        bool inputtest = Input.GetKeyDown(KeyCode.Z);
+        bool inputtestrelease = Input.GetKeyUp(KeyCode.Z);
+        if (inputtest)
+        {
+            INPUTTEST = true;
+        }
+        else if (inputtestrelease)
+        {
+            INPUTTEST = false;
+        }
+        
+
+        //z,q,s,d pressed control
+        CheckDirections();
 
         if (IsGrounded())
         {
@@ -120,6 +150,38 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+   
+    private void CheckDirections()
+    {
+        bool qInput = Input.GetKey(KeyCode.Q);
+        bool zInput = Input.GetKey(KeyCode.Z);
+        bool sInput = Input.GetKey(KeyCode.S);
+        bool dInput = Input.GetKey(KeyCode.D);
+
+        var qRelease = Input.GetKeyUp(KeyCode.Q);
+        var zRelease = Input.GetKeyUp(KeyCode.Z);
+        var sRelease = Input.GetKeyUp(KeyCode.S);
+        var dRelease = Input.GetKeyUp(KeyCode.D);
+
+        Debug.Log(" qInput : " + qInput.ToString() + " zInput : " + zInput.ToString() + " sINput : " + sInput.ToString() + " dInput : " + dInput.ToString());
+
+        if (sInput && !qInput && !zInput && !dInput) { direction = directions.down; downPressed = true; }
+        else { downPressed = false; }
+        if (sInput && qInput && !zInput && !dInput) { direction = directions.downleft; downleftPressed = true; }
+        else { downleftPressed = false; }
+        if (!sInput && qInput && !zInput && !dInput) { direction = directions.left; leftPressed = true; }
+        else { leftPressed = false; }
+        if (!sInput && qInput && zInput && !dInput) { direction = directions.upleft; upleftPressed = true; }
+        else { upleftPressed = false; }
+        if (!sInput && !qInput && zInput && !dInput) { direction = directions.up; upPressed = true; }
+        else { upPressed = false; }
+        if (!sInput && !qInput && zInput && dInput) { direction = directions.upright; uprightPressed = true; }
+        else { uprightPressed = false; }
+        if (!sInput && !qInput && !zInput && dInput) { direction = directions.right; rightPressed = true; }
+        else { rightPressed = false; }
+        if (sInput && !qInput && !zInput && dInput) { direction = directions.downright; downrightPressed = true; }
+        else { downrightPressed = false; }
+    }
     private bool IsGrounded()
     {
         return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, .1f, jumpableGround);
@@ -244,11 +306,29 @@ public class PlayerMovement : MonoBehaviour
 
 
 
-        if (isFacingTheRight == true)
+        if (direction == directions.right)
         { rb.velocity = new Vector2(DashForce, 0f); }
 
-        else if (isFacingTheRight == false)
+        else if (direction == directions.upright)
+        { rb.velocity = new Vector2(DashForce/2, DashForce/2); }
+
+        else if (direction == directions.up)
+        { rb.velocity = new Vector2(0f, DashForce/2); }
+
+        else if (direction == directions.upleft)
+        { rb.velocity = new Vector2(-DashForce/2, DashForce/2); }
+
+        else if (direction == directions.left)
         { rb.velocity = new Vector2(-DashForce, 0f); }
+
+        else if (direction == directions.downleft)
+        { rb.velocity = new Vector2(-DashForce/2, -DashForce/2); }
+
+        else if (direction == directions.down)
+        { rb.velocity = new Vector2(0f, -DashForce); }
+
+        else if (direction == directions.downright)
+        { rb.velocity = new Vector2(DashForce/2, -DashForce/2); }
 
         tr.emitting = true;
         yield return new WaitForSeconds(DashingTime);
