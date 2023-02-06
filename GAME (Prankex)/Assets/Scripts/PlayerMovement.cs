@@ -5,8 +5,13 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
+    #region declarations
+    public PlayerInput controls;
     public Transform PlayerTransform;
 
+    private float movement;
+    private float horizontal;
+    private float vertical;
     [SerializeField] private float MoveSpeed = 9;
     [SerializeField] private float acceleration = 13;
     [SerializeField] private float deceleration = 16;
@@ -23,7 +28,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Transform wallCheck;
 
     [SerializeField] private bool isWalledBool;
-
 
     private bool isFacingTheRight = true;
     
@@ -43,75 +47,36 @@ public class PlayerMovement : MonoBehaviour
     private float DashingTime = 0.2f;
     private float DashingCooldown = 1f;
 
-    private float dirX;
-    private float dirY;
     private float gravityScale = 1.1f;
+
     
     private BoxCollider2D coll;
     private Rigidbody2D rb;
     private SpriteRenderer sprite;
     private Animator anim;
 
-
-    [SerializeField] private bool rightPressed;
-    [SerializeField] private bool leftPressed;
-    [SerializeField] private bool upPressed;
-    [SerializeField] private bool downPressed;
-    [SerializeField] private bool uprightPressed;
-    [SerializeField] private bool upleftPressed;
-    [SerializeField] private bool downrightPressed;
-    [SerializeField] private bool downleftPressed;
-    [SerializeField] private bool INPUTTEST;
-    private enum directions { up, upright, right, downright, down, downleft, left,upleft };
-    private directions direction;
     private enum MovementState { idle, running, jumping, falling, rolling, sliding }
 
-    // Start is called before the first frame update
-    void Start()
+    #endregion
+
+    
+
+    void Awake()
     {
         coll = GetComponent<BoxCollider2D>();
         rb = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
         tr.emitting = false;
-        
+
     }
     private void Update()
     {
-        dirX = Input.GetAxisRaw("Horizontal");
-        dirY = Input.GetAxisRaw("Vertical");
-        var jumpInput = Input.GetButtonDown("Jump");
-
-        bool inputtest = Input.GetKeyDown(KeyCode.Z);
-        bool inputtestrelease = Input.GetKeyUp(KeyCode.Z);
-        if (inputtest)
-        {
-            INPUTTEST = true;
-        }
-        else if (inputtestrelease)
-        {
-            INPUTTEST = false;
-        }
-        
-
-        //z,q,s,d pressed control
-        CheckDirections();
-
-        if (IsGrounded())
-        {
-            isJumping = false;
-        }
-        if (jumpInput && IsGrounded())
-        {
-            isJumping = true;
-            rb.AddForce(Vector2.up * JumpForce, ForceMode2D.Impulse);
-        }
 
         if (!isWallJumping)
         {
             Flip();
         }
-        JumpCut();
         JumpGravity();
         WallSlide();
         WallJump();
@@ -123,69 +88,91 @@ public class PlayerMovement : MonoBehaviour
         {
             isWalledBool = false;
         }
-        if (Input.GetButtonDown("Fire1") && CanDash)
-        {
-            StartCoroutine(Dash());
-        }
-        if (IsDashing)
-        {
-            rb.gravityScale = 0f;
-        }
+
         UpdateAnimationState();
     }
 
-    void FixedUpdate()
+    public void Move(InputAction.CallbackContext context)
     {
-        if (!IsDashing)
+        horizontal = context.ReadValue<Vector2>().x;
+        vertical = context.ReadValue<Vector2>().y;
+
+        if (!IsDashing && context.performed)
         {
-            #region Run
-            float targetSpeed = dirX * MoveSpeed;
+            float targetSpeed = horizontal* MoveSpeed;
             float speedDif = targetSpeed - rb.velocity.x;
             float accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? acceleration : deceleration;
-            float movement = Mathf.Pow(Mathf.Abs(speedDif) * accelRate, velPower) * Mathf.Sign(speedDif);
-
+            movement = Mathf.Pow(Mathf.Abs(speedDif) * accelRate, velPower) * Mathf.Sign(speedDif);
             rb.AddForce(movement * Vector2.right);
-
-            #endregion
+        }
+        if (context.canceled)
+        {
+            rb.gravityScale = 0f;
+            rb.velocity = new Vector2 (0, 0);
+        }
+    }
+    private void Flip()
+    {
+        if (horizontal < -0.01 && isFacingTheRight)
+        {
+            Vector3 localScale = transform.localScale;
+            localScale.x *= -1f;
+            transform.localScale = localScale;
+            isFacingTheRight = false;
+        }
+        else if (horizontal > 0.01 && !isFacingTheRight)
+        {
+            Vector3 localScale = transform.localScale;
+            localScale.x *= -1f;
+            transform.localScale = localScale;
+            isFacingTheRight = true;
         }
     }
 
-   
-    private void CheckDirections()
-    {
-        bool qInput = Input.GetKey(KeyCode.Q);
-        bool zInput = Input.GetKey(KeyCode.Z);
-        bool sInput = Input.GetKey(KeyCode.S);
-        bool dInput = Input.GetKey(KeyCode.D);
-
-        var qRelease = Input.GetKeyUp(KeyCode.Q);
-        var zRelease = Input.GetKeyUp(KeyCode.Z);
-        var sRelease = Input.GetKeyUp(KeyCode.S);
-        var dRelease = Input.GetKeyUp(KeyCode.D);
-
-        Debug.Log(" qInput : " + qInput.ToString() + " zInput : " + zInput.ToString() + " sINput : " + sInput.ToString() + " dInput : " + dInput.ToString());
-
-        if (sInput && !qInput && !zInput && !dInput) { direction = directions.down; downPressed = true; }
-        else { downPressed = false; }
-        if (sInput && qInput && !zInput && !dInput) { direction = directions.downleft; downleftPressed = true; }
-        else { downleftPressed = false; }
-        if (!sInput && qInput && !zInput && !dInput) { direction = directions.left; leftPressed = true; }
-        else { leftPressed = false; }
-        if (!sInput && qInput && zInput && !dInput) { direction = directions.upleft; upleftPressed = true; }
-        else { upleftPressed = false; }
-        if (!sInput && !qInput && zInput && !dInput) { direction = directions.up; upPressed = true; }
-        else { upPressed = false; }
-        if (!sInput && !qInput && zInput && dInput) { direction = directions.upright; uprightPressed = true; }
-        else { uprightPressed = false; }
-        if (!sInput && !qInput && !zInput && dInput) { direction = directions.right; rightPressed = true; }
-        else { rightPressed = false; }
-        if (sInput && !qInput && !zInput && dInput) { direction = directions.downright; downrightPressed = true; }
-        else { downrightPressed = false; }
-    }
     private bool IsGrounded()
     {
-        return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, .1f, jumpableGround);
-        
+        return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, .1f, jumpableGround); 
+    }
+
+    public void Jump(InputAction.CallbackContext context)
+    {
+        if (IsGrounded())
+        {
+            isJumping = false;
+        }
+        // Jump when pressed
+        if (context.started && IsGrounded())
+        {
+            isJumping = true;
+            rb.AddForce(Vector2.up * JumpForce, ForceMode2D.Impulse);
+        }
+
+        // Wall jump
+        if (context.started && wallJumpingCounter > 0f) // If pressed jump and player is still wall jumping (0s < counter < 0.2s)
+        {
+            isWallJumping = true;
+            rb.velocity = new Vector2(wallJumpingDirection * wallJumpingPower.x, wallJumpingPower.y);
+            wallJumpingCounter = 0f;
+
+            if (transform.localScale.x != wallJumpingDirection)
+            {
+                isFacingTheRight = !isFacingTheRight;
+                Vector3 localScale = transform.localScale;
+                localScale.x *= -1;
+                transform.localScale = localScale;
+            }
+
+            Invoke(nameof(StopWallJumping), wallJumpingDuration);
+        }
+        // Jump cut when finished
+        if (context.canceled)
+        {
+            isJumping = false;
+        }
+        if (context.canceled && rb.velocity.y > 0)
+        {
+            rb.AddForce(Vector2.down * rb.velocity.y * (1 - jumpCutMultiplier), ForceMode2D.Impulse);
+        }
     }
 
     private bool IsWalled() 
@@ -194,13 +181,11 @@ public class PlayerMovement : MonoBehaviour
     }
     private void WallSlide()
     {
-        dirX = Input.GetAxisRaw("Horizontal");
-        //remove dirX!=0f if you want automatic slide
-        if (IsWalled() && !IsGrounded() && dirX != 0f)
+        //remove horizontal!=0f if you want automatic slide
+        if (IsWalled() && !IsGrounded() && horizontal != 0f)
         {
             isWallSliding = true;
 
-            
             rb.velocity = new Vector2(rb.velocity.x, -wallSlidingSpeed);
         }
         else
@@ -209,28 +194,6 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-
-
-
-
-
-    private void Flip()
-    {
-        if (dirX < -0.01 && isFacingTheRight)
-        {
-            Vector3 localScale = transform.localScale;
-            localScale.x *= -1f;
-            transform.localScale = localScale;
-            isFacingTheRight = false;
-        }
-        else if (dirX > 0.01 && !isFacingTheRight)
-        {
-            Vector3 localScale = transform.localScale;
-            localScale.x *= -1f;
-            transform.localScale = localScale;
-            isFacingTheRight = true;
-        }
-    }
     private void JumpGravity()
     {
         if (rb.velocity.y < -0.01f)
@@ -245,16 +208,6 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void JumpCut()
-    {
-        
-        var jumpInputReleased = Input.GetButtonUp("Jump");
-        if (jumpInputReleased && rb.velocity.y > 0)
-        {
-            isJumping = false;
-            rb.AddForce(Vector2.down * rb.velocity.y * (1 - jumpCutMultiplier), ForceMode2D.Impulse);
-        }
-    }
     private void WallJump()
     {
         if (isWallSliding)
@@ -270,83 +223,85 @@ public class PlayerMovement : MonoBehaviour
         {
             //Counter starts, player jumped off the wall
             wallJumpingCounter -= Time.deltaTime;
-        }
-        if (Input.GetButtonDown("Jump") && wallJumpingCounter > 0f) // If pressed jump and player is still wall jumping (0s < counter < 0.2s)
-        {
-            isWallJumping = true;
-            rb.velocity = new Vector2(wallJumpingDirection * wallJumpingPower.x, wallJumpingPower.y);
-            wallJumpingCounter = 0f;
-
-            if(transform.localScale.x != wallJumpingDirection)
-            {
-                isFacingTheRight = !isFacingTheRight;
-                Vector3 localScale = transform.localScale;
-                localScale.x *= -1;
-                transform.localScale = localScale;
-            }
-
-            Invoke(nameof(StopWallJumping), wallJumpingDuration);
-        }
+        }  
     }
     private void StopWallJumping()
     {
         isWallJumping = false;
     }
 
-    private IEnumerator Dash()
+
+    public void Dash(InputAction.CallbackContext context)
     {
-        CanDash = false;
-        IsDashing = true;
         float originalGravity = rb.gravityScale;
-        Vector2 ColliderSize = coll.size;
-        //cancel velocity before dash to avoid inertia
-        rb.velocity = new Vector2(0, 0);
-        rb.gravityScale = 0f;
-        coll.size = new Vector2((float)0.8855777, (float)0.4);
 
+        if (context.started)
+        {
 
+            CanDash = false;
+            IsDashing = true;
+            tr.emitting = true;
 
-        if (direction == directions.right)
-        { rb.velocity = new Vector2(DashForce, 0f); }
+            //cancel velocity before dash to avoid inertia
+            rb.velocity = new Vector2(0, 0);
+            rb.gravityScale = 0f;
+            
+            // right
+            if (horizontal > 0.01 & vertical == 0)
+            { rb.velocity = new Vector2(DashForce, 0f); }
 
-        else if (direction == directions.upright)
-        { rb.velocity = new Vector2(DashForce/2, DashForce/2); }
+            // up right
+            else if (horizontal > 0.01 & vertical > 0.01)
+            { rb.velocity = new Vector2(DashForce / 2, DashForce / 2); }
 
-        else if (direction == directions.up)
-        { rb.velocity = new Vector2(0f, DashForce/2); }
+            // up
+            else if (horizontal == 0 & vertical > 0.01)
+            { rb.velocity = new Vector2(0f, DashForce / 2); }
 
-        else if (direction == directions.upleft)
-        { rb.velocity = new Vector2(-DashForce/2, DashForce/2); }
+            // up left
+            else if (horizontal < -0.01 & vertical > 0.01)
+            { rb.velocity = new Vector2(-DashForce / 2, DashForce / 2); }
 
-        else if (direction == directions.left)
-        { rb.velocity = new Vector2(-DashForce, 0f); }
+            // left
+            else if (horizontal < -0.01 & vertical == 0)
+            { rb.velocity = new Vector2(-DashForce, 0f); }
 
-        else if (direction == directions.downleft)
-        { rb.velocity = new Vector2(-DashForce/2, -DashForce/2); }
+            // down left
+            else if (horizontal < -0.01 & vertical < 0.01)
+            { rb.velocity = new Vector2(-DashForce / 2, -DashForce / 2); }
 
-        else if (direction == directions.down)
-        { rb.velocity = new Vector2(0f, -DashForce); }
+            // down
+            else if (horizontal == 0 & vertical < 0.01)
+            { rb.velocity = new Vector2(0f, -DashForce); }
 
-        else if (direction == directions.downright)
-        { rb.velocity = new Vector2(DashForce/2, -DashForce/2); }
+            // down right
+            else if (horizontal > 0.01 & vertical < 0.01)
+            { rb.velocity = new Vector2(DashForce / 2, -DashForce / 2); }
+        }
+        if (context.performed)
+        {
+            new WaitForSeconds(DashingTime);
+            rb.gravityScale = originalGravity;
+            new WaitForSeconds(DashingCooldown);
+        }
 
-        tr.emitting = true;
-        yield return new WaitForSeconds(DashingTime);
-        tr.emitting = false;
-        coll.size = ColliderSize; 
-        rb.gravityScale = originalGravity;
-        IsDashing = false;
-        yield return new WaitForSeconds(DashingCooldown);
-        CanDash = true;
+        if (context.canceled)
+        {
+            tr.emitting = false;
+            CanDash = true;
+            IsDashing = false;
+        }
+        
     }
+
     private void UpdateAnimationState()
     {
         MovementState state;
-        if (dirX > 0f)
+        if (horizontal > 0f)
         {
             state = MovementState.running;
         }
-        else if (dirX < 0f)
+        else if (horizontal < 0f)
         {
             state = MovementState.running;
         }
