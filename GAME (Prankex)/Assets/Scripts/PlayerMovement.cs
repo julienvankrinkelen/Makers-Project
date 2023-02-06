@@ -61,7 +61,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private bool upleftPressed;
     [SerializeField] private bool downrightPressed;
     [SerializeField] private bool downleftPressed;
-    [SerializeField] private bool INPUTTEST;
     private enum directions { up, upright, right, downright, down, downleft, left,upleft };
     private directions direction;
     private enum MovementState { idle, running, jumping, falling, rolling, sliding }
@@ -81,18 +80,6 @@ public class PlayerMovement : MonoBehaviour
         dirX = Input.GetAxisRaw("Horizontal");
         dirY = Input.GetAxisRaw("Vertical");
         var jumpInput = Input.GetButtonDown("Jump");
-
-        bool inputtest = Input.GetKeyDown(KeyCode.Z);
-        bool inputtestrelease = Input.GetKeyUp(KeyCode.Z);
-        if (inputtest)
-        {
-            INPUTTEST = true;
-        }
-        else if (inputtestrelease)
-        {
-            INPUTTEST = false;
-        }
-        
 
         //z,q,s,d pressed control
         CheckDirections();
@@ -157,13 +144,6 @@ public class PlayerMovement : MonoBehaviour
         bool zInput = Input.GetKey(KeyCode.Z);
         bool sInput = Input.GetKey(KeyCode.S);
         bool dInput = Input.GetKey(KeyCode.D);
-
-        var qRelease = Input.GetKeyUp(KeyCode.Q);
-        var zRelease = Input.GetKeyUp(KeyCode.Z);
-        var sRelease = Input.GetKeyUp(KeyCode.S);
-        var dRelease = Input.GetKeyUp(KeyCode.D);
-
-        Debug.Log(" qInput : " + qInput.ToString() + " zInput : " + zInput.ToString() + " sINput : " + sInput.ToString() + " dInput : " + dInput.ToString());
 
         if (sInput && !qInput && !zInput && !dInput) { direction = directions.down; downPressed = true; }
         else { downPressed = false; }
@@ -302,12 +282,13 @@ public class PlayerMovement : MonoBehaviour
         //cancel velocity before dash to avoid inertia
         rb.velocity = new Vector2(0, 0);
         rb.gravityScale = 0f;
+        
         coll.size = new Vector2((float)0.8855777, (float)0.4);
 
 
 
         if (direction == directions.right)
-        { rb.velocity = new Vector2(DashForce, 0f); }
+        { rb.velocity = new Vector2(DashForce*3/4, 0f); }
 
         else if (direction == directions.upright)
         { rb.velocity = new Vector2(DashForce/2, DashForce/2); }
@@ -319,19 +300,21 @@ public class PlayerMovement : MonoBehaviour
         { rb.velocity = new Vector2(-DashForce/2, DashForce/2); }
 
         else if (direction == directions.left)
-        { rb.velocity = new Vector2(-DashForce, 0f); }
+        { rb.velocity = new Vector2(-DashForce*3/4, 0f); }
 
         else if (direction == directions.downleft)
         { rb.velocity = new Vector2(-DashForce/2, -DashForce/2); }
 
         else if (direction == directions.down)
-        { rb.velocity = new Vector2(0f, -DashForce); }
+        { rb.velocity = new Vector2(0f, -DashForce/2); }
 
         else if (direction == directions.downright)
         { rb.velocity = new Vector2(DashForce/2, -DashForce/2); }
 
         tr.emitting = true;
         yield return new WaitForSeconds(DashingTime);
+        //Cancel velocity after dash
+        //rb.velocity = new Vector2(0, 0);
         tr.emitting = false;
         coll.size = ColliderSize; 
         rb.gravityScale = originalGravity;

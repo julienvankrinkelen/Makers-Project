@@ -445,7 +445,6 @@ MonoBehaviour:
   upleftPressed: 0
   downrightPressed: 0
   downleftPressed: 0
-  INPUTTEST: 0
 --- !u!96 &539998098
 TrailRenderer:
   serializedVersion: 2
