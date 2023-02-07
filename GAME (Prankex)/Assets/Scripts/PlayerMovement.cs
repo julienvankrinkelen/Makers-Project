@@ -6,7 +6,8 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     #region declarations
-    public PlayerInput controls;
+    public PlayerInput playerInput;
+    private PlayerInputActions playerInputActions;
     public Transform PlayerTransform;
 
     private float movement;
@@ -67,11 +68,27 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
+        playerInput = GetComponent<PlayerInput>();
         tr.emitting = false;
 
+        PlayerInputActions playerInputActions = new PlayerInputActions();
+        playerInputActions.Player.Enable();
+        playerInputActions.Player.Jump.started += Jump;
+        playerInputActions.Player.Jump.performed += Jump;
+        playerInputActions.Player.Jump.canceled += Jump;
+        playerInputActions.Player.Move.performed += Move;
+        playerInputActions.Player.Move.canceled += Move;
+        playerInputActions.Player.Dash.started += Dash;
+
     }
+
     private void Update()
     {
+        if (IsDashing)
+        {
+            rb.gravityScale = 0f;
+        }
+        
 
         if (!isWallJumping)
         {
@@ -91,24 +108,32 @@ public class PlayerMovement : MonoBehaviour
 
         UpdateAnimationState();
     }
-
-    public void Move(InputAction.CallbackContext context)
+    private void FixedUpdate()
     {
-        horizontal = context.ReadValue<Vector2>().x;
-        vertical = context.ReadValue<Vector2>().y;
-
-        if (!IsDashing && context.performed)
+        // Application of the Run Method
+        if (!IsDashing)
         {
-            float targetSpeed = horizontal* MoveSpeed;
+            float targetSpeed = horizontal * MoveSpeed;
             float speedDif = targetSpeed - rb.velocity.x;
             float accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? acceleration : deceleration;
             movement = Mathf.Pow(Mathf.Abs(speedDif) * accelRate, velPower) * Mathf.Sign(speedDif);
-            rb.AddForce(movement * Vector2.right);
+            rb.AddForce(movement * Vector2.right, ForceMode2D.Force);
+
         }
+    }
+
+    public void Move(InputAction.CallbackContext context)
+    {
+        // Getting the input value
+        horizontal = context.ReadValue<Vector2>().x;
+        vertical = context.ReadValue<Vector2>().y;
+        Debug.Log(context);
+
+        // Stop the player when no input value
         if (context.canceled)
         {
             rb.gravityScale = 0f;
-            rb.velocity = new Vector2 (0, 0);
+            rb.velocity = new Vector2(0, 0);
         }
     }
     private void Flip()
@@ -136,6 +161,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void Jump(InputAction.CallbackContext context)
     {
+        Debug.Log(context);
         if (IsGrounded())
         {
             isJumping = false;
@@ -233,67 +259,66 @@ public class PlayerMovement : MonoBehaviour
 
     public void Dash(InputAction.CallbackContext context)
     {
-        float originalGravity = rb.gravityScale;
-
-        if (context.started)
+        Debug.Log(context);
+        if (CanDash && context.started)
         {
-
-            CanDash = false;
-            IsDashing = true;
-            tr.emitting = true;
-
-            //cancel velocity before dash to avoid inertia
-            rb.velocity = new Vector2(0, 0);
-            rb.gravityScale = 0f;
-            
-            // right
-            if (horizontal > 0.01 & vertical == 0)
-            { rb.velocity = new Vector2(DashForce, 0f); }
-
-            // up right
-            else if (horizontal > 0.01 & vertical > 0.01)
-            { rb.velocity = new Vector2(DashForce / 2, DashForce / 2); }
-
-            // up
-            else if (horizontal == 0 & vertical > 0.01)
-            { rb.velocity = new Vector2(0f, DashForce / 2); }
-
-            // up left
-            else if (horizontal < -0.01 & vertical > 0.01)
-            { rb.velocity = new Vector2(-DashForce / 2, DashForce / 2); }
-
-            // left
-            else if (horizontal < -0.01 & vertical == 0)
-            { rb.velocity = new Vector2(-DashForce, 0f); }
-
-            // down left
-            else if (horizontal < -0.01 & vertical < 0.01)
-            { rb.velocity = new Vector2(-DashForce / 2, -DashForce / 2); }
-
-            // down
-            else if (horizontal == 0 & vertical < 0.01)
-            { rb.velocity = new Vector2(0f, -DashForce); }
-
-            // down right
-            else if (horizontal > 0.01 & vertical < 0.01)
-            { rb.velocity = new Vector2(DashForce / 2, -DashForce / 2); }
-        }
-        if (context.performed)
-        {
-            new WaitForSeconds(DashingTime);
-            rb.gravityScale = originalGravity;
-            new WaitForSeconds(DashingCooldown);
-        }
-
-        if (context.canceled)
-        {
-            tr.emitting = false;
-            CanDash = true;
-            IsDashing = false;
+            StartCoroutine(Dashing());
         }
         
     }
 
+    // Dash method with enumerator method executed in the input action as coroutine
+    private IEnumerator Dashing()
+    {
+        CanDash = false;
+        IsDashing = true;
+        float originalGravity = rb.gravityScale;
+        Vector2 ColliderSize = coll.size;
+        //cancel velocity before dash to avoid inertia
+        rb.velocity = new Vector2(0, 0);
+        rb.gravityScale = 0f;
+
+        // right
+        if (horizontal > 0.01 & vertical == 0)
+        { rb.velocity = new Vector2(DashForce, 0f); }
+
+        // up right
+        else if (horizontal > 0.01 & vertical > 0.01)
+        { rb.velocity = new Vector2(DashForce / 2, DashForce / 2); }
+
+        // up
+        else if (horizontal == 0 & vertical > 0.01)
+        { rb.velocity = new Vector2(0f, DashForce / 2); }
+
+        // up left
+        else if (horizontal < -0.01 & vertical > 0.01)
+        { rb.velocity = new Vector2(-DashForce / 2, DashForce / 2); }
+
+        // left
+        else if (horizontal < -0.01 & vertical == 0)
+        { rb.velocity = new Vector2(-DashForce, 0f); }
+
+        // down left
+        else if (horizontal < -0.01 & vertical < 0.01)
+        { rb.velocity = new Vector2(-DashForce / 2, -DashForce / 2); }
+
+        // down
+        else if (horizontal == 0 & vertical < 0.01)
+        { rb.velocity = new Vector2(0f, -DashForce); }
+
+        // down right
+        else if (horizontal > 0.01 & vertical < 0.01)
+        { rb.velocity = new Vector2(DashForce / 2, -DashForce / 2); }
+
+        tr.emitting = true;
+        yield return new WaitForSeconds(DashingTime);
+        tr.emitting = false;
+
+        rb.gravityScale = originalGravity;
+        IsDashing = false;
+        yield return new WaitForSeconds(DashingCooldown);
+        CanDash = true;
+    }
     private void UpdateAnimationState()
     {
         MovementState state;
