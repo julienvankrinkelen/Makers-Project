@@ -127,7 +127,7 @@ public class PlayerMovement : MonoBehaviour
         // Getting the input value
         horizontal = context.ReadValue<Vector2>().x;
         vertical = context.ReadValue<Vector2>().y;
-        Debug.Log(context);
+        
 
         // Stop the player when no input value
         if (context.canceled)

@@ -24,7 +24,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Fire",
+                    "name": "Slash",
                     "type": "Button",
                     "id": "721c3224-fe60-4a4b-ae65-c34aaa1b310a",
                     "expectedControlType": "Button",
@@ -279,7 +279,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
-                    "action": "Fire",
+                    "action": "Slash",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -290,7 +290,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
-                    "action": "Fire",
+                    "action": "Slash",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -301,7 +301,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Touch",
-                    "action": "Fire",
+                    "action": "Slash",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -312,7 +312,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Joystick",
-                    "action": "Fire",
+                    "action": "Slash",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -323,7 +323,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "XR",
-                    "action": "Fire",
+                    "action": "Slash",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
