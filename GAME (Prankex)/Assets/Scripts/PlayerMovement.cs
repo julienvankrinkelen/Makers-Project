@@ -39,13 +39,13 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 wallJumpingPower = new Vector2(8, 16);
 
     private bool IsDashing;
-    private float DashingTime = 0.2f;
+    [SerializeField] private float DashingTime = 0.15f;
     private float DashingCooldown = 1f;
     private Vector2 veloToApply;
 
     private float dirX;
     private float dirY;
-    private float gravityScale = 1.1f;
+    private float gravityScale = 2.5f;
     
     private BoxCollider2D coll;
     private Rigidbody2D rb;
@@ -113,22 +113,13 @@ public class PlayerMovement : MonoBehaviour
         JumpGravity();
         WallSlide();
         WallJump();
-        if (IsWalled())
-        {
-            isWalledBool = true;
-        }
-        else
-        {
-            isWalledBool = false;
-        }
-        if (Input.GetButtonDown("Fire1") && CanDash)
-        {
-            StartCoroutine(Dash());
-        }
-        if (IsDashing)
-        {
-            rb.gravityScale = 0f;
-        }
+
+        if (IsWalled()) {isWalledBool = true; }
+        else{ isWalledBool = false;}
+
+        if (Input.GetButtonDown("Fire1") && CanDash) {StartCoroutine(Dash());}
+            if (IsDashing){rb.gravityScale = 0f; }
+
         UpdateAnimationState();
     }
 
@@ -176,7 +167,7 @@ public class PlayerMovement : MonoBehaviour
     private bool IsGrounded()
     {
         
-        return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, .3f, jumpableGround);
+        return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, .1f, jumpableGround);
         
     }
 
@@ -287,7 +278,7 @@ public class PlayerMovement : MonoBehaviour
 
     private IEnumerator Dash()
     {
-     
+        CanDash = false;
         float originalGravity = rb.gravityScale;
         Vector2 ColliderSize = coll.size;
         
@@ -324,10 +315,10 @@ public class PlayerMovement : MonoBehaviour
             //If the player is falling, then its gravity velocity to dashforce
             if (rb.velocity.y < 0f) { veloToApply = new Vector2(DashForce/2, rb.velocity.y - DashForce / 2); }
             else { veloToApply = new Vector2(DashForce / 2, -DashForce / 2); }
-      
+        
         //Applying velocity vector 
-        if(veloToApply != new Vector2(0, 0)) {
-            CanDash = false;
+        if (veloToApply != new Vector2(0, 0)) {
+            
             IsDashing = true;
 
 
@@ -343,8 +334,8 @@ public class PlayerMovement : MonoBehaviour
 
         tr.emitting = true;
         yield return new WaitForSeconds(DashingTime);
-        //Cancel velocity after dash
-        //rb.velocity = new Vector2(0, 0);
+        //Reduce drastically velocity after dash
+        rb.velocity = new Vector2(rb.velocity.x/3, rb.velocity.y/3);
         tr.emitting = false;
         coll.size = ColliderSize; 
         rb.gravityScale = originalGravity;
