@@ -38,10 +38,10 @@ public class PlayerMovement : MonoBehaviour
     private float wallJumpingDuration = 0.4f;
     private Vector2 wallJumpingPower = new Vector2(8, 16);
 
-    private bool CanDash = true;
     private bool IsDashing;
     private float DashingTime = 0.2f;
     private float DashingCooldown = 1f;
+    private Vector2 veloToApply;
 
     private float dirX;
     private float dirY;
@@ -61,6 +61,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private bool upleftPressed;
     [SerializeField] private bool downrightPressed;
     [SerializeField] private bool downleftPressed;
+    [SerializeField] private bool CanDash = true;
+    [SerializeField] private bool isGrounded = true;
     private enum directions { up, upright, right, downright, down, downleft, left,upleft };
     private directions direction;
     private enum MovementState { idle, running, jumping, falling, rolling, sliding }
@@ -87,7 +89,16 @@ public class PlayerMovement : MonoBehaviour
         if (IsGrounded())
         {
             isJumping = false;
+            CanDash = true;
+            isGrounded = true;
         }
+        else
+        {
+            isGrounded = false;
+        }
+
+
+
         if (jumpInput && IsGrounded())
         {
             isJumping = true;
@@ -164,7 +175,8 @@ public class PlayerMovement : MonoBehaviour
     }
     private bool IsGrounded()
     {
-        return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, .1f, jumpableGround);
+        
+        return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, .3f, jumpableGround);
         
     }
 
@@ -275,41 +287,59 @@ public class PlayerMovement : MonoBehaviour
 
     private IEnumerator Dash()
     {
-        CanDash = false;
-        IsDashing = true;
+     
         float originalGravity = rb.gravityScale;
         Vector2 ColliderSize = coll.size;
-        //cancel velocity before dash to avoid inertia
-        rb.velocity = new Vector2(0, 0);
-        rb.gravityScale = 0f;
         
-        coll.size = new Vector2((float)0.8855777, (float)0.4);
-
-
+        //Used to reset veloToApply vector
+        veloToApply = new Vector2(0, 0);
 
         if (direction == directions.right)
-        { rb.velocity = new Vector2(DashForce*3/4, 0f); }
+        { veloToApply = new Vector2(DashForce * 3 / 4, 0f); }
 
         else if (direction == directions.upright)
-        { rb.velocity = new Vector2(DashForce/2, DashForce/2); }
+        { veloToApply = new Vector2(DashForce / 2, DashForce / 2); }
 
         else if (direction == directions.up)
-        { rb.velocity = new Vector2(0f, DashForce/2); }
+        { veloToApply = new Vector2(0f, DashForce / 2); }
 
         else if (direction == directions.upleft)
-        { rb.velocity = new Vector2(-DashForce/2, DashForce/2); }
+        { veloToApply = new Vector2(-DashForce / 2, DashForce / 2); }
 
         else if (direction == directions.left)
-        { rb.velocity = new Vector2(-DashForce*3/4, 0f); }
+        { veloToApply = new Vector2(-DashForce * 3 / 4, 0f); }
 
-        else if (direction == directions.downleft)
-        { rb.velocity = new Vector2(-DashForce/2, -DashForce/2); }
+        else if (direction == directions.downleft && isGrounded == false)
+            //If the player is falling, then its gravity velocity to dashforce
+            if (rb.velocity.y < 0f) { veloToApply = new Vector2(-DashForce / 2, rb.velocity.y - DashForce / 2); }
+            else { veloToApply = new Vector2(-DashForce / 2, -DashForce / 2); }
 
-        else if (direction == directions.down)
-        { rb.velocity = new Vector2(0f, -DashForce/2); }
+        else if (direction == directions.down && isGrounded == false)
+            //If the player is falling, then its gravity velocity to dashforce
+            if (rb.velocity.y < 0f) { veloToApply = new Vector2(0f, rb.velocity.y - DashForce / 2); }
+            else { veloToApply = new Vector2(0f, -DashForce / 2); }
 
-        else if (direction == directions.downright)
-        { rb.velocity = new Vector2(DashForce/2, -DashForce/2); }
+
+        else if (direction == directions.downright && isGrounded == false)
+            //If the player is falling, then its gravity velocity to dashforce
+            if (rb.velocity.y < 0f) { veloToApply = new Vector2(DashForce/2, rb.velocity.y - DashForce / 2); }
+            else { veloToApply = new Vector2(DashForce / 2, -DashForce / 2); }
+      
+        //Applying velocity vector 
+        if(veloToApply != new Vector2(0, 0)) {
+            CanDash = false;
+            IsDashing = true;
+
+
+            coll.size = new Vector2((float)0.8855777, (float)0.4);
+
+            //To avoid gravity effect during dash
+            rb.gravityScale = 0f;
+            //cancel velocity before dash to avoid inertia
+            rb.velocity = new Vector2(0, 0);
+            rb.velocity = veloToApply;
+        }
+       
 
         tr.emitting = true;
         yield return new WaitForSeconds(DashingTime);
@@ -319,6 +349,7 @@ public class PlayerMovement : MonoBehaviour
         coll.size = ColliderSize; 
         rb.gravityScale = originalGravity;
         IsDashing = false;
+        //in case the player is falling and cannot touch any ground/wall, DashingCooldown
         yield return new WaitForSeconds(DashingCooldown);
         CanDash = true;
     }
