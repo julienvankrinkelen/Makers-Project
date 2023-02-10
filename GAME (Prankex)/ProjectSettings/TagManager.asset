@@ -8,12 +8,13 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
   - Ground
   - Wall
   - Basic Enemy
+  - NPCs
   - 
   - 
   - 
@@ -40,4 +41,16 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: NPCs
+    uniqueID: 3219539263
+    locked: 0
+  - name: Wall
+    uniqueID: 4203858121
+    locked: 0
+  - name: Ground
+    uniqueID: 106844201
+    locked: 0
+  - name: Player
+    uniqueID: 3365659633
     locked: 0
