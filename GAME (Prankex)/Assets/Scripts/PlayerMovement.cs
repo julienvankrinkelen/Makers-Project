@@ -89,10 +89,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        if (IsDashing)
-        {
-            rb.gravityScale = 0f;
-        }
+        
         if (IsGrounded())
         {
             isJumping = false;
@@ -145,8 +142,13 @@ public class PlayerMovement : MonoBehaviour
         // Stop the player when no input value
         if (context.canceled)
         {
-            rb.gravityScale = 0f;
-            rb.velocity = new Vector2(0, 0);
+            //ATTENTION A CES DEUX LIGNE//
+            //-> si on met vélocité à zero sur l'axe X, on aura un effet très dynamique et sec qui annule le "flou" de mouvement créé par Accel Decel de fixedupdate
+            //-> si on met vélocité à zero sur l'axe Y, on peut annuler la vélocité induite de la gravité en straffant gauche droite lors d'une chute
+
+
+            //rb.gravityScale = 0f;
+            //rb.velocity = new Vector2(0, 0);
         }
     }
     private void Flip()
@@ -285,55 +287,51 @@ public class PlayerMovement : MonoBehaviour
     {
         CanDash = false;
         float originalGravity = rb.gravityScale;
-        Vector2 ColliderSize = coll.size;
-        //cancel velocity before dash to avoid inertia
+        
+        
         //Used to reset veloToApply vector
         veloToApply = new Vector2(0, 0);
 
         // right
-        if (horizontal > 0.01 & vertical == 0)
-        { veloToApply = new Vector2(DashForce * 3/4, 0f); }
+        if (horizontal > 0.01 && vertical == 0)
+        { veloToApply = new Vector2(DashForce * 3 / 4, 0f); }
 
         // up right
-        else if (horizontal > 0.01 & vertical > 0.01)
+        else if (horizontal > 0.01 && vertical > 0.01)
         { veloToApply = new Vector2(DashForce / 2, DashForce / 2); }
 
         // up
-        else if (horizontal == 0 & vertical > 0.01)
+        else if (horizontal == 0 && vertical > 0.01)
         { veloToApply = new Vector2(0f, DashForce / 2); }
 
         // up left
-        else if (horizontal < -0.01 & vertical > 0.01)
+        else if (horizontal < -0.01 && vertical > 0.01)
         { veloToApply = new Vector2(-DashForce / 2, DashForce / 2); }
 
         // left
-        else if (horizontal < -0.01 & vertical == 0)
-        { veloToApply = new Vector2(-3/4 * DashForce, 0f); }
+        else if (horizontal < -0.01 && vertical == 0) 
+        { veloToApply = new Vector2(DashForce * -3/4, 0f); }
 
         // down left
-        else if (horizontal < -0.01 & vertical < 0.01)
+        else if (horizontal < -0.01 && vertical < 0.01 && isGrounded == false)
         //If the player is falling, then its gravity velocity to dashforce
             if (rb.velocity.y < 0f) { veloToApply = new Vector2(-DashForce / 2, rb.velocity.y - DashForce / 2); }
             else { veloToApply = new Vector2(-DashForce / 2, -DashForce / 2); }
 
         // down
-        else if (horizontal == 0 & vertical < 0.01)
+        else if (horizontal == 0 && vertical < 0.01 && isGrounded == false)
         //If the player is falling, then its gravity velocity to dashforce
             if (rb.velocity.y < 0f) { veloToApply = new Vector2(0f, rb.velocity.y - DashForce / 2); }
             else { veloToApply = new Vector2(0f, -DashForce / 2); }
 
         // down right
-        else if (horizontal > 0.01 & vertical < 0.01)
+        else if (horizontal > 0.01 && vertical < 0.01 && isGrounded == false)
         //If the player is falling, then its gravity velocity to dashforce
             if (rb.velocity.y < 0f) { veloToApply = new Vector2(DashForce/2, rb.velocity.y - DashForce / 2); }
             else { veloToApply = new Vector2(DashForce / 2, -DashForce / 2); }
 
         if (veloToApply != new Vector2(0, 0)) {
-            
             IsDashing = true;
-
-
-            coll.size = new Vector2((float)0.8855777, (float)0.4);
 
             //To avoid gravity effect during dash
             rb.gravityScale = 0f;

@@ -24,7 +24,6 @@ public class EnemyScript : MonoBehaviour
         {
             Die();
         }
-
     }
 
     void Die()

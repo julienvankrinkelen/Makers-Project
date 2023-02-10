@@ -15,6 +15,6 @@ public class testnpc : MonoBehaviour
     {
         Debug.Log("Pressed F");
         if(sr.flipX == true) { sr.flipX= false; }
-        else if (sr.flipX == false) { sr.flipX = truezdq; }
+        else if (sr.flipX == false) { sr.flipX = true; }
     }
 }
