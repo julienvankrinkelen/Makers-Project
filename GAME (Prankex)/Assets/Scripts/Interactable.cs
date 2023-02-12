@@ -10,6 +10,7 @@ public class Interactable : MonoBehaviour
     public bool isInRange;
     public UnityEvent interactAction;
 
+
     void Start()
     {
         

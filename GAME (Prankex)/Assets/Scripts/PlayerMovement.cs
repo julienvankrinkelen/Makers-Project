@@ -7,7 +7,7 @@ public class PlayerMovement : MonoBehaviour
 {
     #region declarations
     public PlayerInput playerInput;
-    private PlayerInputActions playerInputActions;
+    public PlayerInputActions playerInputActions;
     public Transform PlayerTransform;
 
     private float movement;
@@ -55,9 +55,9 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     private SpriteRenderer sprite;
     private Animator anim;
-
-
     
+
+
     [SerializeField] private bool CanDash = true;
     [SerializeField] private bool isGrounded = true;
    
@@ -93,7 +93,6 @@ public class PlayerMovement : MonoBehaviour
         if (IsGrounded())
         {
             isJumping = false;
-            CanDash = true;
             isGrounded = true;
         }
         else
@@ -137,12 +136,12 @@ public class PlayerMovement : MonoBehaviour
         // Getting the input value
         horizontal = context.ReadValue<Vector2>().x;
         vertical = context.ReadValue<Vector2>().y;
-        
+
 
         // Stop the player when no input value
         if (context.canceled)
         {
-            //ATTENTION A CES DEUX LIGNE//
+            //ATTENTION A CES DEUX LIGNES//
             //-> si on met vélocité à zero sur l'axe X, on aura un effet très dynamique et sec qui annule le "flou" de mouvement créé par Accel Decel de fixedupdate
             //-> si on met vélocité à zero sur l'axe Y, on peut annuler la vélocité induite de la gravité en straffant gauche droite lors d'une chute
 
@@ -313,23 +312,24 @@ public class PlayerMovement : MonoBehaviour
         { veloToApply = new Vector2(DashForce * -3/4, 0f); }
 
         // down left
-        else if (horizontal < -0.01 && vertical < 0.01 && isGrounded == false)
+        else if (horizontal < -0.01 && vertical < -0.01 && isGrounded == false)
         //If the player is falling, then its gravity velocity to dashforce
             if (rb.velocity.y < 0f) { veloToApply = new Vector2(-DashForce / 2, rb.velocity.y - DashForce / 2); }
             else { veloToApply = new Vector2(-DashForce / 2, -DashForce / 2); }
 
         // down
-        else if (horizontal == 0 && vertical < 0.01 && isGrounded == false)
+        else if (horizontal == 0 && vertical < -0.01 && isGrounded == false)
         //If the player is falling, then its gravity velocity to dashforce
             if (rb.velocity.y < 0f) { veloToApply = new Vector2(0f, rb.velocity.y - DashForce / 2); }
             else { veloToApply = new Vector2(0f, -DashForce / 2); }
 
         // down right
-        else if (horizontal > 0.01 && vertical < 0.01 && isGrounded == false)
+        else if (horizontal > 0.01 && vertical < -0.01 && isGrounded == false)
         //If the player is falling, then its gravity velocity to dashforce
             if (rb.velocity.y < 0f) { veloToApply = new Vector2(DashForce/2, rb.velocity.y - DashForce / 2); }
             else { veloToApply = new Vector2(DashForce / 2, -DashForce / 2); }
 
+        //veloToApply important 
         if (veloToApply != new Vector2(0, 0)) {
             IsDashing = true;
 
@@ -339,6 +339,17 @@ public class PlayerMovement : MonoBehaviour
             rb.velocity = new Vector2(0, 0);
             rb.velocity = veloToApply;
         }
+        //if no input, then dash in the direction the player is facing 
+        else
+        {
+            IsDashing = true;
+            //To avoid gravity effect during dash
+            rb.gravityScale = 0f;
+            //cancel velocity before dash to avoid inertia
+            rb.velocity = new Vector2(0, 0);
+            if (isFacingTheRight) { rb.velocity = new Vector2(DashForce * 3 / 4, 0f); } // Dash to the right 
+            else{ rb.velocity = new Vector2(-DashForce * 3 / 4, 0f); }                  // Dash to the left      
+            }
 
         tr.emitting = true;
         yield return new WaitForSeconds(DashingTime);
