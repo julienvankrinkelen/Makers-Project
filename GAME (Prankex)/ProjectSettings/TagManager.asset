@@ -37,13 +37,15 @@ TagManager:
   - 
   - 
   - 
-  - 
   m_SortingLayers:
-  - name: Default
-    uniqueID: 0
+  - name: Basic Enemy
+    uniqueID: 4281712517
     locked: 0
   - name: NPCs
     uniqueID: 3219539263
+    locked: 0
+  - name: Default
+    uniqueID: 0
     locked: 0
   - name: Wall
     uniqueID: 4203858121

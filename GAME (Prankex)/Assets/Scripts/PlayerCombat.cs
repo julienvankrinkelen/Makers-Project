@@ -34,7 +34,7 @@ public class PlayerCombat : MonoBehaviour
 
         
 
-        PlayerInputActions playerInputActions = new PlayerInputActions();
+        playerInputActions = new PlayerInputActions();
         playerInputActions.Player.Enable();
 
         playerInputActions.Player.Slash.performed += Slash;
@@ -79,5 +79,17 @@ public class PlayerCombat : MonoBehaviour
             return;
 
         Gizmos.DrawWireSphere(attackPoint.position, attackRange);
+    }
+
+    public void EnableCombat(bool boolean)
+    {
+        if (boolean)
+        {
+            playerInputActions.Player.Enable();
+        }
+        else
+        {
+            playerInputActions.Player.Disable();
+        }
     }
 }

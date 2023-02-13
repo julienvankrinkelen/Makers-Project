@@ -391,7 +391,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 48276564}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: NPCs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -406,7 +406,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 48276563}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.635436, y: 4.0026674, z: -0.8248967}
+  m_LocalPosition: {x: 10.635436, y: 4.0026674, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -488,7 +488,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8926595840433928627, guid: 7bc7a9c0ec7b5154390f53f01007db6a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.2527469
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8926595840433928627, guid: 7bc7a9c0ec7b5154390f53f01007db6a, type: 3}
       propertyPath: m_LocalRotation.w
@@ -521,6 +521,10 @@ PrefabInstance:
     - target: {fileID: 9002710130717061372, guid: 7bc7a9c0ec7b5154390f53f01007db6a, type: 3}
       propertyPath: m_Name
       value: Interactable Circle
+      objectReference: {fileID: 0}
+    - target: {fileID: 9002710130717061372, guid: 7bc7a9c0ec7b5154390f53f01007db6a, type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7bc7a9c0ec7b5154390f53f01007db6a, type: 3}
@@ -582,7 +586,7 @@ GameObject:
   - component: {fileID: 402240439}
   - component: {fileID: 402240438}
   - component: {fileID: 402240440}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: DialogBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -607,8 +611,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -225}
-  m_SizeDelta: {x: -200, y: -650}
+  m_AnchoredPosition: {x: 0, y: -200}
+  m_SizeDelta: {x: -200, y: -600}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &402240438
 MonoBehaviour:
@@ -663,6 +667,7 @@ MonoBehaviour:
   textComponent: {fileID: 2062520240}
   textSpeed: 0.1
   playerMovement: {fileID: 539998097}
+  playerCombat: {fileID: 539998100}
   lines:
   - "Bonjour Marex et bonjour le chat. Je voudrais avertir les viewers innocents
     d'une grave arnaque en cours qui se d\xE9roule sous les yeux de tout le monde."
@@ -691,6 +696,7 @@ GameObject:
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
   - component: {fileID: 519420033}
+  - component: {fileID: 519420034}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -777,6 +783,39 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 539998096}
+--- !u!114 &519420034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
 --- !u!1 &539998092
 GameObject:
   m_ObjectHideFlags: 0
@@ -951,6 +990,7 @@ MonoBehaviour:
   isWalledBool: 0
   isJumping: 0
   isWallJumping: 0
+  jumpPressed: 0
   DashingTime: 0.15
   CanDash: 1
   isGrounded: 1
@@ -4267,7 +4307,7 @@ GameObject:
   - component: {fileID: 1208480944}
   - component: {fileID: 1208480943}
   - component: {fileID: 1208480942}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4587,7 +4627,7 @@ GameObject:
   - component: {fileID: 1779355238}
   - component: {fileID: 1779355240}
   - component: {fileID: 1779355239}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: NPCtest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4602,7 +4642,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1779355237}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -8.895436, y: -4.7926674, z: 0.8248967}
+  m_LocalPosition: {x: -8.895436, y: -4.7926674, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5478,7 +5518,7 @@ GameObject:
   - component: {fileID: 2062520239}
   - component: {fileID: 2062520241}
   - component: {fileID: 2062520240}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: TextDialog
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5500,10 +5540,10 @@ RectTransform:
   m_Father: {fileID: 402240437}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 2200, y: 300}
+  m_SizeDelta: {x: 480, y: 118}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2062520240
 MonoBehaviour:
@@ -5552,8 +5592,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 70
-  m_fontSizeBase: 70
+  m_fontSize: 60
+  m_fontSizeBase: 60
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -5588,7 +5628,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0.60982525, w: 0}
+  m_margin: {x: 0, y: 60.29969, z: -17.125404, w: 60.299675}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0

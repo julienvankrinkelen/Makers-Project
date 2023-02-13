@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -36,6 +37,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private bool isWallJumping;
     private bool isWallSliding;
     private float wallSlidingSpeed = 1f;
+    private float jumpPressedTimer = 0.5f;
+    [SerializeField] private float jumpPressed;
 
     private float wallJumpingDirection;
     private float wallJumpingTime = 0.2f;
@@ -76,7 +79,7 @@ public class PlayerMovement : MonoBehaviour
         playerInput = GetComponent<PlayerInput>();
         tr.emitting = false;
 
-        PlayerInputActions playerInputActions = new PlayerInputActions();
+        playerInputActions = new PlayerInputActions();
         playerInputActions.Player.Enable();
         playerInputActions.Player.Jump.started += Jump;
         playerInputActions.Player.Jump.performed += Jump;
@@ -116,6 +119,8 @@ public class PlayerMovement : MonoBehaviour
         if (IsDashing){rb.gravityScale = 0f; }
 
         UpdateAnimationState();
+        jumpPressed -= Time.deltaTime;
+
     }
     private void FixedUpdate()
     {
@@ -175,44 +180,46 @@ public class PlayerMovement : MonoBehaviour
 
     public void Jump(InputAction.CallbackContext context)
     {
-        Debug.Log(context);
-        if (IsGrounded())
-        {
-            isJumping = false;
-        }
-        // Jump when pressed
-        if (context.started && IsGrounded())
-        {
-            isJumping = true;
-            rb.AddForce(Vector2.up * JumpForce, ForceMode2D.Impulse);
-        }
+          jumpPressed = jumpPressedTimer;
+       
+         
+          Debug.Log(context);
+           
+          // Jump when pressed
+          if (context.started && (IsGrounded() && jumpPressed > 0))
+          {
+             jumpPressed = 0;
+             isJumping = true;
+             rb.AddForce(Vector2.up * JumpForce, ForceMode2D.Impulse);
+         }
 
-        // Wall jump
-        if (context.started && wallJumpingCounter > 0f) // If pressed jump and player is still wall jumping (0s < counter < 0.2s)
-        {
-            isWallJumping = true;
-            rb.velocity = new Vector2(wallJumpingDirection * wallJumpingPower.x, wallJumpingPower.y);
-            wallJumpingCounter = 0f;
+         // Wall jump
+          if (context.started && wallJumpingCounter > 0f) // If pressed jump and player is still wall jumping (0s < counter < 0.2s)
+         {
+             isWallJumping = true;
+             rb.velocity = new Vector2(wallJumpingDirection * wallJumpingPower.x, wallJumpingPower.y);
+             wallJumpingCounter = 0f;
 
-            if (transform.localScale.x != wallJumpingDirection)
+             if (transform.localScale.x != wallJumpingDirection)
             {
                 isFacingTheRight = !isFacingTheRight;
                 Vector3 localScale = transform.localScale;
                 localScale.x *= -1;
-                transform.localScale = localScale;
+                 transform.localScale = localScale;
             }
 
-            Invoke(nameof(StopWallJumping), wallJumpingDuration);
+             Invoke(nameof(StopWallJumping), wallJumpingDuration);
         }
-        // Jump cut when finished
-        if (context.canceled)
-        {
-            isJumping = false;
-        }
-        if (context.canceled && rb.velocity.y > 0)
-        {
-            rb.AddForce(Vector2.down * rb.velocity.y * (1 - jumpCutMultiplier), ForceMode2D.Impulse);
-        }
+         // Jump cut when finished
+         if (context.canceled)
+         {
+             isJumping = false;
+         }
+         if (context.canceled && rb.velocity.y > 0)
+         {
+             rb.AddForce(Vector2.down * rb.velocity.y * (1 - jumpCutMultiplier), ForceMode2D.Impulse);
+         }
+        
     }
 
     private bool IsWalled() 
@@ -396,5 +403,16 @@ public class PlayerMovement : MonoBehaviour
             state = MovementState.sliding;
         }
         anim.SetInteger("state", (int)state);
+    }
+
+    public void EnableMovement(bool boolean){
+        if (boolean)
+        {
+            playerInputActions.Player.Enable();
+        }
+        else
+        {
+            playerInputActions.Player.Disable();
+        }
     }
 }
