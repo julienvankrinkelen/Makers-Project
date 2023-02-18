@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerCombat : MonoBehaviour
 {
-    public PlayerInput playerInput;
+    
     private PlayerInputActions playerInputActions;
     public Transform PlayerTransform;
 
@@ -30,7 +30,7 @@ public class PlayerCombat : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
-        playerInput = GetComponent<PlayerInput>();
+        
 
         
 
@@ -43,18 +43,19 @@ public class PlayerCombat : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        // check la hitbox
     }
 
     public void Slash(InputAction.CallbackContext context)
     {
         if (context.performed && Time.time >= nextAttackTime)
         {
-            // animation trigger
-            anim.SetTrigger("slash");
-            
             // check for enemies in range in the layer assigned
             Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
+
+            // animation trigger
+            anim.SetTrigger("slash");
+
 
             foreach(Collider2D enemy in hitEnemies)
             {

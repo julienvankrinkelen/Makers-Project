@@ -3,25 +3,42 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 
 public class Interactable : MonoBehaviour
 {
-    public KeyCode interactKey;
+    public PlayerInput playerInput;
+    private PlayerInputActions playerInputActions;
+
     public bool isInRange;
+    public bool canInteract = true;
     public UnityEvent interactAction;
 
+    public GameObject Indicator;
+    
 
-    void Start()
+    private void Awake()
     {
         
+        playerInput = GetComponent<PlayerInput>();
+        playerInputActions = new PlayerInputActions();
+        playerInputActions.Player.Enable();
+
+        playerInputActions.Player.Interact.performed += Interact;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        if(isInRange && Input.GetKeyDown(interactKey))
+        SeeInteraction();
+    }
+
+    public void Interact(InputAction.CallbackContext context)
+    {
+        if (isInRange && context.performed && canInteract == true)
         {
+            canInteract = false;
             interactAction.Invoke();
+
         }
     }
 
@@ -31,6 +48,7 @@ public class Interactable : MonoBehaviour
         {
             isInRange = true;
             Debug.Log("Player is in range of interactable object");
+            
         }
     }
     public void OnTriggerExit2D(Collider2D collision)
@@ -39,6 +57,19 @@ public class Interactable : MonoBehaviour
         {
             isInRange = false;
             Debug.Log("Player is not range of interactable object anymore");
+            canInteract = true;
+        }
+    }
+
+    public void SeeInteraction()
+    {
+        if (canInteract == true && isInRange == true)
+        {
+            Indicator.SetActive(true);
+        }
+        else
+        {
+            Indicator.SetActive(false);
         }
     }
 }

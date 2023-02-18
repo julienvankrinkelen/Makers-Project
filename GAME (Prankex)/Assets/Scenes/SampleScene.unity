@@ -443,6 +443,18 @@ PrefabInstance:
     m_TransformParent: {fileID: 1779355238}
     m_Modifications:
     - target: {fileID: 6228188655951599156, guid: 7bc7a9c0ec7b5154390f53f01007db6a, type: 3}
+      propertyPath: Indicator
+      value: 
+      objectReference: {fileID: 2074594235}
+    - target: {fileID: 6228188655951599156, guid: 7bc7a9c0ec7b5154390f53f01007db6a, type: 3}
+      propertyPath: dialogTest
+      value: 
+      objectReference: {fileID: 402240440}
+    - target: {fileID: 6228188655951599156, guid: 7bc7a9c0ec7b5154390f53f01007db6a, type: 3}
+      propertyPath: interactAction.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6228188655951599156, guid: 7bc7a9c0ec7b5154390f53f01007db6a, type: 3}
       propertyPath: interactAction.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 402240440}
@@ -452,7 +464,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6228188655951599156, guid: 7bc7a9c0ec7b5154390f53f01007db6a, type: 3}
       propertyPath: interactAction.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: startDialog
+      value: StartDialog
       objectReference: {fileID: 0}
     - target: {fileID: 6228188655951599156, guid: 7bc7a9c0ec7b5154390f53f01007db6a, type: 3}
       propertyPath: interactAction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -666,8 +678,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textComponent: {fileID: 2062520240}
   textSpeed: 0.1
+  playerInput: {fileID: 0}
   playerMovement: {fileID: 539998097}
   playerCombat: {fileID: 539998100}
+  interactable: {fileID: 1804537907}
+  DialogueStarted: 0
   lines:
   - "Bonjour Marex et bonjour le chat. Je voudrais avertir les viewers innocents
     d'une grave arnaque en cours qui se d\xE9roule sous les yeux de tout le monde."
@@ -1125,7 +1140,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abf63c3e68aff0b4986794d972f32681, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerInput: {fileID: 0}
   PlayerTransform: {fileID: 539998096}
   jumpableGround:
     serializedVersion: 2
@@ -4729,6 +4743,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8926595840433928627, guid: 7bc7a9c0ec7b5154390f53f01007db6a, type: 3}
   m_PrefabInstance: {fileID: 306054041}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1804537907 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6228188655951599156, guid: 7bc7a9c0ec7b5154390f53f01007db6a, type: 3}
+  m_PrefabInstance: {fileID: 306054041}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea7cdf17eb395984eb2b37b1ddf2593e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2014826132
 GameObject:
   m_ObjectHideFlags: 0
@@ -5642,3 +5667,8 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2062520238}
   m_CullTransparentMesh: 1
+--- !u!1 &2074594235 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1071179001391008459, guid: 7bc7a9c0ec7b5154390f53f01007db6a, type: 3}
+  m_PrefabInstance: {fileID: 306054041}
+  m_PrefabAsset: {fileID: 0}
