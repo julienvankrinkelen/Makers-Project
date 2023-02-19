@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using UnityEditor.Rendering.LookDev;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -30,6 +31,7 @@ public class Interactable : MonoBehaviour
     private void Update()
     {
         SeeInteraction();
+    
     }
 
     public void Interact(InputAction.CallbackContext context)
@@ -40,6 +42,7 @@ public class Interactable : MonoBehaviour
             interactAction.Invoke();
 
         }
+        
     }
 
     public void OnTriggerEnter2D(Collider2D collision)
