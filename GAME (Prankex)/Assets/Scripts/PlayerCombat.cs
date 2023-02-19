@@ -44,24 +44,20 @@ public class PlayerCombat : MonoBehaviour
     void Update()
     {
         // check la hitbox
+        
     }
 
     public void Slash(InputAction.CallbackContext context)
     {
         if (context.performed && Time.time >= nextAttackTime)
         {
-            // check for enemies in range in the layer assigned
-            Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
+            
 
             // animation trigger
             anim.SetTrigger("slash");
 
 
-            foreach(Collider2D enemy in hitEnemies)
-            {
-                Debug.Log("We hit " + enemy.name);
-                enemy.GetComponent<EnemyScript>().TakeDamage(attackDamage);
-            }
+            
             nextAttackTime = Time.time + 1f / attackRate;
 
         }
@@ -71,6 +67,18 @@ public class PlayerCombat : MonoBehaviour
             anim.ResetTrigger("slash");
             
         }
+    }
+    public void Attack1()
+    {
+        // check for enemies in range in the layer assigned
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
+
+        foreach (Collider2D enemy in hitEnemies)
+        {
+            Debug.Log("We hit " + enemy.name);
+            enemy.GetComponent<EnemyScript>().TakeDamage(attackDamage);
+        }
+
     }
 
 

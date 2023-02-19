@@ -6,7 +6,7 @@ public class EnemyScript : MonoBehaviour
 {
     public Animator anim;
 
-    public int maxHealth = 100;
+    public int maxHealth = 200;
     int currentHealth;
     void Start()
     {

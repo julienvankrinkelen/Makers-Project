@@ -190,6 +190,8 @@ public class PlayerMovement : MonoBehaviour
           {
              jumpPressed = 0;
              isJumping = true;
+
+            
              rb.AddForce(Vector2.up * JumpForce, ForceMode2D.Impulse);
          }
 
@@ -381,7 +383,7 @@ public class PlayerMovement : MonoBehaviour
         {
             state = MovementState.running;
         }
-        else
+        else 
         {
             state = MovementState.idle;
         }
