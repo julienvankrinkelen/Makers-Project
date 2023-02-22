@@ -17,6 +17,8 @@ public class DialogTest : MonoBehaviour
     public PlayerCombat playerCombat;
     public Interactable interactable;
 
+    public CameraZoom Camera;
+    
 
     public bool DialogueStarted = false;
 
@@ -68,6 +70,7 @@ public class DialogTest : MonoBehaviour
         textComponent.text = string.Empty;
         index = 0;
         DialogueStarted = true;
+        Camera.ZoomActive = true;
         StartCoroutine(TypeLine());
 
     }
@@ -103,7 +106,7 @@ public class DialogTest : MonoBehaviour
            
             playerMovement.EnableMovement(true);
             playerCombat.EnableCombat(true);
-            
+            Camera.ZoomActive = false;
             DialogueStarted = false;
             StartCoroutine(canInteractTempo());
 
