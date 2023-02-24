@@ -153,7 +153,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ZoomActive: 0
-  target: []
+  target:
+  - {x: 0, y: 0, z: -10}
+  - {x: 0, y: -1.4, z: -10}
   Cam: {fileID: 0}
   Speed: 0.0125
 --- !u!4 &14888463
@@ -686,7 +688,7 @@ MonoBehaviour:
   playerMovement: {fileID: 539998097}
   playerCombat: {fileID: 539998100}
   interactable: {fileID: 1804537907}
-  Camera: {fileID: 0}
+  Camera: {fileID: 14888462}
   DialogueStarted: 0
   lines:
   - "Bonjour Marex et bonjour le chat. Je voudrais avertir les viewers innocents

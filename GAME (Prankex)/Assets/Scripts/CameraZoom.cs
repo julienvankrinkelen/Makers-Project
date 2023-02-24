@@ -5,7 +5,7 @@ using UnityEngine;
 public class CameraZoom : MonoBehaviour
 {
 
-    public bool ZoomActive = false;
+    public bool ZoomActive;
     public Vector3[] target;
     public Camera Cam;
     public float Speed;
