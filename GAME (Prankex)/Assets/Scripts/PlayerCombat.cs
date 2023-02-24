@@ -96,12 +96,12 @@ public class PlayerCombat : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        PlayerHealth -= damage;
+        CurrentHealth -= damage;
 
         // Hurt animation
         anim.SetTrigger("Hurt");
 
-        if (PlayerHealth < 0)
+        if (CurrentHealth < 0)
         {
             Die();
         }
@@ -115,8 +115,7 @@ public class PlayerCombat : MonoBehaviour
         anim.SetBool("IsDead", true);
 
         // Disable the player
-        GetComponent<Collider2D>().enabled = false;
-        this.enabled = false;
+        EnableCombat(false);
 
     }
 
