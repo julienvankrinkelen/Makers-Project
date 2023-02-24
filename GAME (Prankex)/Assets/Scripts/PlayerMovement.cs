@@ -388,7 +388,7 @@ public class PlayerMovement : MonoBehaviour
             state = MovementState.idle;
         }
 
-        if (isJumping == true || isWallJumping == true)
+        if (isJumping == true || isWallJumping == true || rb.velocity.y > .1f && !IsDashing)
         {
             state = MovementState.jumping;
         }
