@@ -12,8 +12,8 @@ public class PlayerMovement : MonoBehaviour
     public Transform PlayerTransform;
 
     private float movement;
-    private float horizontal;
-    private float vertical;
+    public float horizontal;
+    public float vertical;
     [SerializeField] private float MoveSpeed = 9;
     [SerializeField] private float acceleration = 13;
     [SerializeField] private float deceleration = 16;

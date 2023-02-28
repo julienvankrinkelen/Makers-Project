@@ -44,12 +44,6 @@ public class PlayerCombat : MonoBehaviour
         playerInputActions.Player.Slash.performed += Slash;
 
     }
-    // Update is called once per frame
-    void Update()
-    {
-        // check la hitbox
-        
-    }
 
     public void Slash(InputAction.CallbackContext context)
     {

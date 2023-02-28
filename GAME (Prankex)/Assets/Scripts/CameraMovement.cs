@@ -5,9 +5,18 @@ using UnityEngine;
 public class CameraMovement : MonoBehaviour
 {
     [SerializeField] private Transform player;
-   
-    private void Update()
+    [SerializeField] private float smoothSpeed = 0.1f;
+    public Vector3 offset;
+    
+    
+
+    
+    private void LateUpdate()
     {
-        transform.position = new Vector3(player.position.x, player.position.y+2, transform.position.z);
+        Vector3 desiredPosition = player.position + offset;
+
+        Vector3 smoothPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
+        transform.position = smoothPosition;
     }
+
 }
