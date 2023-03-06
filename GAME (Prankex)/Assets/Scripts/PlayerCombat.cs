@@ -24,7 +24,7 @@ public class PlayerCombat : MonoBehaviour
     float nextAttackTime = 0f;
 
     public int PlayerHealth = 100;
-    int CurrentHealth;
+    public int CurrentHealth;
 
     private void Start()
     {
@@ -123,5 +123,23 @@ public class PlayerCombat : MonoBehaviour
         {
             playerInputActions.Player.Disable();
         }
+    }
+
+    public void SavePlayer()
+    {
+        SaveSystem.SavePlayer(this);
+    }
+
+    public void LoadPlayer()
+    {
+        PlayerData data = SaveSystem.LoadPlayer();
+
+        CurrentHealth = data.health;
+        attackDamage = data.attackDamage;
+
+        Vector2 position;
+        position.x = data.position[0];
+        position.y = data.position[1];
+        transform.position = position;
     }
 }
