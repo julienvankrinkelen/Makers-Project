@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using TMPro;
 using UnityEditor.Rendering.LookDev;
 using UnityEngine;
 using UnityEngine.Events;
@@ -16,8 +17,15 @@ public class Interactable : MonoBehaviour
     public UnityEvent interactAction;
 
     public GameObject Indicator;
-    
+    public GameObject InteractText;
 
+    private void Start()
+    {
+        InteractText.SetActive(false);
+        print(InteractText);
+        print(InteractText.activeSelf);
+
+    }
     private void Awake()
     {
         
@@ -51,7 +59,7 @@ public class Interactable : MonoBehaviour
         {
             isInRange = true;
             Debug.Log("Player is in range of interactable object");
-            
+          
         }
     }
     public void OnTriggerExit2D(Collider2D collision)
@@ -69,10 +77,15 @@ public class Interactable : MonoBehaviour
         if (canInteract == true && isInRange == true)
         {
             Indicator.SetActive(true);
+            InteractText.SetActive(true);
+           
+
         }
         else
         {
+            InteractText.SetActive(false);
             Indicator.SetActive(false);
+ 
         }
     }
 }

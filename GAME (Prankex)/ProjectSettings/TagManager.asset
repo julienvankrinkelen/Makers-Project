@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Coin
+  - Charm
+  - Doll
+  - F:interact
   layers:
   - Default
   - TransparentFX
