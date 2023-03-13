@@ -97,10 +97,12 @@ public class PlayerMovement : MonoBehaviour
         {
             isJumping = false;
             isGrounded = true;
+            anim.SetBool("IsGrounded", true);
         }
         else
         {
             isGrounded = false;
+            anim.SetBool("IsGrounded", false);
         }
         
 
@@ -375,17 +377,21 @@ public class PlayerMovement : MonoBehaviour
     private void UpdateAnimationState()
     {
         MovementState state;
-        if (horizontal > 0f)
+        if (IsGrounded() && horizontal > 0f)
         {
             state = MovementState.running;
         }
-        else if (horizontal < 0f)
+        else if (IsGrounded() && horizontal < 0f)
         {
             state = MovementState.running;
+        }
+        else if (IsGrounded())
+        {
+            state = MovementState.idle;
         }
         else 
         {
-            state = MovementState.idle;
+            state = MovementState.falling;
         }
 
         if (isJumping == true || isWallJumping == true || rb.velocity.y > .1f && !IsDashing)
