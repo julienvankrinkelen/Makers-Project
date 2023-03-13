@@ -8,7 +8,7 @@ using UnityEngine.InputSystem;
 public class DialogTest : MonoBehaviour
 {
     public TextMeshProUGUI textComponent;
-   
+
     public float textSpeed;
     private int index;
     public PlayerInput playerInput;
@@ -18,7 +18,7 @@ public class DialogTest : MonoBehaviour
     public Interactable interactable;
 
     public CameraZoom Camera;
-    
+
 
     public bool DialogueStarted = false;
 
@@ -39,14 +39,18 @@ public class DialogTest : MonoBehaviour
     {
         if (context.performed && DialogueStarted == true)
         {
+            print("INTERACTING IN DIALOG TEST");
+            print(index);
             //Si l'affichage de la ligne de dialogue est terminée : on passe à la suivante
             if (textComponent.text == lines[index])
             {
+                print("BUG 1");
                 NextLine();
             }
             //Sinon on affiche le restant du text (pour les gens comme moi :))
             else
             {
+                print("BUG 2");
                 StopAllCoroutines();
                 textComponent.text = lines[index];
 
@@ -58,9 +62,9 @@ public class DialogTest : MonoBehaviour
     {
 
         gameObject.SetActive(false);
-        
+
     }
-    
+
     public void StartDialog()
     {
         //On rend le joueur static, mais il faut aussi BLOQUER TOUTES LES ACTIONS DES KEYS : LE JOUEUR PEUT TOUJOURS TAPER AVEC CLIC, TOURNER SA VUE AVEC DROITE GAUCHE, DASH AVEC CONTROL ETC.
@@ -69,32 +73,36 @@ public class DialogTest : MonoBehaviour
         gameObject.SetActive(true);
         textComponent.text = string.Empty;
         index = 0;
-        DialogueStarted = true;
+        //DialogueStarted = true;
         Camera.ZoomActive = true;
         StartCoroutine(TypeLine());
-
     }
     //Ecrit une ligne entière (ligne à référencer soit dans le code, soit dans Unity... plus pratique dans le code à l'avenir bien sûr.
     public IEnumerator TypeLine()
     {
-        
+        print("TYPO LINO");
         //Display les caractères les uns après les autres à la vitesse textSpeed
         foreach (char c in lines[index].ToCharArray())
-         {
+        {
+            print("WRITING");
             textComponent.text += c;
-             yield return new WaitForSeconds(textSpeed);
-            //DialogueStarted = true;
+            yield return new WaitForSeconds(textSpeed);
+            //FIX : boolean ici pour créer décalage tempo avec 
+            // appel à Interact.performed
+            DialogueStarted = true;
 
         }
+        print("FINISH WRITING");
         
         NextLine();
-        
+
     }
     void NextLine()
     {
+        print("NEXTO LINO");
         //Tant qu'il reste des lignes dans la liste de lignes
-        if(index < lines.Length - 1) 
-        { 
+        if (index < lines.Length - 1)
+        {
             index++;
             //On crée le textComponent initialisé à vide
             textComponent.text = string.Empty;
@@ -103,7 +111,7 @@ public class DialogTest : MonoBehaviour
         else
         {
             //Si il ne reste plus aucune ligne à display, on quitte et on rend les mouvements libres 
-           
+
             playerMovement.EnableMovement(true);
             playerCombat.EnableCombat(true);
             Camera.ZoomActive = false;

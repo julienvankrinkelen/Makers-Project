@@ -22,8 +22,6 @@ public class Interactable : MonoBehaviour
     private void Start()
     {
         InteractText.SetActive(false);
-        print(InteractText);
-        print(InteractText.activeSelf);
 
     }
     private void Awake()
@@ -46,6 +44,7 @@ public class Interactable : MonoBehaviour
     {
         if (isInRange && context.performed && canInteract == true)
         {
+           
             canInteract = false;
             interactAction.Invoke();
 
