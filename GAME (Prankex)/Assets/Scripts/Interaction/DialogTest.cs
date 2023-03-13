@@ -17,6 +17,8 @@ public class DialogTest : MonoBehaviour
     public PlayerCombat playerCombat;
     public Interactable interactable;
 
+    public GameObject box;
+
     public CameraZoom Camera;
 
 
@@ -60,8 +62,8 @@ public class DialogTest : MonoBehaviour
 
     void Start()
     {
-
-        gameObject.SetActive(false);
+       
+        box.SetActive(false);
 
     }
 
@@ -70,7 +72,7 @@ public class DialogTest : MonoBehaviour
         //On rend le joueur static, mais il faut aussi BLOQUER TOUTES LES ACTIONS DES KEYS : LE JOUEUR PEUT TOUJOURS TAPER AVEC CLIC, TOURNER SA VUE AVEC DROITE GAUCHE, DASH AVEC CONTROL ETC.
         playerMovement.EnableMovement(false);
         playerCombat.EnableCombat(false);
-        gameObject.SetActive(true);
+        box.SetActive(true);
         textComponent.text = string.Empty;
         index = 0;
         //DialogueStarted = true;
@@ -131,7 +133,7 @@ public class DialogTest : MonoBehaviour
     private IEnumerator canInteractTempo()
     {
         yield return new WaitForSeconds(0.01f);
-        gameObject.SetActive(false);
+        box.SetActive(false);
         interactable.canInteract = true;
 
     }

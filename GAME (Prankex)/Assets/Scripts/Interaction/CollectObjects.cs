@@ -9,60 +9,71 @@ using JetBrains.Annotations;
 
 public class CollectObjects : MonoBehaviour
 {
-  
 
 
+
+    public PlayerCollectibles playerCollectibles;
 
     private string collectible;
-
-    private int coinNumber;
-    private int dollNumber;
-    private int charmNumber;
-
+    //Link to parent object of "Collectible circle". This parent contains the sprite etc.
+    [SerializeField] private GameObject collectibleObject;
     private enum Collectible { Coin, Doll, Charm }
     void Start()
     {
+        /*if (!playerCollectibles.getCharmNumber())
+        {
+            playerCollectibles.PlayerCollectibles(
+        }*/
+        
+        print(playerCollectibles);
         collectible = gameObject.tag;
-        gameObject.SetActive(true);
+        collectibleObject.SetActive(true);
+        
     }
    
 
     public void CollectObject()
     {
+        
         Debug.Log("COLLECT OBJECT : " + collectible);      
           switch(collectible)
           {
               case "Coin":
-                  coinNumber++; 
+                playerCollectibles.addCoin(); 
                   break;
               case "Doll":
-                  dollNumber++;
+                print("Before");
+                playerCollectibles.addDoll();
+                print("after");
                   break;
               case "Charm":
-                  charmNumber++;
+                playerCollectibles.addCharm();
                   break;
           }
-        //print(coinNumber);
-        gameObject.SetActive(false);
-    }
+        print("coin number : " + playerCollectibles.getCoinNumber());
+        print("doll number : " + playerCollectibles.getDollNumber());
+        print("charm number : " + playerCollectibles.getCharmNumber());
 
-   public int getCoinNumber()
+        collectibleObject.SetActive(false);
+    }
+        
+   
+
+
+
+
+    public void OnTriggerEnter2D(Collider2D collision)
     {
-        return coinNumber;
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            CollectObject();
+           
+
+        }
     }
-    public int getDollNumber()
-    {
-        return dollNumber;
-    }
-    public int getCharmNumber()
-    {
-        return charmNumber;
-    }
-
-
-
-
-
-
+ 
 }
+
+
+
 
