@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using TMPro;
 using UnityEditor.Rendering.LookDev;
 using UnityEngine;
 using UnityEngine.Events;
@@ -16,6 +17,11 @@ public class PauseMenu : MonoBehaviour
     public PlayerMovement playerMovement;
     public PlayerCombat playerCombat;
 
+    public TextMeshProUGUI TextCoin;
+    public TextMeshProUGUI TextDoll;
+    public TextMeshProUGUI TextCharm;
+
+    public PlayerCollectibles playerCollectibles;
 
     public static bool isPaused = false;
     private void Awake()
@@ -32,6 +38,12 @@ public class PauseMenu : MonoBehaviour
     void Start()
     {
         pauseMenu.SetActive(false);
+    }
+    private void Update()
+    {
+        TextCoin.SetText("Coin : " + playerCollectibles.getCoinNumber());
+        TextDoll.SetText("Doll : " + playerCollectibles.getDollNumber());
+        TextCharm.SetText("Charm : " + playerCollectibles.getCharmNumber());
     }
     public void Pause(InputAction.CallbackContext context)
     {
