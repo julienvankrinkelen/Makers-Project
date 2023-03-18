@@ -19,11 +19,11 @@ public class PlayerCombat : MonoBehaviour
     public Transform attackPoint;
 
     public float attackRange = 0.5f;
-    public int attackDamage = 40;
+    public int attackDamage = 1;
     public float attackRate = 2f;
     float nextAttackTime = 0f;
 
-    public int PlayerHealth = 100;
+    public int PlayerHealth = 4;
     public int CurrentHealth;
 
     private void Start()
@@ -95,7 +95,7 @@ public class PlayerCombat : MonoBehaviour
         // Hurt animation
         anim.SetTrigger("Hurt");
 
-        if (CurrentHealth < 0)
+        if (CurrentHealth <= 0)
         {
             Die();
         }

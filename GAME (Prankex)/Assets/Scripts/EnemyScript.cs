@@ -10,7 +10,7 @@ public class EnemyScript : MonoBehaviour
     public Rigidbody2D rb;
     
 
-    public int maxHealth = 200;
+    public int maxHealth = 2;
     int currentHealth;
 
     public LayerMask playerLayer;
@@ -18,9 +18,11 @@ public class EnemyScript : MonoBehaviour
     public Transform playerTransform;
 
     public float attackRange = 0.5f;
-    public int attackDamage = 20;
+    public int attackDamage = 1;
     public float attackRate = 2f;
     float nextAttackTime = 0f;
+
+    public GameObject coin;
 
 
     public AIPath aiPath;
@@ -28,6 +30,7 @@ public class EnemyScript : MonoBehaviour
     void Start()
     {
         currentHealth = maxHealth;
+        coin.SetActive(false);
 
     }
 
@@ -81,11 +84,11 @@ public class EnemyScript : MonoBehaviour
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
-
+        Debug.Log("Enemy health : " + currentHealth);
         // Hurt animation
         anim.SetTrigger("Hurt");
 
-        if (currentHealth < 0)
+        if (currentHealth <= 0)
         {
             Die();
         }
@@ -102,6 +105,9 @@ public class EnemyScript : MonoBehaviour
         
         GetComponent<Collider2D>().enabled = false;
         aiPath.enabled = false;
+        coin.SetActive(true);
+
+
 
 
     }
