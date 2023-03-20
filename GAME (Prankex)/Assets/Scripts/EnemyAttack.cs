@@ -12,6 +12,13 @@ public class EnemyAttack : MonoBehaviour
     public int attackDamage = 1;
 
 
+    private void OnDrawGizmosSelected()
+    {
+        if (attackPoint == null)
+            return;
+
+        Gizmos.DrawWireSphere(attackPoint.position, attackRange);
+    }
 
     public void Attack1()
     {

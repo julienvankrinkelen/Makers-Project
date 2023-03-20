@@ -22,6 +22,8 @@ public class EnemyScript : MonoBehaviour
     public float attackRate = 2f;
     float nextAttackTime = 0f;
 
+    private bool isFacingTheRight = false;
+
     public GameObject coin;
 
 
@@ -47,30 +49,8 @@ public class EnemyScript : MonoBehaviour
             aiPath.enabled = true;
         }
 
-        if(aiPath.desiredVelocity.x >= 0.01f)
-        {
-            anim.SetBool("Run", true);
-            sprite.flipX = true;
-            
-        }
-
-        if(aiPath.desiredVelocity.x <= -0.01f)
-        {
-            sprite.flipX = false;
-            anim.SetBool("Run", true);
-            
-        }
-        if (sprite.flipX == true)
-        {
-            Debug.Log(sprite.flipX + " Its flipped");
-            Vector3 position = attackPoint.position;
-            position.x = 0.69f;
-        }
-        else
-        {
-            Vector3 position = attackPoint.position;
-            position.x = 0.69f;
-        }
+        Flip();
+        
 
         if (aiPath.desiredVelocity.x == 0)
         {
@@ -128,6 +108,25 @@ public class EnemyScript : MonoBehaviour
 
 
 
+    }
+    private void Flip()
+    {
+        if (aiPath.desiredVelocity.x <= -0.01f && isFacingTheRight)
+        {
+            Vector3 localScale = transform.localScale;
+            localScale.x *= -1f;
+            transform.localScale = localScale;
+            anim.SetBool("Run", true);
+            isFacingTheRight = false;
+        }
+        else if (aiPath.desiredVelocity.x >= 0.01f && !isFacingTheRight)
+        {
+            Vector3 localScale = transform.localScale;
+            localScale.x *= -1f;
+            transform.localScale = localScale;
+            anim.SetBool("Run", true);
+            isFacingTheRight = true;
+        }
     }
     
 }
