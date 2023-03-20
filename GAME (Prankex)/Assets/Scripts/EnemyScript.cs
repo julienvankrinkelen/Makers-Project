@@ -41,20 +41,24 @@ public class EnemyScript : MonoBehaviour
             anim.SetBool("CombatMode", true);
             
         }
+
         if(anim.GetBool("CombatMode") == true && anim.GetBool("IsDead") == false)
         {
             aiPath.enabled = true;
         }
+
         if(aiPath.desiredVelocity.x >= 0.01f)
         {
             anim.SetBool("Run", true);
             sprite.flipX = true;
         }
+
         if(aiPath.desiredVelocity.x <= -0.01f)
         {
             sprite.flipX = false;
             anim.SetBool("Run", true);
         }
+
         if (aiPath.desiredVelocity.x == 0)
         {
             
@@ -66,6 +70,7 @@ public class EnemyScript : MonoBehaviour
             anim.SetTrigger("Attack");
             nextAttackTime = Time.time + 1f / attackRate;
         }
+
     }
     public void Attack1()
     {

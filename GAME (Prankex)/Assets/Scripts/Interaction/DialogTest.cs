@@ -96,8 +96,7 @@ public class DialogTest : MonoBehaviour
         }
         print("FINISH WRITING");
         
-        NextLine();
-
+       
     }
     void NextLine()
     {
