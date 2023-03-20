@@ -72,6 +72,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Awake()
     {
+
         coll = GetComponent<BoxCollider2D>();
         rb = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
@@ -281,6 +282,7 @@ public class PlayerMovement : MonoBehaviour
     private void StopWallJumping()
     {
         isWallJumping = false;
+        
     }
 
 

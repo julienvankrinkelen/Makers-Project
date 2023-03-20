@@ -5,12 +5,13 @@ using UnityEngine;
 [System.Serializable]
 public class PlayerData
 {
-    
+
     public int health;
     public int attackDamage;
     public float[] position;
+    
 
-    public PlayerData (PlayerCombat player)
+    public PlayerData(PlayerCombat player)
     {
         health = player.CurrentHealth;
         attackDamage = player.attackDamage;
@@ -20,4 +21,7 @@ public class PlayerData
         position[1] = player.transform.position.y;
 
     }
+
+   
 }
+
