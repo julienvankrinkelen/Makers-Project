@@ -46,12 +46,26 @@ public class EnemyScript : MonoBehaviour
         {
             anim.SetBool("Run", true);
             sprite.flipX = true;
+            
         }
         if(aiPath.desiredVelocity.x <= -0.01f)
         {
             sprite.flipX = false;
             anim.SetBool("Run", true);
+            
         }
+        if (sprite.flipX == true)
+        {
+            Debug.Log(sprite.flipX + " Its flipped");
+            Vector3 position = attackPoint.position;
+            position.x = 0.69f;
+        }
+        else
+        {
+            Vector3 position = attackPoint.position;
+            position.x = 0.69f;
+        }
+
         if (aiPath.desiredVelocity.x == 0)
         {
             

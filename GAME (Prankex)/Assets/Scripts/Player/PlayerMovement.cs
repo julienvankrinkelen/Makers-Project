@@ -41,10 +41,10 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float jumpPressed;
 
     private float wallJumpingDirection;
-    private float wallJumpingTime = 0.2f;
+    private float wallJumpingTime = 2f;
     private float wallJumpingCounter;
-    private float wallJumpingDuration = 0.4f;
-    private Vector2 wallJumpingPower = new Vector2(8, 16);
+    private float wallJumpingDuration = 0.5f;
+    private Vector2 wallJumpingPower = new Vector2(14, 12);
 
     private bool IsDashing;
     [SerializeField] private float DashingTime = 0.15f;
@@ -153,8 +153,8 @@ public class PlayerMovement : MonoBehaviour
             //-> si on met vélocité à zero sur l'axe Y, on peut annuler la vélocité induite de la gravité en straffant gauche droite lors d'une chute
 
 
-            //rb.gravityScale = 0f;
-            //rb.velocity = new Vector2(0, 0);
+            // rb.gravityScale = 0f;
+            // rb.velocity = new Vector2(0, 0);
         }
     }
     private void Flip()
@@ -202,7 +202,8 @@ public class PlayerMovement : MonoBehaviour
          {
              isWallJumping = true;
              rb.velocity = new Vector2(wallJumpingDirection * wallJumpingPower.x, wallJumpingPower.y);
-             wallJumpingCounter = 0f;
+            wallJumpingCounter = 0f;
+            
 
              if (transform.localScale.x != wallJumpingDirection)
             {
@@ -218,7 +219,8 @@ public class PlayerMovement : MonoBehaviour
          if (context.canceled)
          {
              isJumping = false;
-         }
+            
+        }
          if (context.canceled && rb.velocity.y > 0)
          {
              rb.AddForce(Vector2.down * rb.velocity.y * (1 - jumpCutMultiplier), ForceMode2D.Impulse);
