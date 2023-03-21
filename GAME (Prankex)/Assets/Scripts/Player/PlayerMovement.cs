@@ -41,18 +41,18 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float jumpPressed;
 
     private float wallJumpingDirection;
-    private float wallJumpingTime = 2f;
+    private float wallJumpingTime = 0.5f;
     private float wallJumpingCounter;
-    private float wallJumpingDuration = 0.5f;
-    private Vector2 wallJumpingPower = new Vector2(14, 12);
+    private float wallJumpingDuration = 0.3f;
+    private Vector2 wallJumpingPower = new Vector2(8, 16);
 
     private bool IsDashing;
-    [SerializeField] private float DashingTime = 0.15f;
+    [SerializeField] private float DashingTime = 0.25f;
     private float DashingCooldown = 1f;
     private Vector2 veloToApply;
 
    
-    private float gravityScale = 2.5f;
+    private float gravityScale = 1f;
     
     private BoxCollider2D coll;
     private Rigidbody2D rb;
