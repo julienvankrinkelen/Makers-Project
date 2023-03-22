@@ -6,21 +6,32 @@ using UnityEngine.UI;
 
 public class VolumeControl : MonoBehaviour
 {
-    [SerializeField] private Slider volumeMusicSlider = null;
-    [SerializeField] private TextMeshProUGUI volumeMusicTextUI = null;
+    [SerializeField] private Slider volumeMusicSlider;
+    [SerializeField] private Slider volumeGeneralSlider;
+
+    [SerializeField] private TextMeshProUGUI volumeMusicTextUI;
+    [SerializeField] private TextMeshProUGUI volumeGeneralTextUI;
+
 
     private void Start()
     {
         LoadValues();
     }
-    public void VolumeSlider(float volume)
+    public void VolumeMusicSlider(float volume)
     {
         volumeMusicTextUI.text = volume.ToString("0.0");
+    }
+
+    public void VolumeGeneralSlider(float volume)
+    {
+        volumeGeneralTextUI.text = volume.ToString("0.0");
     }
 
     public void SaveVolumeButton()
     {
         float volumeMusicValue = volumeMusicSlider.value;
+        float volumeGeneralValue = volumeGeneralSlider.value;
+        PlayerPrefs.SetFloat("VolumeGeneralValue", volumeGeneralValue);
         PlayerPrefs.SetFloat("VolumeMusicValue", volumeMusicValue);
         LoadValues();
     }
@@ -28,6 +39,9 @@ public class VolumeControl : MonoBehaviour
     {
         float volumeMusicValue = PlayerPrefs.GetFloat("VolumeMusicValue");
         volumeMusicSlider.value = volumeMusicValue;
-        AudioListener.volume = volumeMusicValue;
+        float volumeGeneralValue = PlayerPrefs.GetFloat("VolumeGeneralValue");
+        volumeGeneralSlider.value = volumeGeneralValue;
+       
+       
     }
 }
