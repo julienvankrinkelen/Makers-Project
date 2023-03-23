@@ -46,17 +46,9 @@ public class EnemyScript : MonoBehaviour
 
         if(anim.GetBool("CombatMode") == true && anim.GetBool("IsDead") == false)
         {
-            aiPath.enabled = true;
+            GetComponent<EnemyAI>().followEnabled = true;
         }
 
-        Flip();
-        
-
-        if (aiPath.desiredVelocity.x == 0)
-        {
-            
-            anim.SetBool("Run", false);
-        }
         
         if((Vector2.Distance(playerTransform.position, attackPoint.position) < 1 ) && Time.time >= nextAttackTime)
         {
@@ -102,31 +94,14 @@ public class EnemyScript : MonoBehaviour
         // Disable the enemy
         
         GetComponent<Collider2D>().enabled = false;
-        aiPath.enabled = false;
+        // Disable rb so it stays on place
+        GetComponent<EnemyAI>().enabled = false;
         coin.SetActive(true);
 
 
 
 
     }
-    private void Flip()
-    {
-        if (aiPath.desiredVelocity.x <= -0.01f && isFacingTheRight)
-        {
-            Vector3 localScale = transform.localScale;
-            localScale.x *= -1f;
-            transform.localScale = localScale;
-            anim.SetBool("Run", true);
-            isFacingTheRight = false;
-        }
-        else if (aiPath.desiredVelocity.x >= 0.01f && !isFacingTheRight)
-        {
-            Vector3 localScale = transform.localScale;
-            localScale.x *= -1f;
-            transform.localScale = localScale;
-            anim.SetBool("Run", true);
-            isFacingTheRight = true;
-        }
-    }
+
     
 }
