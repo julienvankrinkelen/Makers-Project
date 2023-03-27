@@ -23,9 +23,9 @@ public class EnemyScript : MonoBehaviour
     float nextAttackTime = 0f;
 
     private bool isFacingTheRight = false;
+    private bool isDead = false;
 
     public GameObject coin;
-
 
     public AIPath aiPath;
 
@@ -73,11 +73,13 @@ public class EnemyScript : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        currentHealth -= damage;
-        Debug.Log("Enemy health : " + currentHealth);
-        // Hurt animation
-        anim.SetTrigger("Hurt");
-
+        if (!isDead)
+        {
+            currentHealth -= damage;
+            Debug.Log("Enemy health : " + currentHealth);
+            // Hurt animation
+            anim.SetTrigger("Hurt");
+        }
         if (currentHealth <= 0)
         {
             Die();
@@ -92,11 +94,13 @@ public class EnemyScript : MonoBehaviour
         anim.SetBool("IsDead", true);
 
         // Disable the enemy
+        isDead = true;
+
+        // GetComponent<Collider2D>().enabled = false;
         
-        GetComponent<Collider2D>().enabled = false;
-        // Disable rb so it stays on place
         GetComponent<EnemyAI>().enabled = false;
         coin.SetActive(true);
+        this.enabled = false;
 
 
 
