@@ -32,7 +32,7 @@ public class SaveLoadGamestate : MonoBehaviour
 
         JustDeletedSave = PlayerPrefs.GetInt("JustDeleteSave");
         //print("JustDeleted Save : " + JustDeletedSave);
-        if (JustDeletedSave == 1 && gamestate!=null)
+        if (JustDeletedSave == 1)
         {  
             Debug.Log("DISABLE SAVE");
             DisableSave(gamestate);
@@ -42,15 +42,16 @@ public class SaveLoadGamestate : MonoBehaviour
 
     public void SaveGamestate()
     {
-        int saveExists = 1;
-        PlayerPrefs.SetInt("Save Exists", saveExists);
+       
+        PlayerPrefs.SetInt("Save Exists", 1);
         SaveSystem.SavePlayer(this);
         
     }
 
     public void LoadGamestate()
     {
-        if (gamestate != null && gamestate.enableSave)
+        int saveExists = PlayerPrefs.GetInt("Save Exists");
+        if (saveExists == 1)
         {
             Gamestate data = SaveSystem.LoadGamestate();
 
@@ -83,8 +84,6 @@ public class SaveLoadGamestate : MonoBehaviour
     {
 
         this.gamestate = gamestate;
-        gamestate.enableSave = true;
-
         //player
         gamestate.health = player.CurrentHealth;
         gamestate.attackDamage = player.attackDamage;
@@ -98,12 +97,15 @@ public class SaveLoadGamestate : MonoBehaviour
         gamestate.positionEnnemy1 = new float[2];
         gamestate.positionEnnemy1[0] = transformEnnemy1.position.x;
         gamestate.positionEnnemy1[1] = transformEnnemy1.position.y;
+
+        PlayerPrefs.SetInt("JustDeleteSave", 0);
         return gamestate;
     }
 
     public void DisableSave(Gamestate gamestate)
     {
-        gamestate.enableSave = false;
+        // On déréférence le gamestate
+        gamestate = null;
         PlayerPrefs.SetInt("JustDeleteSave", 0);
         PlayerPrefs.SetInt("Save Exists", 0);
     }

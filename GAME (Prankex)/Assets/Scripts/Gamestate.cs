@@ -9,8 +9,6 @@ using UnityEngine;
 
 public class Gamestate
 {
-    //disable save
-    public bool enableSave;
    
     //player
     public int health;

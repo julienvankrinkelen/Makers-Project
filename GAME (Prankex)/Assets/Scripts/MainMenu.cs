@@ -30,6 +30,7 @@ public class MainMenu : MonoBehaviour
     public void LoadGame()
     {
         saveExists = PlayerPrefs.GetInt("Save Exists");
+        print("SAVE EXIST : " + saveExists);
         if (saveExists == 1)
         {
             PlayerPrefs.SetInt("JustLoadedScene", 1);
