@@ -41,9 +41,9 @@ public class PauseMenu : MonoBehaviour
     }
     private void Update()
     {
-        TextCoin.SetText("Coin : " + playerCollectibles.getCoinNumber());
-        TextDoll.SetText("Doll : " + playerCollectibles.getDollNumber());
-        TextCharm.SetText("Charm : " + playerCollectibles.getCharmNumber());
+        TextCoin.SetText("Daruma : " + playerCollectibles.getDarumaNumber());
+        TextDoll.SetText("Daruma : " + playerCollectibles.getOmamoriNumber());
+       
     }
     public void Pause(InputAction.CallbackContext context)
     {

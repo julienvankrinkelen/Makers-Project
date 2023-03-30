@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [System.Serializable]
@@ -8,6 +9,8 @@ using UnityEngine;
 
 public class Gamestate
 {
+    //disable save
+    public bool enableSave;
    
     //player
     public int health;
@@ -16,6 +19,8 @@ public class Gamestate
 
     //ennemies
     public float[] positionEnnemy1;
+
+
     public Gamestate()
     {
 

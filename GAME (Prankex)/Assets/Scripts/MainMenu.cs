@@ -8,19 +8,38 @@ using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
-    public int JustLoadedScene;
+    public int saveExists;
+
+    public GameObject panelChoice;
+  
     public void PlayGame()
     {
-        SceneManager.LoadScene("Try map");
-       
+        
+        saveExists = PlayerPrefs.GetInt("Save Exists");
+        print(" IN PLAY GAME FCT : saveExists : " + saveExists);
+        if (saveExists == 1)
+        {
+            panelChoice.SetActive(true);
+        }
+        else
+        {
+            NewGame();
+        }
     }
 
     public void LoadGame()
     {
-        // 1 = true; 0 = false
-        JustLoadedScene = 1;
-        PlayerPrefs.SetInt("JustLoadedScene", JustLoadedScene);
-        SceneManager.LoadScene("Try map");
+        saveExists = PlayerPrefs.GetInt("Save Exists");
+        if (saveExists == 1)
+        {
+            PlayerPrefs.SetInt("JustLoadedScene", 1);
+            SceneManager.LoadScene("Try map");
+        }
+        else
+        {
+            Debug.Log("Aucune Save Disponible");
+        }
+       
     }
     public void QuitGame()
     {
@@ -28,6 +47,9 @@ public class MainMenu : MonoBehaviour
         Application.Quit();
     }
 
- 
+    public void NewGame()
+    {
+        PlayerPrefs.SetInt("JustDeleteSave", 1);
+        SceneManager.LoadScene("Try map");
+    }
 }
-    

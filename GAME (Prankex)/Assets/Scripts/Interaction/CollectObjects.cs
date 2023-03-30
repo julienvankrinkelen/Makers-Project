@@ -38,21 +38,18 @@ public class CollectObjects : MonoBehaviour
         Debug.Log("COLLECT OBJECT : " + collectible);      
           switch(collectible)
           {
-              case "Coin":
-                playerCollectibles.addCoin(); 
+              case "Flute":
+                playerCollectibles.pickedFlute(); 
                   break;
-              case "Doll":
-                print("Before");
-                playerCollectibles.addDoll();
-                print("after");
+              case "Doll":   
+                playerCollectibles.addDaruma();
                   break;
               case "Charm":
-                playerCollectibles.addCharm();
+                playerCollectibles.addOmamori();
                   break;
           }
-        print("coin number : " + playerCollectibles.getCoinNumber());
-        print("doll number : " + playerCollectibles.getDollNumber());
-        print("charm number : " + playerCollectibles.getCharmNumber());
+        print("Daruma : " + playerCollectibles.getDarumaNumber());
+        print("Omamori : " + playerCollectibles.getOmamoriNumber());
 
         collectibleObject.SetActive(false);
     }
