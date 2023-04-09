@@ -8,6 +8,8 @@ TagManager:
   - Charm
   - Doll
   - F:interact
+  - Enemy
+  - Traps
   layers:
   - Default
   - TransparentFX
@@ -17,7 +19,7 @@ TagManager:
   - UI
   - Ground
   - Wall
-  - Basic Enemy
+  - Enemy
   - NPCs
   - Collectibles
   - Map

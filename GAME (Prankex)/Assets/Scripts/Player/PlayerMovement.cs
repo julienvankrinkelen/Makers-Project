@@ -139,6 +139,22 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.name == "Blob")
+        {
+            horizontal /=2;
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.name == "Blob")
+        {
+            horizontal *= 2;
+        }
+    }
+
     public void Move(InputAction.CallbackContext context)
     {
         // Getting the input value

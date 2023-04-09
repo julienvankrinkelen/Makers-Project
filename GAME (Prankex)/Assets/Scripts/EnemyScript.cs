@@ -18,8 +18,8 @@ public class EnemyScript : MonoBehaviour
     public Transform playerTransform;
 
     public float attackRange = 0.5f;
-    public int attackDamage = 1;
-    public float attackRate = 2f;
+    public int attackDamage = 2;
+    public float attackRate = 4f;
     float nextAttackTime = 0f;
 
     private bool isFacingTheRight = false;

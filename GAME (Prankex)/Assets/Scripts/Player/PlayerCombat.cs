@@ -25,7 +25,7 @@ public class PlayerCombat : MonoBehaviour
 
     public int PlayerHealth = 4;
     public int CurrentHealth;
-
+    [SerializeField] private float DamageForce = 13;
     private void Start()
     {
         coll = GetComponent<BoxCollider2D>();
@@ -49,13 +49,9 @@ public class PlayerCombat : MonoBehaviour
     {
         if (context.performed && Time.time >= nextAttackTime)
         {
-            
-
             // animation trigger
             anim.SetTrigger("slash");
 
-
-            
             nextAttackTime = Time.time + 1f / attackRate;
 
         }
@@ -74,14 +70,13 @@ public class PlayerCombat : MonoBehaviour
         foreach (Collider2D enemy in hitEnemies)
         {
             Debug.Log("We hit " + enemy.name);
-            if(enemy.name == "Enemy")
+            if(enemy.tag == "Enemy")
             { enemy.GetComponent<EnemyScript>().TakeDamage(attackDamage); }
             else
             { enemy.GetComponent<DestructibleObject>().TakeDamage(attackDamage); }
         }
 
     }
-
 
     private void OnDrawGizmosSelected()
     {
@@ -91,9 +86,17 @@ public class PlayerCombat : MonoBehaviour
         Gizmos.DrawWireSphere(attackPoint.position, attackRange);
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Traps"))
+        {
+            TakeDamage(1);
+        }
+    }
     public void TakeDamage(int damage)
     {
         CurrentHealth -= damage;
+        rb.AddForce((Vector2.up * DamageForce) + (Vector2.right * DamageForce), ForceMode2D.Impulse);
 
         // Hurt animation
         anim.SetTrigger("Hurt");
