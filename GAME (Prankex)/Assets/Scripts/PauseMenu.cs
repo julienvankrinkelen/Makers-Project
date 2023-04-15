@@ -17,10 +17,6 @@ public class PauseMenu : MonoBehaviour
     public PlayerMovement playerMovement;
     public PlayerCombat playerCombat;
 
-    public TextMeshProUGUI TextCoin;
-    public TextMeshProUGUI TextDoll;
-    public TextMeshProUGUI TextCharm;
-
     public PlayerCollectibles playerCollectibles;
 
     public static bool isPaused = false;
@@ -41,8 +37,7 @@ public class PauseMenu : MonoBehaviour
     }
     private void Update()
     {
-        TextCoin.SetText("Daruma : " + playerCollectibles.getDarumaNumber());
-        TextDoll.SetText("Daruma : " + playerCollectibles.getOmamoriNumber());
+        
        
     }
     public void Pause(InputAction.CallbackContext context)

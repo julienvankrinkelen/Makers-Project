@@ -36,7 +36,7 @@ public class MainMenu : MonoBehaviour
         if (saveExists == 1)
         {
             PlayerPrefs.SetInt("JustLoadedScene", 1);
-            SceneManager.LoadScene("Try map");
+            SceneManager.LoadScene("new map");
         }
         else
         {
@@ -53,6 +53,6 @@ public class MainMenu : MonoBehaviour
     public void NewGame()
     {
         PlayerPrefs.SetInt("JustDeleteSave", 1);
-        SceneManager.LoadScene("Try map");
+        SceneManager.LoadScene("new map");
     }
 }

@@ -4,12 +4,16 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Coin
   - Charm
   - Doll
   - F:interact
   - Enemy
   - Traps
+  - Omamori
+  - Daruma
+  - Candle
+  - Dash
+  - Artefact
   layers:
   - Default
   - TransparentFX

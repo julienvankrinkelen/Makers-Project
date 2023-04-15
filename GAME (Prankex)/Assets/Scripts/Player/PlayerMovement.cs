@@ -10,6 +10,7 @@ public class PlayerMovement : MonoBehaviour
     public PlayerInput playerInput;
     public PlayerInputActions playerInputActions;
     public Transform PlayerTransform;
+    public PlayerCollectibles collectibles;
 
     private float movement;
     public float horizontal;
@@ -305,7 +306,7 @@ public class PlayerMovement : MonoBehaviour
     public void Dash(InputAction.CallbackContext context)
     {
         Debug.Log(context);
-        if (CanDash && context.started)
+        if (collectibles.checkHasDash() && CanDash && context.started)
         {
             StartCoroutine(Dashing());
         }
@@ -315,7 +316,7 @@ public class PlayerMovement : MonoBehaviour
     // Dash method with enumerator method executed in the input action as coroutine
     private IEnumerator Dashing()
     {
-        CanDash = false;
+        CanDash = false; 
         float originalGravity = rb.gravityScale;
         
         
