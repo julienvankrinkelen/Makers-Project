@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [System.Serializable]
@@ -16,6 +17,8 @@ public class Gamestate
 
     //ennemies
     public float[] positionEnnemy1;
+
+
     public Gamestate()
     {
 

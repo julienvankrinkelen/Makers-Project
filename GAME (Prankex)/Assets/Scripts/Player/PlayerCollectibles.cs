@@ -4,41 +4,44 @@ using UnityEngine;
 
 public class PlayerCollectibles : MonoBehaviour
 {
-    private int coinNumber;
-    private int dollNumber;
-    private int charmNumber;
+    private int darumaNumber;
+    private int omamoriNumber;
+    private bool flute;
+    
+   
 
 
     public void Start()
     {
-     coinNumber=0;
-     dollNumber=0;
-     charmNumber=0;
+     darumaNumber =0;
+     omamoriNumber =0;
+     flute = false;
 
 
     }
-    public void addCoin()
+
+    public void pickedFlute()
     {
-        coinNumber++;
+        flute = true;
     }
-    public void addDoll()
+    public void addDaruma()
     {
-        dollNumber++;
+        darumaNumber++;
     }
-    public void addCharm()
+    public void addOmamori()
     {
-        charmNumber++;
+        omamoriNumber++;
     }
-    public int getCoinNumber()
+
+
+
+  
+    public int getDarumaNumber()
     {
-        return coinNumber;
+        return darumaNumber;
     }
-    public int getDollNumber()
+    public int getOmamoriNumber()
     {
-        return dollNumber;
-    }
-    public int getCharmNumber()
-    {
-        return charmNumber;
+        return omamoriNumber;
     }
 }
