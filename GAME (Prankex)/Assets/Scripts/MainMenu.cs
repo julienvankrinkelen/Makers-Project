@@ -11,6 +11,7 @@ public class MainMenu : MonoBehaviour
     public int saveExists;
 
     public GameObject panelChoice;
+    public GameObject mainMenu;
   
     public void PlayGame()
     {
@@ -20,6 +21,7 @@ public class MainMenu : MonoBehaviour
         if (saveExists == 1)
         {
             panelChoice.SetActive(true);
+            mainMenu.SetActive(false);
         }
         else
         {

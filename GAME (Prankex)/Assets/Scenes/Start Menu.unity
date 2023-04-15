@@ -1304,9 +1304,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 213e511db0d777e43a9dc0785873a525, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  JustLoadedScene: 0
   saveExists: 0
-  panelChoice: {fileID: 0}
+  panelChoice: {fileID: 1527877160}
+  mainMenu: {fileID: 1873968899}
 --- !u!4 &679258649
 Transform:
   m_ObjectHideFlags: 0
@@ -3766,7 +3766,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1527877161
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4894,7 +4894,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1873968900
 RectTransform:
   m_ObjectHideFlags: 0
