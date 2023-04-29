@@ -2056,7 +2056,7 @@ MonoBehaviour:
   collectibles: {fileID: 1633005905}
   horizontal: 0
   vertical: 0
-  MoveSpeed: 15
+  MoveSpeed: 18
   acceleration: 13
   deceleration: 16
   velPower: 0.96
@@ -47357,7 +47357,7 @@ MonoBehaviour:
   target: {fileID: 539998096}
   activateDistance: 50
   pathUpdateSeconds: 0.5
-  speed: 8
+  speed: 12
   acceleration: 13
   deceleration: 16
   velPower: 0.96
@@ -118678,6 +118678,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1611268440919427123, guid: ac9b12381814d134f92bf947039b2779, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -49.999756
+      objectReference: {fileID: 0}
     - target: {fileID: 1611268441131910872, guid: ac9b12381814d134f92bf947039b2779, type: 3}
       propertyPath: m_LocalPosition.x
       value: -10.63
@@ -119104,6 +119108,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1611268440919427123, guid: ac9b12381814d134f92bf947039b2779, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -49.999756
+      objectReference: {fileID: 0}
     - target: {fileID: 1611268441670331226, guid: ac9b12381814d134f92bf947039b2779, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 

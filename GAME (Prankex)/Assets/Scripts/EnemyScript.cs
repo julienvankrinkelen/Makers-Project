@@ -38,7 +38,7 @@ public class EnemyScript : MonoBehaviour
 
     private void Update()
     {
-        if (currentHealth < maxHealth)
+        if (Vector2.Distance(playerTransform.position, attackPoint.position) < 10)
         {
             anim.SetBool("CombatMode", true);
             
@@ -97,10 +97,10 @@ public class EnemyScript : MonoBehaviour
         isDead = true;
 
         // GetComponent<Collider2D>().enabled = false;
-        
+        Physics2D.IgnoreLayerCollision(3, 8);
         GetComponent<EnemyAI>().enabled = false;
         coin.SetActive(true);
-        this.enabled = false;
+        
 
 
 
