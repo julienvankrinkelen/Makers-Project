@@ -20,11 +20,11 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float acceleration = 13;
     [SerializeField] private float deceleration = 16;
     [SerializeField] private float velPower = 0.96f;
-    [SerializeField] private float JumpForce = 13;
-    [SerializeField] private float fallGravityMultiplier = 1.1f;
-    [SerializeField] private float jumpCutMultiplier = 0.4f;
+    [SerializeField] private float JumpForce = 35;
+    [SerializeField] private float fallGravityMultiplier = 1f;
+    [SerializeField] private float jumpCutMultiplier = 0.05f;
     [SerializeField] private float maxGravity = 6;
-    [SerializeField] private float DashForce = 200f;
+    [SerializeField] private float DashForce = 50f;
     [SerializeField] private TrailRenderer tr;
 
     [SerializeField] private LayerMask jumpableGround;
@@ -43,13 +43,13 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float jumpPressed;
 
     [SerializeField] private float wallJumpingRestrictionTimer;
-    private float wallJumpingRestriction = 0.45f;
+    private float wallJumpingRestriction = 0.6f;
     private float wallJumpingDirection;
 
     private float wallJumpingTime = 0.2f;
     private float wallJumpingCounter;
     private float wallJumpingDuration = 0.3f;
-    private Vector2 wallJumpingPower = new Vector2(20, 30);
+    private Vector2 wallJumpingPower = new Vector2(10,32);
 
     private bool IsDashing;
     [SerializeField] private float DashingTime = 0.25f;
@@ -128,7 +128,7 @@ public class PlayerMovement : MonoBehaviour
         WallSlide();
         WallJump();
 
-        if (IsWalled()) {isWalledBool = true; }
+        if (IsWalled()) { isWalledBool = true; fallGravityMultiplier = 1f; }
         else{ isWalledBool = false;}
 
       
@@ -138,7 +138,6 @@ public class PlayerMovement : MonoBehaviour
         jumpPressed -= Time.deltaTime;
 
         wallJumpingRestrictionTimer -= Time.deltaTime;
-       
 
     }
     private void FixedUpdate()
@@ -257,8 +256,8 @@ public class PlayerMovement : MonoBehaviour
 
             isWallJumping = true;
             rb.velocity = new Vector2(wallJumpingDirection * wallJumpingPower.x, wallJumpingPower.y);
-             wallJumpingCounter = 0f;
-            
+            wallJumpingCounter = 0f;
+            fallGravityMultiplier = 1.005f;
 
              if (transform.localScale.x != wallJumpingDirection)
             {
@@ -336,7 +335,6 @@ public class PlayerMovement : MonoBehaviour
     private void StopWallJumping()
     {
         isWallJumping = false;
-        
     }
 
 
