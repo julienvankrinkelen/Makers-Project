@@ -108,6 +108,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (IsGrounded())
         {
+            fallGravityMultiplier = 1f;
             isJumping = false;
             isGrounded = true;
             anim.SetBool("IsGrounded", true);
@@ -128,7 +129,7 @@ public class PlayerMovement : MonoBehaviour
         WallSlide();
         WallJump();
 
-        if (IsWalled()) { isWalledBool = true; fallGravityMultiplier = 1f; }
+        if (IsWalled()) { isWalledBool = true;  }
         else{ isWalledBool = false;}
 
       
