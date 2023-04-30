@@ -2080,7 +2080,7 @@ MonoBehaviour:
   DashingTime: 0.2
   CanDash: 1
   isGrounded: 1
-  coyoteTimeDuration: 0.2
+  coyoteTimeDuration: 0.1
 --- !u!96 &539998098
 TrailRenderer:
   serializedVersion: 2

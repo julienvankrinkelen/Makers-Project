@@ -100,17 +100,14 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
 
-        // Coyote Time logic
-        if (IsGrounded())
-        {
-            coyoteTime = Time.time + coyoteTimeDuration;
-        }
+        // y'a la Coyote Time logic dedans
 
         if (IsGrounded())
         {
             isJumping = false;
             isGrounded = true;
             anim.SetBool("IsGrounded", true);
+            coyoteTime = Time.time + coyoteTimeDuration;
         }
         else
         {
@@ -139,6 +136,7 @@ public class PlayerMovement : MonoBehaviour
     }
     private void FixedUpdate()
     {
+
         // Application of the Run Method
         if (!IsDashing)
         {
@@ -222,6 +220,7 @@ public class PlayerMovement : MonoBehaviour
           {
              jumpPressed = 0;
              isJumping = true;
+             coyoteTime = 0;
 
             
              rb.AddForce(Vector2.up * JumpForce, ForceMode2D.Impulse);
