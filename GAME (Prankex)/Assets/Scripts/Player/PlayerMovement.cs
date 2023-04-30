@@ -22,7 +22,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float JumpForce = 13;
     [SerializeField] private float fallGravityMultiplier = 1.1f;
     [SerializeField] private float jumpCutMultiplier = 0.4f;
-    [SerializeField] private float maxGravity = 3;
+    [SerializeField] private float maxGravity = 6;
     [SerializeField] private float DashForce = 200f;
     [SerializeField] private TrailRenderer tr;
 
@@ -53,7 +53,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 veloToApply;
 
    
-    private float gravityScale = 1f;
+    private float gravityScale = 2.3f;
     
     private BoxCollider2D coll;
     private Rigidbody2D rb;
