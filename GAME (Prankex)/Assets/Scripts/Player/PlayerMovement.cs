@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Xml;
+using UnityEditor.Rendering.LookDev;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -41,11 +42,14 @@ public class PlayerMovement : MonoBehaviour
     private float jumpPressedTimer = 0.5f;
     [SerializeField] private float jumpPressed;
 
+    [SerializeField] private float wallJumpingRestrictionTimer;
+    private float wallJumpingRestriction = 0.45f;
     private float wallJumpingDirection;
-    private float wallJumpingTime = 2f;
+
+    private float wallJumpingTime = 0.2f;
     private float wallJumpingCounter;
     private float wallJumpingDuration = 0.3f;
-    private Vector2 wallJumpingPower = new Vector2(10, 26);
+    private Vector2 wallJumpingPower = new Vector2(20, 30);
 
     private bool IsDashing;
     [SerializeField] private float DashingTime = 0.25f;
@@ -133,18 +137,39 @@ public class PlayerMovement : MonoBehaviour
         UpdateAnimationState();
         jumpPressed -= Time.deltaTime;
 
+        wallJumpingRestrictionTimer -= Time.deltaTime;
+       
+
     }
     private void FixedUpdate()
     {
-
-        // Application of the Run Method
         if (!IsDashing)
         {
-            float targetSpeed = horizontal * MoveSpeed;
-            float speedDif = targetSpeed - rb.velocity.x;
-            float accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? acceleration : deceleration;
-            movement = Mathf.Pow(Mathf.Abs(speedDif) * accelRate, velPower) * Mathf.Sign(speedDif);
-            rb.AddForce(movement * Vector2.right, ForceMode2D.Force);
+
+            //Debug.Log("HORIZ : " + horizontal);
+            //Debug.Log("JUMPING DIR : " + wallJumpingDirection);
+            // Application of the Run Method
+            // Pour ne pas pouvoir wall jump ï¿½ l'infini, on annule la direction de mouvement dans le sens oï¿½ le player vient de jump ...
+            if (wallJumpingRestrictionTimer > 0f && Mathf.Sign(horizontal) * wallJumpingDirection < 0f)
+            {
+                Debug.Log("RESTRICTED");
+                float targetSpeed = 0;
+                float speedDif = targetSpeed - rb.velocity.x;
+                float accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? acceleration : deceleration;
+                movement = Mathf.Pow(Mathf.Abs(speedDif) * accelRate, velPower) * Mathf.Sign(speedDif);
+
+                rb.AddForce(movement * Vector2.right, ForceMode2D.Force);
+            }
+            else
+            {
+                Debug.Log("MOVING");
+                float targetSpeed = horizontal * MoveSpeed;
+                float speedDif = targetSpeed - rb.velocity.x;
+                float accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? acceleration : deceleration;
+                movement = Mathf.Pow(Mathf.Abs(speedDif) * accelRate, velPower) * Mathf.Sign(speedDif);
+
+                rb.AddForce(movement * Vector2.right, ForceMode2D.Force);
+            }
 
         }
     }
@@ -167,7 +192,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void Move(InputAction.CallbackContext context)
     {
-        // Getting the input value
+      
         horizontal = context.ReadValue<Vector2>().x;
         vertical = context.ReadValue<Vector2>().y;
 
@@ -176,8 +201,8 @@ public class PlayerMovement : MonoBehaviour
         if (context.canceled)
         {
             //ATTENTION A CES DEUX LIGNES//
-            //-> si on met vélocité à zero sur l'axe X, on aura un effet très dynamique et sec qui annule le "flou" de mouvement créé par Accel Decel de fixedupdate
-            //-> si on met vélocité à zero sur l'axe Y, on peut annuler la vélocité induite de la gravité en straffant gauche droite lors d'une chute
+            //-> si on met vï¿½locitï¿½ ï¿½ zero sur l'axe X, on aura un effet trï¿½s dynamique et sec qui annule le "flou" de mouvement crï¿½ï¿½ par Accel Decel de fixedupdate
+            //-> si on met vï¿½locitï¿½ ï¿½ zero sur l'axe Y, on peut annuler la vï¿½locitï¿½ induite de la gravitï¿½ en straffant gauche droite lors d'une chute
 
 
             // rb.gravityScale = 0f;
@@ -209,9 +234,8 @@ public class PlayerMovement : MonoBehaviour
 
     public void Jump(InputAction.CallbackContext context)
     {
-          jumpPressed = jumpPressedTimer;
-       
-         
+        jumpPressed = jumpPressedTimer;
+
           Debug.Log(context);
            
           // Jump when pressed
@@ -229,9 +253,11 @@ public class PlayerMovement : MonoBehaviour
          // Wall jump
           if (context.started && wallJumpingCounter > 0f) // If pressed jump and player is still wall jumping (0s < counter < 0.2s)
          {
-             isWallJumping = true;
-             rb.velocity = new Vector2(wallJumpingDirection * wallJumpingPower.x, wallJumpingPower.y);
-            wallJumpingCounter = 0f;
+            wallJumpingRestrictionTimer = wallJumpingRestriction;
+
+            isWallJumping = true;
+            rb.velocity = new Vector2(wallJumpingDirection * wallJumpingPower.x, wallJumpingPower.y);
+             wallJumpingCounter = 0f;
             
 
              if (transform.localScale.x != wallJumpingDirection)
@@ -252,7 +278,7 @@ public class PlayerMovement : MonoBehaviour
         }
          if (context.canceled && rb.velocity.y > 0)
          {
-             rb.AddForce(Vector2.down * rb.velocity.y * (1 - jumpCutMultiplier), ForceMode2D.Impulse);
+            rb.AddForce(Vector2.down * rb.velocity.y * (1 - jumpCutMultiplier), ForceMode2D.Impulse);
          }
         
     }
