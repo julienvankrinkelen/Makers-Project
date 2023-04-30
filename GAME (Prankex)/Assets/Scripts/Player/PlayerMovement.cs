@@ -45,7 +45,7 @@ public class PlayerMovement : MonoBehaviour
     private float wallJumpingTime = 2f;
     private float wallJumpingCounter;
     private float wallJumpingDuration = 0.3f;
-    private Vector2 wallJumpingPower = new Vector2(16, 32);
+    private Vector2 wallJumpingPower = new Vector2(10, 26);
 
     private bool IsDashing;
     [SerializeField] private float DashingTime = 0.25f;
