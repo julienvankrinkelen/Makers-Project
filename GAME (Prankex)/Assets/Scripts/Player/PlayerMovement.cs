@@ -42,10 +42,10 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float jumpPressed;
 
     private float wallJumpingDirection;
-    private float wallJumpingTime = 0.5f;
+    private float wallJumpingTime = 2f;
     private float wallJumpingCounter;
     private float wallJumpingDuration = 0.3f;
-    private Vector2 wallJumpingPower = new Vector2(8, 16);
+    private Vector2 wallJumpingPower = new Vector2(16, 32);
 
     private bool IsDashing;
     [SerializeField] private float DashingTime = 0.25f;
@@ -67,9 +67,14 @@ public class PlayerMovement : MonoBehaviour
    
     private enum MovementState { idle, running, jumping, falling, rolling, sliding }
 
+
+    // Coyote Time variables
+    [SerializeField] private float coyoteTimeDuration = 0.2f;
+    private float coyoteTime;
+
     #endregion
 
-    
+
 
     void Awake()
     {
@@ -94,7 +99,13 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        
+
+        // Coyote Time logic
+        if (IsGrounded())
+        {
+            coyoteTime = Time.time + coyoteTimeDuration;
+        }
+
         if (IsGrounded())
         {
             isJumping = false;
@@ -206,7 +217,8 @@ public class PlayerMovement : MonoBehaviour
           Debug.Log(context);
            
           // Jump when pressed
-          if (context.started && (IsGrounded() && jumpPressed > 0))
+
+          if (context.started && (Time.time < coyoteTime && jumpPressed > 0))
           {
              jumpPressed = 0;
              isJumping = true;
