@@ -2062,7 +2062,7 @@ MonoBehaviour:
   velPower: 0.96
   JumpForce: 18
   fallGravityMultiplier: 2
-  jumpCutMultiplier: 0.4
+  jumpCutMultiplier: 0.8
   maxGravity: 2
   DashForce: 50
   tr: {fileID: 539998098}
