@@ -70,9 +70,14 @@ public class PlayerMovement : MonoBehaviour
    
     private enum MovementState { idle, running, jumping, falling, rolling, sliding }
 
+
+    // Coyote Time variables
+    [SerializeField] private float coyoteTimeDuration = 0.2f;
+    private float coyoteTime;
+
     #endregion
 
-    
+
 
     void Awake()
     {
@@ -97,12 +102,15 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        
+
+        // y'a la Coyote Time logic dedans
+
         if (IsGrounded())
         {
             isJumping = false;
             isGrounded = true;
             anim.SetBool("IsGrounded", true);
+            coyoteTime = Time.time + coyoteTimeDuration;
         }
         else
         {
@@ -140,7 +148,7 @@ public class PlayerMovement : MonoBehaviour
             //Debug.Log("HORIZ : " + horizontal);
             //Debug.Log("JUMPING DIR : " + wallJumpingDirection);
             // Application of the Run Method
-            // Pour ne pas pouvoir wall jump à l'infini, on annule la direction de mouvement dans le sens où le player vient de jump ...
+            // Pour ne pas pouvoir wall jump ï¿½ l'infini, on annule la direction de mouvement dans le sens oï¿½ le player vient de jump ...
             if (wallJumpingRestrictionTimer > 0f && Mathf.Sign(horizontal) * wallJumpingDirection < 0f)
             {
                 Debug.Log("RESTRICTED");
@@ -192,8 +200,8 @@ public class PlayerMovement : MonoBehaviour
         if (context.canceled)
         {
             //ATTENTION A CES DEUX LIGNES//
-            //-> si on met vélocité à zero sur l'axe X, on aura un effet très dynamique et sec qui annule le "flou" de mouvement créé par Accel Decel de fixedupdate
-            //-> si on met vélocité à zero sur l'axe Y, on peut annuler la vélocité induite de la gravité en straffant gauche droite lors d'une chute
+            //-> si on met vï¿½locitï¿½ ï¿½ zero sur l'axe X, on aura un effet trï¿½s dynamique et sec qui annule le "flou" de mouvement crï¿½ï¿½ par Accel Decel de fixedupdate
+            //-> si on met vï¿½locitï¿½ ï¿½ zero sur l'axe Y, on peut annuler la vï¿½locitï¿½ induite de la gravitï¿½ en straffant gauche droite lors d'une chute
 
 
             // rb.gravityScale = 0f;
@@ -230,10 +238,12 @@ public class PlayerMovement : MonoBehaviour
           Debug.Log(context);
            
           // Jump when pressed
-          if (context.started && (IsGrounded() && jumpPressed > 0))
+
+          if (context.started && (Time.time < coyoteTime && jumpPressed > 0))
           {
              jumpPressed = 0;
              isJumping = true;
+             coyoteTime = 0;
 
             
              rb.AddForce(Vector2.up * JumpForce, ForceMode2D.Impulse);

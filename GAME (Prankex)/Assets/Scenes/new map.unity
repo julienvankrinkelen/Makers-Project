@@ -2061,8 +2061,8 @@ MonoBehaviour:
   deceleration: 16
   velPower: 0.96
   JumpForce: 35
-  fallGravityMultiplier: 1.005
-  jumpCutMultiplier: 0.3
+  fallGravityMultiplier: 1.001
+  jumpCutMultiplier: 0.1
   maxGravity: 6
   DashForce: 50
   tr: {fileID: 539998098}
@@ -2082,6 +2082,7 @@ MonoBehaviour:
   DashingTime: 0.2
   CanDash: 1
   isGrounded: 1
+  coyoteTimeDuration: 0.1
 --- !u!96 &539998098
 TrailRenderer:
   serializedVersion: 2
