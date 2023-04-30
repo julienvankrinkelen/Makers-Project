@@ -2056,13 +2056,13 @@ MonoBehaviour:
   collectibles: {fileID: 1633005905}
   horizontal: 0
   vertical: 0
-  MoveSpeed: 18
+  MoveSpeed: 15
   acceleration: 13
   deceleration: 16
   velPower: 0.96
   JumpForce: 38
   fallGravityMultiplier: 1.005
-  jumpCutMultiplier: 0.5
+  jumpCutMultiplier: 0.3
   maxGravity: 6
   DashForce: 50
   tr: {fileID: 539998098}
