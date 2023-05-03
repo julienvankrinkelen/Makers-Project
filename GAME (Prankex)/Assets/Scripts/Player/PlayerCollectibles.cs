@@ -7,6 +7,7 @@ public class PlayerCollectibles : MonoBehaviour
 {
     private int darumaNumber;
     private int omamoriNumber;
+    private int explosiveScrollNumber;
     private bool hasCandle;
     private int artefactNumber;
     private bool hasDash;
@@ -30,6 +31,7 @@ public class PlayerCollectibles : MonoBehaviour
 
     public void Start()
     {
+        explosiveScrollNumber = 0;
         darumaNumber =0;
         omamoriNumber =0;
         artefactNumber = 0;
@@ -39,6 +41,7 @@ public class PlayerCollectibles : MonoBehaviour
     }
 
 
+    // Ino order to "unfreeze" the screen when picking dash. Press F, the "interact" button.
     public void Interact(InputAction.CallbackContext context)
     {
         if (messageDashIsActive)
@@ -70,6 +73,11 @@ public class PlayerCollectibles : MonoBehaviour
         hasCandle = true;
     }
 
+    public void addExplosiveScroll()
+    {
+        explosiveScrollNumber++;
+    }
+
     public void addArtefact()
     {
         artefactNumber++;
@@ -81,6 +89,12 @@ public class PlayerCollectibles : MonoBehaviour
     public void addOmamori()
     {
         omamoriNumber++;
+    }
+
+    //Explosive scroll is usable.
+    public void removeExplosiveScroll()
+    {
+        explosiveScrollNumber--;
     }
 
 
@@ -97,6 +111,10 @@ public class PlayerCollectibles : MonoBehaviour
     public int getArtefactNumber()
     {
         return artefactNumber;
+    }
+    public int getExplosiveScrollNumber()
+    {
+        return explosiveScrollNumber;
     }
     public bool checkHasCandle()
     {
