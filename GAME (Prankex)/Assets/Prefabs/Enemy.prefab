@@ -166,11 +166,11 @@ GameObject:
   m_Component:
   - component: {fileID: 8911119438131103488}
   - component: {fileID: 8911119438131103491}
-  - component: {fileID: 8911119438131103490}
-  - component: {fileID: 8911119438131103493}
   - component: {fileID: 8911119438131103492}
   - component: {fileID: 8911119438131103495}
   - component: {fileID: 8911119438131103489}
+  - component: {fileID: 7364331874594636740}
+  - component: {fileID: 8934857125190975309}
   m_Layer: 8
   m_Name: Enemy
   m_TagString: Untagged
@@ -223,62 +223,6 @@ MonoBehaviour:
   tagPenalties: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   graphMask:
     value: -1
---- !u!114 &8911119438131103490
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8911119438131103494}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6eb1402c17e84a9282a7f0f62eb584f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 5
-  radius: 0.65
-  height: 2
-  canMove: 1
-  maxSpeed: 2
-  gravity: {x: NaN, y: NaN, z: NaN}
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  centerOffsetCompatibility: NaN
-  repathRateCompatibility: NaN
-  canSearchCompability: 0
-  orientation: 1
-  enableRotation: 0
-  autoRepath:
-    mode: 2
-    interval: 0.5
-    sensitivity: 10
-    maximumInterval: 2
-    visualizeSensitivity: 0
-  targetCompatibility: {fileID: 0}
-  maxAcceleration: -2.5
-  rotationSpeed: 360
-  slowdownDistance: 0.9
-  pickNextWaypointDist: 1.2
-  endReachedDistance: 0.2
-  alwaysDrawGizmos: 0
-  slowWhenNotFacingTarget: 1
-  whenCloseToDestination: 0
-  constrainInsideGraph: 0
---- !u!114 &8911119438131103493
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8911119438131103494}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9679e68a0f1144e79c664d9a11ca121, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 1
-  target: {fileID: 0}
 --- !u!61 &8911119438131103492
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -316,16 +260,16 @@ Rigidbody2D:
   m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 1
-  m_Mass: 13.647354
-  m_LinearDrag: 2
+  m_UseAutoMass: 0
+  m_Mass: 2
+  m_LinearDrag: 5
   m_AngularDrag: 0.05
   m_GravityScale: 2.5
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 6
+  m_Constraints: 4
 --- !u!114 &8911119438131103489
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -340,7 +284,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   anim: {fileID: 8911119437306238376}
   sprite: {fileID: 8911119437306238391}
-  rb: {fileID: 0}
+  rb: {fileID: 8911119438131103495}
   maxHealth: 2
   playerLayer:
     serializedVersion: 2
@@ -351,4 +295,47 @@ MonoBehaviour:
   attackDamage: 1
   attackRate: 2
   coin: {fileID: 0}
-  aiPath: {fileID: 8911119438131103490}
+  aiPath: {fileID: 0}
+--- !u!114 &7364331874594636740
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8911119438131103494}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 623c9a2be7f7fc4419c601f2977334e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  activateDistance: 50
+  pathUpdateSeconds: 0.5
+  speed: 12
+  acceleration: 13
+  deceleration: 16
+  velPower: 0.96
+  nextWaypointDistance: 3
+  jumpNodeHeightRequirement: 0.4
+  jumpModifier: 0.3
+  jumpCheckOffset: 0.1
+  followEnabled: 0
+  jumpEnabled: 1
+  directionLookEnabled: 1
+  animator: {fileID: 8911119437306238376}
+--- !u!58 &8934857125190975309
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8911119438131103494}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.0005748421, y: -0.5499678}
+  serializedVersion: 2
+  m_Radius: 0.014971197

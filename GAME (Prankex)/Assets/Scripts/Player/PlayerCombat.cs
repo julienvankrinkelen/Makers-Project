@@ -92,6 +92,10 @@ public class PlayerCombat : MonoBehaviour
         {
             TakeDamage(1);
         }
+        if (collision.gameObject.CompareTag("Juice"))
+        {
+            TakeDamageJ(2);
+        }
     }
     public void TakeDamage(int damage)
     {
@@ -106,6 +110,21 @@ public class PlayerCombat : MonoBehaviour
             Die();
         }
     }
+    public void TakeDamageJ(int damage)
+    {
+        CurrentHealth -= damage;
+        rb.AddForce((Vector2.up * (DamageForce*3)) + (Vector2.right * (DamageForce*3)), ForceMode2D.Impulse);
+
+        // Hurt animation
+        anim.SetTrigger("Hurt");
+
+        if (CurrentHealth <= 0)
+        {
+            Die();
+        }
+    }
+
+
 
     void Die()
     {
