@@ -9,7 +9,7 @@ public class EnemyAttack : MonoBehaviour
     public Transform playerTransform;
 
     public float attackRange = 0.5f;
-    public int attackDamage = 1;
+    public float attackDamage = 1f;
 
 
     private void OnDrawGizmosSelected()

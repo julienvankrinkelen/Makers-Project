@@ -2,30 +2,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PlayerCombat : MonoBehaviour
 {
     
     private PlayerInputActions playerInputActions;
     public Transform PlayerTransform;
+    public SaveLoadGamestate saveLoadGamestate;
+    public PlayerMovement playerMovement;
 
     private BoxCollider2D coll;
     private Rigidbody2D rb;
     private SpriteRenderer sprite;
     private Animator anim;
+    public GameObject panelTransiDeath;
 
     [SerializeField] private LayerMask jumpableGround;
     public LayerMask enemyLayers;
     public Transform attackPoint;
 
     public float attackRange = 0.5f;
-    public int attackDamage = 1;
+    public float attackDamage = 1f;
     public float attackRate = 2f;
-    float nextAttackTime = 0f;
+    public float nextAttackTime = 0f;
 
-    public int PlayerHealth = 4;
-    public int CurrentHealth;
-    [SerializeField] private float DamageForce = 13;
+    public float PlayerHealth = 4f;
+    public float CurrentHealth;
+    [SerializeField] private float DamageForce = 13f;
     private void Start()
     {
         coll = GetComponent<BoxCollider2D>();
@@ -93,7 +97,7 @@ public class PlayerCombat : MonoBehaviour
             TakeDamage(1);
         }
     }
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
         CurrentHealth -= damage;
         rb.AddForce((Vector2.up * DamageForce) + (Vector2.right * DamageForce), ForceMode2D.Impulse);
@@ -103,19 +107,40 @@ public class PlayerCombat : MonoBehaviour
 
         if (CurrentHealth <= 0)
         {
-            Die();
+            StartCoroutine(Die());
         }
     }
 
-    void Die()
+    public IEnumerator Die()
     {
         Debug.Log("You died!");
 
         // Die animation
         anim.SetBool("IsDead", true);
-
-        // Disable the player
+        // Disable the player and its extern interactions
         EnableCombat(false);
+        playerMovement.EnableMovement(false);
+
+        yield return new WaitForSeconds(1);
+        anim.SetBool("IsDead", false);
+        //ECRAN NOIR TRANSI
+        panelTransiDeath.SetActive(true);
+        yield return new WaitForSeconds(1);
+        // DESACTIVER ECRAN NOIR
+        panelTransiDeath.SetActive(false);
+        playerMovement.EnableMovement(true);
+        EnableCombat(true);
+        // Load dernière save 
+        // Si save non existante : recommencer une new game
+        int saveExists = PlayerPrefs.GetInt("Save Exists");
+        if(saveExists == 1)
+        {
+            saveLoadGamestate.LoadGamestate();
+        }
+        else
+        {
+            SceneManager.LoadScene("new map");
+        }
 
     }
 
@@ -129,6 +154,18 @@ public class PlayerCombat : MonoBehaviour
         {
             playerInputActions.Player.Disable();
         }
+    }
+
+    //Daruma bonus atk permanent
+    public void AddDamage(float damage)
+    {
+        attackDamage += damage;
+    }
+
+    //Omamori bonus hp permanent
+    public void AddLife(float life)
+    {
+        CurrentHealth += life;
     }
 
 }

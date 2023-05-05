@@ -17,7 +17,7 @@ public class PlayerCollectibles : MonoBehaviour
     public PlayerInput playerInput;
     public PlayerInputActions playerInputActions;
     public PlayerCombat playerCombat;
-    public PlayerMovement playerMovement; 
+    public PlayerMovement playerMovement;
 
 
     void Awake()
@@ -85,10 +85,14 @@ public class PlayerCollectibles : MonoBehaviour
     public void addDaruma()
     {
         darumaNumber++;
+        //Stat buff atk
+        playerCombat.AddDamage(0.1f);
     }
     public void addOmamori()
     {
         omamoriNumber++;
+        //Stat buff hp
+        playerCombat.AddLife(1);
     }
 
     //Explosive scroll is usable.
@@ -97,9 +101,6 @@ public class PlayerCollectibles : MonoBehaviour
         explosiveScrollNumber--;
     }
 
-
-
-  
     public int getDarumaNumber()
     {
         return darumaNumber;

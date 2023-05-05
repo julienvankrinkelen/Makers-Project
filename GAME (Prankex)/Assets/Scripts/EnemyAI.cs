@@ -48,6 +48,10 @@ public class EnemyAI : MonoBehaviour
         {
             PathFollow();
         }
+        else
+        {
+            animator.SetBool("Run", false);
+        }
     }
 
     private void UpdatePath()

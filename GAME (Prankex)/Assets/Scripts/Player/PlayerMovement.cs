@@ -30,9 +30,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private LayerMask jumpableGround;
     [SerializeField] private LayerMask wallLayer;
     [SerializeField] private Transform wallCheck;
-
-    [SerializeField] private bool isWalledBool;
-
     private bool isFacingTheRight = true;
     
     [SerializeField] private bool isJumping;
@@ -128,10 +125,6 @@ public class PlayerMovement : MonoBehaviour
         JumpGravity();
         WallSlide();
         WallJump();
-
-        if (IsWalled()) { isWalledBool = true;  }
-        else{ isWalledBool = false;}
-
       
         if (IsDashing){rb.gravityScale = 0f; }
 

@@ -11,8 +11,8 @@ public class Gamestate
 {
    
     //player
-    public int health;
-    public int attackDamage;
+    public float health;
+    public float attackDamage;
     public float[] positionPlayer;
 
     //ennemies
