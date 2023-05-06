@@ -162,7 +162,7 @@ public class PlayerMovement : MonoBehaviour
             }
             else
             {
-                Debug.Log("MOVING");
+                // Debug.Log("MOVING");
                 float targetSpeed = horizontal * MoveSpeed;
                 float speedDif = targetSpeed - rb.velocity.x;
                 float accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? acceleration : deceleration;

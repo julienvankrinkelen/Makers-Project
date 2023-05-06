@@ -26,14 +26,14 @@ public class EnemyScript : MonoBehaviour
     private bool isFacingTheRight = false;
     private bool isDead = false;
 
-    public GameObject coin;
+    // public GameObject coin;
 
     public AIPath aiPath;
 
     void Start()
     {
         currentHealth = maxHealth;
-        coin.SetActive(false);
+        // coin.SetActive(false);
 
     }
 
@@ -51,7 +51,7 @@ public class EnemyScript : MonoBehaviour
         }
 
         
-        if((Vector2.Distance(playerTransform.position, attackPoint.position) < 1 ) && Time.time >= nextAttackTime)
+        if((Vector2.Distance(playerTransform.position, attackPoint.position) < 2 ) && Time.time >= nextAttackTime)
         {
             anim.SetTrigger("Attack");
             nextAttackTime = Time.time + 1f / attackRate;
@@ -101,11 +101,7 @@ public class EnemyScript : MonoBehaviour
         GetComponent<CircleCollider2D>().enabled = true;
         Physics2D.IgnoreCollision(GetComponent<CircleCollider2D>(), playercollider);
         GetComponent<EnemyAI>().enabled = false;
-        coin.SetActive(true);
-        
-
-
-
+        // coin.SetActive(true);
 
     }
 

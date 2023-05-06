@@ -23,6 +23,9 @@ public class PlayerCombat : MonoBehaviour
     public float attackRate = 2f;
     float nextAttackTime = 0f;
 
+    bool BombSelected = false;
+    bool CandleSelected = true;
+
     public int PlayerHealth = 4;
     public int CurrentHealth;
     [SerializeField] private float DamageForce = 13;
@@ -71,12 +74,48 @@ public class PlayerCombat : MonoBehaviour
         {
             Debug.Log("We hit " + enemy.name);
             if(enemy.tag == "Enemy")
-            { enemy.GetComponent<EnemyScript>().TakeDamage(attackDamage); }
-            else
-            { enemy.GetComponent<DestructibleObject>().TakeDamage(attackDamage); }
+            { 
+                enemy.GetComponent<EnemyScript>().TakeDamage(attackDamage);              
+            }
+            else if(enemy.tag == "Tanuki")
+            {
+                enemy.GetComponent<TanukiScript>().TakeDamage(attackDamage);
+            }
+            
         }
 
     }
+
+    public void Object(InputAction.CallbackContext context)
+    {
+        if (context.performed && Time.time >= nextAttackTime && BombSelected)
+        {
+            // animation trigger
+            anim.SetTrigger("Bomb");
+            nextAttackTime = Time.time + 1f / attackRate;
+        }
+
+        if (context.performed && Time.time >= nextAttackTime && CandleSelected)
+        {
+            // animation trigger
+            anim.SetTrigger("Candle");
+            nextAttackTime = Time.time + 1f / attackRate;
+        }
+
+
+        if (context.canceled)
+        {
+            anim.ResetTrigger("Bomb");
+            anim.ResetTrigger("Candle");
+        }
+    }
+
+    // Code BombWall
+
+    // Code CandleLight
+
+
+
 
     private void OnDrawGizmosSelected()
     {
