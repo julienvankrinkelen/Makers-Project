@@ -24,7 +24,6 @@ public class EnemyScript : MonoBehaviour
     float nextAttackTime = 0f;
     [SerializeField] private float DamageForce = 13;
 
-    private bool isFacingTheRight = false;
     private bool isDead = false;
 
     // public GameObject coin;
