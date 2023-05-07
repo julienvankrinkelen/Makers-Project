@@ -17,6 +17,7 @@ TagManager:
   - Juice
   - Tanuki
   - DestructibleWall
+  - Onibi
   layers:
   - Default
   - TransparentFX

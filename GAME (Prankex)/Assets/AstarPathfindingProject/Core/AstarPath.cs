@@ -816,7 +816,7 @@ public class AstarPath : VersionedMonoBehaviour {
 		if (logPathResults == PathLog.InGame && inGameDebugPath != "") {
 			GUI.Label(new Rect(5, 5, 400, 600), inGameDebugPath);
 		}
-	}
+    }
 #endif
 
 	/// <summary>
@@ -825,32 +825,34 @@ public class AstarPath : VersionedMonoBehaviour {
 	/// See: PathLog
 	/// See: Pathfinding.Path.DebugString
 	/// </summary>
-	private void LogPathResults (Path path) {
-		if (logPathResults != PathLog.None && (path.error || logPathResults != PathLog.OnlyErrors)) {
-			string debug = (path as IPathInternals).DebugString(logPathResults);
+	#region Log
+	//private void LogPathResults (Path path) {
+		//if (logPathResults != PathLog.None && (path.error || logPathResults != PathLog.OnlyErrors)) {
+		//	string debug = (path as IPathInternals).DebugString(logPathResults);
 
-			if (logPathResults == PathLog.InGame) {
-				inGameDebugPath = debug;
-			} else if (path.error) {
-				Debug.LogWarning(debug);
-			} else {
-				Debug.Log(debug);
-			}
-		}
-	}
+		//	if (logPathResults == PathLog.InGame) {
+		//		inGameDebugPath = debug;
+		//	} else if (path.error) {
+		//		Debug.LogWarning(debug);
+		//	} else {
+		//		Debug.Log(debug);
+		//	}
+	//	}
+	//}
+    #endregion
 
-	/// <summary>
-	/// Checks if any work items need to be executed
-	/// then runs pathfinding for a while (if not using multithreading because
-	/// then the calculation happens in other threads)
-	/// and then returns any calculated paths to the
-	/// scripts that requested them.
-	///
-	/// See: PerformBlockingActions
-	/// See: PathProcessor.TickNonMultithreaded
-	/// See: PathReturnQueue.ReturnPaths
-	/// </summary>
-	private void Update () {
+    /// <summary>
+    /// Checks if any work items need to be executed
+    /// then runs pathfinding for a while (if not using multithreading because
+    /// then the calculation happens in other threads)
+    /// and then returns any calculated paths to the
+    /// scripts that requested them.
+    ///
+    /// See: PerformBlockingActions
+    /// See: PathProcessor.TickNonMultithreaded
+    /// See: PathReturnQueue.ReturnPaths
+    /// </summary>
+    private void Update () {
 		// This class uses the [ExecuteInEditMode] attribute
 		// So Update is called even when not playing
 		// Don't do anything when not in play mode
@@ -1283,7 +1285,7 @@ public class AstarPath : VersionedMonoBehaviour {
 		};
 
 		pathProcessor.OnPathPostSearch += path => {
-			LogPathResults(path);
+			// LogPathResults(path);
 			var tmp = OnPathPostSearch;
 			if (tmp != null) tmp(path);
 		};

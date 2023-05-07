@@ -74,8 +74,12 @@ public class PlayerCombat : MonoBehaviour
         {
             Debug.Log("We hit " + enemy.name);
             if(enemy.tag == "Enemy")
-            { 
-                enemy.GetComponent<EnemyScript>().TakeDamage(attackDamage);              
+            {
+                enemy.GetComponent<EnemyScript>().TakeDamage(attackDamage);
+            }
+            else if(enemy.tag == "Onibi")
+            {
+                enemy.GetComponent<OnibiScript>().TakeDamage(attackDamage);
             }
             else if(enemy.tag == "Tanuki")
             {
