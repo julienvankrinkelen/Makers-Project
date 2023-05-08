@@ -20,7 +20,7 @@ public class EnemyScript : MonoBehaviour
 
     public float attackRange = 0.5f;
     public int attackDamage = 2;
-    public float attackRate = 4f;
+    public float attackRate = 0.5f;
     float nextAttackTime = 0f;
     [SerializeField] private float DamageForce = 13;
 
@@ -39,16 +39,12 @@ public class EnemyScript : MonoBehaviour
 
     private void Update()
     {
-        if (Vector2.Distance(playerTransform.position, attackPoint.position) < 10)
-        {
-            anim.SetBool("CombatMode", true);
-            
-        }
-
-        if(anim.GetBool("CombatMode") == true && anim.GetBool("IsDead") == false)
+        if (Vector2.Distance(playerTransform.position, attackPoint.position) < 10 && anim.GetBool("IsDead") == false)
         {
             GetComponent<EnemyAI>().followEnabled = true;
+
         }
+
 
         
         if((Vector2.Distance(playerTransform.position, attackPoint.position) < 2 ) && Time.time >= nextAttackTime)
@@ -103,8 +99,18 @@ public class EnemyScript : MonoBehaviour
         Physics2D.IgnoreCollision(GetComponent<CircleCollider2D>(), playercollider);
         GetComponent<EnemyAI>().enabled = false;
         // coin.SetActive(true);
+        StartCoroutine(Bunshin());
 
     }
 
-    
+    private IEnumerator Bunshin()
+    {
+        GetComponent<EnemyScript>().enabled = false;
+        // anim.SetBool("IsDead", true);
+        // Die animation
+        yield return new WaitForSeconds(1);
+        gameObject.SetActive(false);
+        //coin.SetActive(true);
+    }
+
 }

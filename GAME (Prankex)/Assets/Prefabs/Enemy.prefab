@@ -1,36 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &8911119436934283784
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8911119436934283785}
-  m_Layer: 0
-  m_Name: AttackPoint
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &8911119436934283785
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8911119436934283784}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.68, y: 0.14, z: 2.4112554}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 8911119438131103488}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8911119437432479419
 GameObject:
   m_ObjectHideFlags: 0
@@ -152,8 +121,10 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 8
-  attackPoint: {fileID: 8911119436934283785}
+  playercollider: {fileID: 0}
+  attackPoint: {fileID: 0}
   playerTransform: {fileID: 0}
+  hitboxKarakasa: {fileID: 0}
   attackRange: 0.5
   attackDamage: 1
 --- !u!1 &8911119438131103494
@@ -170,7 +141,6 @@ GameObject:
   - component: {fileID: 8911119438131103495}
   - component: {fileID: 8911119438131103489}
   - component: {fileID: 7364331874594636740}
-  - component: {fileID: 8934857125190975309}
   m_Layer: 8
   m_Name: Enemy
   m_TagString: Untagged
@@ -191,7 +161,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8911119437306238388}
-  - {fileID: 8911119436934283785}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -285,16 +254,17 @@ MonoBehaviour:
   anim: {fileID: 8911119437306238376}
   sprite: {fileID: 8911119437306238391}
   rb: {fileID: 8911119438131103495}
+  playercollider: {fileID: 0}
   maxHealth: 2
   playerLayer:
     serializedVersion: 2
     m_Bits: 8
-  attackPoint: {fileID: 8911119436934283785}
+  attackPoint: {fileID: 0}
   playerTransform: {fileID: 0}
   attackRange: 0.5
   attackDamage: 1
   attackRate: 2
-  coin: {fileID: 0}
+  DamageForce: 13
   aiPath: {fileID: 0}
 --- !u!114 &7364331874594636740
 MonoBehaviour:
@@ -323,19 +293,3 @@ MonoBehaviour:
   jumpEnabled: 1
   directionLookEnabled: 1
   animator: {fileID: 8911119437306238376}
---- !u!58 &8934857125190975309
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8911119438131103494}
-  m_Enabled: 0
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.0005748421, y: -0.5499678}
-  serializedVersion: 2
-  m_Radius: 0.014971197

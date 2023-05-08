@@ -5,32 +5,16 @@ using UnityEngine;
 public class EnemyAttack : MonoBehaviour
 {
     public LayerMask playerLayer;
-    public Transform attackPoint;
-    public Transform playerTransform;
+    public Collider2D playercollider;
 
-    public float attackRange = 0.5f;
+
     public int attackDamage = 1;
 
 
-    private void OnDrawGizmosSelected()
+    private void OnTriggerEnter2D(Collider2D collider2D)
     {
-        if (attackPoint == null)
-            return;
-
-        Gizmos.DrawWireSphere(attackPoint.position, attackRange);
+        playercollider.GetComponent<PlayerCombat>().TakeDamage(attackDamage);
     }
 
-    public void Attack1()
-    {
-        // check for player in range in the layer assigned
-        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, playerLayer);
-
-        foreach (Collider2D enemy in hitEnemies)
-        {
-            Debug.Log("You have been hit");
-            enemy.GetComponent<PlayerCombat>().TakeDamage(attackDamage);
-        }
-
-    }
 
 }
