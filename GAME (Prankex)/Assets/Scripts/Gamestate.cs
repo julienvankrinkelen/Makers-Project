@@ -18,6 +18,10 @@ public class Gamestate
     //ennemies
     public float[] positionEnnemy1;
 
+    //colectibles
+    public bool dashPicked;
+    public bool candlePicked;
+
 
     public Gamestate()
     {

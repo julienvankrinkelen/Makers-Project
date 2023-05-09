@@ -68,11 +68,18 @@ public class PlayerCollectibles : MonoBehaviour
         messageDashIsActive = true;
     }
 
+    public void setDash(bool dash)
+    {
+        hasDash = dash;
+    }
     public void pickedCandle()
     {
         hasCandle = true;
     }
-
+    public void setCandle(bool candle)
+    {
+        hasCandle = candle;
+    }
     public void addExplosiveScroll()
     {
         explosiveScrollNumber++;
