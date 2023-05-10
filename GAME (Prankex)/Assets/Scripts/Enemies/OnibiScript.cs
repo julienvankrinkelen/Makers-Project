@@ -53,12 +53,9 @@ public class OnibiScript : MonoBehaviour
 
     private void Update()
     {
-        if (Vector2.Distance(target.position, attackPoint.position) < 10)
-        {
-            anim.SetBool("CombatMode", true);
-        }
 
-        if (anim.GetBool("CombatMode") == true && anim.GetBool("IsDead") == false && !isDead)
+
+        if (Vector2.Distance(target.position, attackPoint.position) < 10 && anim.GetBool("IsDead") == false && !isDead)
         {
             followEnabled = true;
         }
@@ -66,7 +63,6 @@ public class OnibiScript : MonoBehaviour
 
         if ((Vector2.Distance(target.position, attackPoint.position) < 5) && Time.time >= nextAttackTime)
         {
-            anim.SetTrigger("Attack");
             rush = true;
             Rush();
             nextAttackTime = Time.time + 1f / attackRate;
@@ -79,19 +75,6 @@ public class OnibiScript : MonoBehaviour
         if (followEnabled)
         {
             PathFollow();
-            // Direction calculation
-            Vector2 direction = ((Vector2)path.vectorPath[currentWaypoint] - rb.position).normalized;
-            Vector2 force = direction * speed * Time.deltaTime;
-
-            if(rush == true)
-            {
-                Debug.Log("Rushing");
-                rb.AddForce(force *20,ForceMode2D.Impulse);
-            }
-            else
-            {
-                rb.AddForce(force, ForceMode2D.Force);
-            }
 
         }
     }
@@ -127,7 +110,7 @@ public class OnibiScript : MonoBehaviour
 
             // Hurt animation
             anim.SetTrigger("Hurt");
-            rb.AddForce((Vector2.up * (speed / 20)) + (Vector2.right * (speed / 20)), ForceMode2D.Impulse);
+            rb.AddForce((Vector2.up * (speed / 50)) + (Vector2.right * (speed / 50)), ForceMode2D.Impulse);
         }
         if (currentHealth <= 0)
         {
@@ -153,7 +136,7 @@ public class OnibiScript : MonoBehaviour
         GetComponent<OnibiScript>().enabled = false;
         // anim.SetBool("IsDead", true);
         // Die animation
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(2);
         gameObject.SetActive(false);
         //coin.SetActive(true);
     }
@@ -169,8 +152,13 @@ public class OnibiScript : MonoBehaviour
 
     private void PathFollow()
     {
-
         if (path == null)
+        {
+            return;
+        }
+
+        // Checking if currentWaypoint is within the range
+        if (currentWaypoint < 0 || currentWaypoint >= path.vectorPath.Count)
         {
             return;
         }
@@ -179,6 +167,20 @@ public class OnibiScript : MonoBehaviour
         if (currentWaypoint >= path.vectorPath.Count)
         {
             return;
+        }
+
+        // Direction calculation
+        Vector2 direction = ((Vector2)path.vectorPath[currentWaypoint] - rb.position).normalized;
+        Vector2 force = direction * speed * Time.deltaTime;
+
+        if (rush == true)
+        {
+            Debug.Log("Rushing");
+            rb.AddForce(force * 20, ForceMode2D.Impulse);
+        }
+        else
+        {
+            rb.AddForce(force, ForceMode2D.Force);
         }
 
 

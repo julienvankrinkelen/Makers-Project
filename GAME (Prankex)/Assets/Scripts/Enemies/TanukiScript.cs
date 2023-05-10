@@ -11,6 +11,7 @@ public class TanukiScript : MonoBehaviour
     [SerializeField] private float speed = 1.5f;
     private bool isFacingTheRight;
     private bool IsDead;
+    public Animator anim;
 
     public int maxHealth = 1;
     int currentHealth;
@@ -80,9 +81,9 @@ public class TanukiScript : MonoBehaviour
     private IEnumerator Bunshin()
     {
         GetComponent<TanukiScript>().enabled = false;
-        // anim.SetBool("IsDead", true);
+        anim.SetBool("IsDead", true);
         // Die animation
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(1);
         gameObject.SetActive(false);
         //coin.SetActive(true);
     }
