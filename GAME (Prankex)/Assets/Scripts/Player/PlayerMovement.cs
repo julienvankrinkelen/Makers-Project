@@ -30,9 +30,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private LayerMask jumpableGround;
     [SerializeField] private LayerMask wallLayer;
     [SerializeField] private Transform wallCheck;
-
-    [SerializeField] private bool isWalledBool;
-
     private bool isFacingTheRight = true;
     
     [SerializeField] private bool isJumping;
@@ -128,10 +125,6 @@ public class PlayerMovement : MonoBehaviour
         JumpGravity();
         WallSlide();
         WallJump();
-
-        if (IsWalled()) { isWalledBool = true;  }
-        else{ isWalledBool = false;}
-
       
         if (IsDashing){rb.gravityScale = 0f; }
 
@@ -145,14 +138,10 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!IsDashing)
         {
-
-            //Debug.Log("HORIZ : " + horizontal);
-            //Debug.Log("JUMPING DIR : " + wallJumpingDirection);
             // Application of the Run Method
             // Pour ne pas pouvoir wall jump � l'infini, on annule la direction de mouvement dans le sens o� le player vient de jump ...
             if (wallJumpingRestrictionTimer > 0f && Mathf.Sign(horizontal) * wallJumpingDirection < 0f)
             {
-                Debug.Log("RESTRICTED");
                 float targetSpeed = 0;
                 float speedDif = targetSpeed - rb.velocity.x;
                 float accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? acceleration : deceleration;
@@ -162,7 +151,6 @@ public class PlayerMovement : MonoBehaviour
             }
             else
             {
-                Debug.Log("MOVING");
                 float targetSpeed = horizontal * MoveSpeed;
                 float speedDif = targetSpeed - rb.velocity.x;
                 float accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? acceleration : deceleration;

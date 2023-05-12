@@ -11,12 +11,16 @@ public class Gamestate
 {
    
     //player
-    public int health;
-    public int attackDamage;
+    public float health;
+    public float attackDamage;
     public float[] positionPlayer;
 
     //ennemies
     public float[] positionEnnemy1;
+
+    //colectibles
+    public bool dashPicked;
+    public bool candlePicked;
 
 
     public Gamestate()

@@ -7,6 +7,7 @@ public class PlayerCollectibles : MonoBehaviour
 {
     private int darumaNumber;
     private int omamoriNumber;
+    private int explosiveScrollNumber;
     private bool hasCandle;
     private int artefactNumber;
     private bool hasDash;
@@ -16,7 +17,7 @@ public class PlayerCollectibles : MonoBehaviour
     public PlayerInput playerInput;
     public PlayerInputActions playerInputActions;
     public PlayerCombat playerCombat;
-    public PlayerMovement playerMovement; 
+    public PlayerMovement playerMovement;
 
 
     void Awake()
@@ -30,6 +31,7 @@ public class PlayerCollectibles : MonoBehaviour
 
     public void Start()
     {
+        explosiveScrollNumber = 0;
         darumaNumber =0;
         omamoriNumber =0;
         artefactNumber = 0;
@@ -39,6 +41,7 @@ public class PlayerCollectibles : MonoBehaviour
     }
 
 
+    // Ino order to "unfreeze" the screen when picking dash. Press F, the "interact" button.
     public void Interact(InputAction.CallbackContext context)
     {
         if (messageDashIsActive)
@@ -65,9 +68,21 @@ public class PlayerCollectibles : MonoBehaviour
         messageDashIsActive = true;
     }
 
+    public void setDash(bool dash)
+    {
+        hasDash = dash;
+    }
     public void pickedCandle()
     {
         hasCandle = true;
+    }
+    public void setCandle(bool candle)
+    {
+        hasCandle = candle;
+    }
+    public void addExplosiveScroll()
+    {
+        explosiveScrollNumber++;
     }
 
     public void addArtefact()
@@ -77,15 +92,22 @@ public class PlayerCollectibles : MonoBehaviour
     public void addDaruma()
     {
         darumaNumber++;
+        //Stat buff atk
+        playerCombat.AddDamage(0.1f);
     }
     public void addOmamori()
     {
         omamoriNumber++;
+        //Stat buff hp
+        playerCombat.AddLife(1);
     }
 
+    //Explosive scroll is usable.
+    public void removeExplosiveScroll()
+    {
+        explosiveScrollNumber--;
+    }
 
-
-  
     public int getDarumaNumber()
     {
         return darumaNumber;
@@ -97,6 +119,10 @@ public class PlayerCollectibles : MonoBehaviour
     public int getArtefactNumber()
     {
         return artefactNumber;
+    }
+    public int getExplosiveScrollNumber()
+    {
+        return explosiveScrollNumber;
     }
     public bool checkHasCandle()
     {

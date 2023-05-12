@@ -10,23 +10,22 @@ public class EnemyScript : MonoBehaviour
     public Rigidbody2D rb;
     
 
-    public int maxHealth = 2;
-    int currentHealth;
+    public float maxHealth = 2f;
+    public float currentHealth;
 
     public LayerMask playerLayer;
     public Transform attackPoint;
     public Transform playerTransform;
+    public PlayerCombat playerCombat;
 
     public float attackRange = 0.5f;
-    public int attackDamage = 2;
+    public float attackDamage = 2f;
     public float attackRate = 4f;
-    float nextAttackTime = 0f;
+    public float nextAttackTime = 0f;
 
-    private bool isFacingTheRight = false;
     private bool isDead = false;
 
     public GameObject coin;
-
     public AIPath aiPath;
 
     void Start()
@@ -38,19 +37,28 @@ public class EnemyScript : MonoBehaviour
 
     private void Update()
     {
-        if (Vector2.Distance(playerTransform.position, attackPoint.position) < 10)
+        if (Mathf.Abs(playerTransform.position.x - attackPoint.position.x) < 10 && Mathf.Abs(playerTransform.position.y - attackPoint.position.y) < 3 && playerCombat.CurrentHealth>0)
         {
             anim.SetBool("CombatMode", true);
             
         }
+        else
+        {
+            anim.SetBool("CombatMode", false);
+        }
+        
 
-        if(anim.GetBool("CombatMode") == true && anim.GetBool("IsDead") == false)
+        if(anim.GetBool("CombatMode") == true && anim.GetBool("IsDead") == false && playerCombat.CurrentHealth>0)
         {
             GetComponent<EnemyAI>().followEnabled = true;
         }
+        else
+        {
+            GetComponent<EnemyAI>().followEnabled = false;
+        }
 
         
-        if((Vector2.Distance(playerTransform.position, attackPoint.position) < 1 ) && Time.time >= nextAttackTime)
+        if((Vector2.Distance(playerTransform.position, attackPoint.position) < 1 ) && Time.time >= nextAttackTime && playerCombat.CurrentHealth>0)
         {
             anim.SetTrigger("Attack");
             nextAttackTime = Time.time + 1f / attackRate;
@@ -71,7 +79,7 @@ public class EnemyScript : MonoBehaviour
     }
 
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
         if (!isDead)
         {

@@ -5,17 +5,17 @@ using UnityEngine;
 public class VolumeGeneral : MonoBehaviour
 {
 
-    private AudioSource audio;
+    private AudioSource audioSource;
     // Start is called before the first frame update
     void Start()
     {
-        audio = GetComponent<AudioSource>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
     void Update()
     {
         float volumeGeneralValue = PlayerPrefs.GetFloat("VolumeGeneralValue");
-        audio.volume = volumeGeneralValue;
+        audioSource.volume = volumeGeneralValue;
     }
 }

@@ -7,17 +7,17 @@ using UnityEngine.UI;
 public class VolumeMusic : MonoBehaviour
 
 {
-     private AudioSource audio;
+     private AudioSource audioSource;
 // Start is called before the first frame update
     void Start()
     {
-        audio = GetComponent<AudioSource>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
     void Update()
     {
         float volumeMusicValue = PlayerPrefs.GetFloat("VolumeMusicValue");
-        audio.volume = volumeMusicValue;
+        audioSource.volume = volumeMusicValue;
     }
 }

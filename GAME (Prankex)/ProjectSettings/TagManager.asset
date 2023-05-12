@@ -14,6 +14,7 @@ TagManager:
   - Candle
   - Dash
   - Artefact
+  - Scroll
   layers:
   - Default
   - TransparentFX

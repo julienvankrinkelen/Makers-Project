@@ -15,7 +15,7 @@ public class DialogTest : MonoBehaviour
     private PlayerInputActions playerInputActions;
     public PlayerMovement playerMovement;
     public PlayerCombat playerCombat;
-    public Interactable interactable;
+    public InteractableNPC interactable;
 
     public GameObject box;
 
