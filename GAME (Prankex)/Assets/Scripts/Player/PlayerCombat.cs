@@ -27,8 +27,8 @@ public class PlayerCombat : MonoBehaviour
     public float attackRate = 2f;
     public float nextAttackTime = 0f;
 
-    bool BombSelected = false;
-    bool CandleSelected = true;
+    bool ScrollSelected = false;
+    bool CandleSelected = false;
 
     public float PlayerHealth = 4f;
     public float CurrentHealth;
@@ -96,11 +96,12 @@ public class PlayerCombat : MonoBehaviour
 
     public void Object(InputAction.CallbackContext context)
     {
-        if (context.performed && Time.time >= nextAttackTime && BombSelected)
+        if (context.performed && Time.time >= nextAttackTime && ScrollSelected)
         {
             // animation trigger
-            anim.SetTrigger("Bomb");
+            anim.SetTrigger("Scroll");
             nextAttackTime = Time.time + 1f / attackRate;
+
         }
 
         if (context.performed && Time.time >= nextAttackTime && CandleSelected)
@@ -108,12 +109,13 @@ public class PlayerCombat : MonoBehaviour
             // animation trigger
             anim.SetTrigger("Candle");
             nextAttackTime = Time.time + 1f / attackRate;
+
         }
 
 
         if (context.canceled)
         {
-            anim.ResetTrigger("Bomb");
+            anim.ResetTrigger("Scroll");
             anim.ResetTrigger("Candle");
         }
     }
