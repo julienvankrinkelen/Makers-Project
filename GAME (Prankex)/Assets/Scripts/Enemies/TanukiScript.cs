@@ -13,8 +13,8 @@ public class TanukiScript : MonoBehaviour
     private bool IsDead;
     public Animator anim;
 
-    public int maxHealth = 1;
-    int currentHealth;
+    public float maxHealth = 1;
+    float currentHealth;
 
     // public GameObject coin;
 
@@ -59,7 +59,7 @@ public class TanukiScript : MonoBehaviour
             isFacingTheRight = true;
         }
     }
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
         if (!IsDead)
         {

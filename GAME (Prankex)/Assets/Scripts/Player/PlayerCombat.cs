@@ -30,8 +30,8 @@ public class PlayerCombat : MonoBehaviour
     bool BombSelected = false;
     bool CandleSelected = true;
 
-    public int PlayerHealth = 4;
-    public int CurrentHealth;
+    public float PlayerHealth = 4f;
+    public float CurrentHealth;
     [SerializeField] private float DamageForce = 13;
     private void Start()
     {

@@ -25,8 +25,8 @@ public class OnibiScript : MonoBehaviour
     public Animator anim;
 
     [Header("Combat")]
-    public int maxHealth = 2;
-    int currentHealth;
+    public float maxHealth = 2;
+    float currentHealth;
     private bool isDead = false;
     bool rush = false;
 
@@ -34,7 +34,7 @@ public class OnibiScript : MonoBehaviour
     public Transform attackPoint;
 
     public float attackRange = 1f;
-    public int attackDamage = 1;
+    public float attackDamage = 1;
     public float attackRate = 5f;
     float nextAttackTime = 0f;
 
@@ -101,7 +101,7 @@ public class OnibiScript : MonoBehaviour
         Gizmos.DrawWireSphere(attackPoint.position, attackRange);
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
         if (!isDead)
         {
