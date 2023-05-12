@@ -27,9 +27,12 @@ public class PlayerCombat : MonoBehaviour
     public float attackRate = 2f;
     public float nextAttackTime = 0f;
 
-    public float PlayerHealth = 4f;
-    public float CurrentHealth;
-    [SerializeField] private float DamageForce = 13f;
+    bool BombSelected = false;
+    bool CandleSelected = true;
+
+    public int PlayerHealth = 4;
+    public int CurrentHealth;
+    [SerializeField] private float DamageForce = 13;
     private void Start()
     {
         coll = GetComponent<BoxCollider2D>();
@@ -75,12 +78,52 @@ public class PlayerCombat : MonoBehaviour
         {
             Debug.Log("We hit " + enemy.name);
             if(enemy.tag == "Enemy")
-            { enemy.GetComponent<EnemyScript>().TakeDamage(attackDamage); }
-            else
-            { enemy.GetComponent<DestructibleObject>().TakeDamage(attackDamage); }
+            {
+                enemy.GetComponent<EnemyScript>().TakeDamage(attackDamage);
+            }
+            else if(enemy.tag == "Onibi")
+            {
+                enemy.GetComponent<OnibiScript>().TakeDamage(attackDamage);
+            }
+            else if(enemy.tag == "Tanuki")
+            {
+                enemy.GetComponent<TanukiScript>().TakeDamage(attackDamage);
+            }
+            
         }
 
     }
+
+    public void Object(InputAction.CallbackContext context)
+    {
+        if (context.performed && Time.time >= nextAttackTime && BombSelected)
+        {
+            // animation trigger
+            anim.SetTrigger("Bomb");
+            nextAttackTime = Time.time + 1f / attackRate;
+        }
+
+        if (context.performed && Time.time >= nextAttackTime && CandleSelected)
+        {
+            // animation trigger
+            anim.SetTrigger("Candle");
+            nextAttackTime = Time.time + 1f / attackRate;
+        }
+
+
+        if (context.canceled)
+        {
+            anim.ResetTrigger("Bomb");
+            anim.ResetTrigger("Candle");
+        }
+    }
+
+    // Code BombWall
+
+    // Code CandleLight
+
+
+
 
     private void OnDrawGizmosSelected()
     {
@@ -96,6 +139,10 @@ public class PlayerCombat : MonoBehaviour
         {
             TakeDamage(1);
         }
+        if (collision.gameObject.CompareTag("Juice"))
+        {
+            TakeDamageJ(2);
+        }
     }
     public void TakeDamage(float damage)
     {
@@ -110,6 +157,21 @@ public class PlayerCombat : MonoBehaviour
             StartCoroutine(Die());
         }
     }
+    public void TakeDamageJ(int damage)
+    {
+        CurrentHealth -= damage;
+        rb.AddForce((Vector2.up * (DamageForce*3)) + (Vector2.right * (DamageForce*3)), ForceMode2D.Impulse);
+
+        // Hurt animation
+        anim.SetTrigger("Hurt");
+
+        if (CurrentHealth <= 0)
+        {
+            Die();
+        }
+    }
+
+
 
     public IEnumerator Die()
     {
@@ -130,7 +192,7 @@ public class PlayerCombat : MonoBehaviour
         panelTransiDeath.SetActive(false);
         playerMovement.EnableMovement(true);
         EnableCombat(true);
-        // Load dernière save 
+        // Load derniï¿½re save 
         // Si save non existante : recommencer une new game
         int saveExists = PlayerPrefs.GetInt("Save Exists");
         if(saveExists == 1)

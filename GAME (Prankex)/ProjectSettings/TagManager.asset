@@ -15,6 +15,10 @@ TagManager:
   - Dash
   - Artefact
   - Scroll
+  - Juice
+  - Tanuki
+  - DestructibleWall
+  - Onibi
   layers:
   - Default
   - TransparentFX
