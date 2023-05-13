@@ -22,6 +22,12 @@ public class Gamestate
     public bool dashPicked;
     public bool candlePicked;
 
+    public bool[] omamoriPicked;
+
+    public bool[] darumaPicked;
+
+    public bool[] scrollPicked;
+
 
     public Gamestate()
     {

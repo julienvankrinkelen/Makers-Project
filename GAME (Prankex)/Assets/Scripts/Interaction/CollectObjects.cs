@@ -17,7 +17,6 @@ public class CollectObjects : MonoBehaviour
     private string collectible;
     //Link to parent object of "Collectible circle". This parent contains the sprite etc.
     [SerializeField] private GameObject collectibleObject;
-   // private enum Collectible { Omamori, Daruma, Dash, Candle, Artefact }
     void Start()
     {
     
@@ -37,25 +36,21 @@ public class CollectObjects : MonoBehaviour
               case "Dash":
                 playerCollectibles.pickedDash(); 
                   break;
-            case "Artefact":
-                playerCollectibles.addArtefact();
-                break;
             case "Candle":
                 playerCollectibles.pickedCandle();
                 break;
             case "Scroll":
-                playerCollectibles.addExplosiveScroll();
+                playerCollectibles.pickScroll(collectibleObject);
                 break;
-            case "Omamori":   
-                playerCollectibles.addOmamori();
+            case "Omamori":
+                playerCollectibles.pickOmamori(collectibleObject);
                   break;
               case "Daruma":
-                playerCollectibles.addDaruma();
+                playerCollectibles.pickDaruma(collectibleObject);
                   break;
           }
         print("Daruma : " + playerCollectibles.getDarumaNumber());
         print("Omamori : " + playerCollectibles.getOmamoriNumber());
-        print("Artefact : " + playerCollectibles.getArtefactNumber());
         print("Dash : " + playerCollectibles.checkHasDash());
         print("Candle : " + playerCollectibles.checkHasCandle());
         print("Scroll : " + playerCollectibles.getExplosiveScrollNumber());
@@ -64,10 +59,6 @@ public class CollectObjects : MonoBehaviour
     }
         
    
-
-
-
-
     public void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
