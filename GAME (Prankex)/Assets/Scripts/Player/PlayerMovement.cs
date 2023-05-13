@@ -85,7 +85,6 @@ public class PlayerMovement : MonoBehaviour
         sprite = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
         playerInput = GetComponent<PlayerInput>();
-        tr.emitting = false;
 
         playerInputActions = new PlayerInputActions();
         playerInputActions.Player.Enable();
@@ -248,8 +247,9 @@ public class PlayerMovement : MonoBehaviour
             rb.velocity = new Vector2(wallJumpingDirection * wallJumpingPower.x, wallJumpingPower.y);
             wallJumpingCounter = 0f;
             fallGravityMultiplier = 1.005f;
+            
 
-             if (transform.localScale.x != wallJumpingDirection)
+            if (transform.localScale.x != wallJumpingDirection)
             {
                 isFacingTheRight = !isFacingTheRight;
                 Vector3 localScale = transform.localScale;
@@ -408,11 +408,9 @@ public class PlayerMovement : MonoBehaviour
             else{ rb.velocity = new Vector2(-DashForce * 3 / 4, 0f); }                  // Dash to the left      
             }
 
-        tr.emitting = true;
         yield return new WaitForSeconds(DashingTime);
         //Reduce drastically velocity after dash
         rb.velocity = new Vector2(rb.velocity.x/3, rb.velocity.y/3);
-        tr.emitting = false;
 
         rb.gravityScale = originalGravity;
         IsDashing = false;

@@ -20,18 +20,20 @@ public class PlayerCombat : MonoBehaviour
 
     [SerializeField] private LayerMask jumpableGround;
     public LayerMask enemyLayers;
-    public Transform attackPoint;
 
     public float attackRange = 0.5f;
     public float attackDamage = 1f;
     public float attackRate = 2f;
     public float nextAttackTime = 0f;
+    private EdgeCollider2D airattackcoll;
+    private CapsuleCollider2D attackcoll;
 
     bool ScrollSelected = false;
     bool CandleSelected = false;
 
     public float PlayerHealth = 4f;
     public float CurrentHealth;
+    private bool IsDead = false;
     [SerializeField] private float DamageForce = 13;
     private void Start()
     {
@@ -39,6 +41,8 @@ public class PlayerCombat : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
+        airattackcoll = GetComponent<EdgeCollider2D>();
+        attackcoll = GetComponent<CapsuleCollider2D>();
 
         CurrentHealth = PlayerHealth;
     }
@@ -69,30 +73,24 @@ public class PlayerCombat : MonoBehaviour
             
         }
     }
-    public void Attack1()
+
+    public void OnTriggerEnter2D(Collider2D Collider2D)
     {
-        // check for enemies in range in the layer assigned
-        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
-
-        foreach (Collider2D enemy in hitEnemies)
+        if (Collider2D.tag == "Tanuki")
         {
-            Debug.Log("We hit " + enemy.name);
-            if(enemy.tag == "Enemy")
-            {
-                enemy.GetComponent<EnemyScript>().TakeDamage(attackDamage);
-            }
-            else if(enemy.tag == "Onibi")
-            {
-                enemy.GetComponent<OnibiScript>().TakeDamage(attackDamage);
-            }
-            else if(enemy.tag == "Tanuki")
-            {
-                enemy.GetComponent<TanukiScript>().TakeDamage(attackDamage);
-            }
-            
+            Collider2D.GetComponent<TanukiScript>().TakeDamage(attackDamage);
         }
-
+        else if(Collider2D.tag == "Onibi")
+        {
+            Collider2D.GetComponent<OnibiScript>().TakeDamage(attackDamage);
+        }
+        else if(Collider2D.tag == "Enemy")
+        {
+            Collider2D.GetComponent<EnemyScript>().TakeDamage(attackDamage);
+        }
     }
+
+
 
     public void Object(InputAction.CallbackContext context)
     {
@@ -127,14 +125,6 @@ public class PlayerCombat : MonoBehaviour
 
 
 
-    private void OnDrawGizmosSelected()
-    {
-        if (attackPoint == null)
-            return;
-
-        Gizmos.DrawWireSphere(attackPoint.position, attackRange);
-    }
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Traps"))
@@ -148,12 +138,15 @@ public class PlayerCombat : MonoBehaviour
     }
     public void TakeDamage(float damage)
     {
-        CurrentHealth -= damage;
-        rb.AddForce((Vector2.up * DamageForce) + (Vector2.right * DamageForce), ForceMode2D.Impulse);
+        if (!IsDead)
+        {
 
-        // Hurt animation
-        anim.SetTrigger("Hurt");
+            CurrentHealth -= damage;
+            rb.AddForce((Vector2.up * DamageForce) + (Vector2.right * DamageForce), ForceMode2D.Impulse);
 
+            // Hurt animation
+            anim.SetTrigger("Hurt");
+        }
         if (CurrentHealth <= 0)
         {
             StartCoroutine(Die());
@@ -161,12 +154,14 @@ public class PlayerCombat : MonoBehaviour
     }
     public void TakeDamageJ(int damage)
     {
-        CurrentHealth -= damage;
-        rb.AddForce((Vector2.up * (DamageForce*3)) + (Vector2.right * (DamageForce*3)), ForceMode2D.Impulse);
+        if (!IsDead)
+        {
+            CurrentHealth -= damage;
+            rb.AddForce((Vector2.up * (DamageForce * 3)) + (Vector2.right * (DamageForce * 3)), ForceMode2D.Impulse);
 
-        // Hurt animation
-        anim.SetTrigger("Hurt");
-
+            // Hurt animation
+            anim.SetTrigger("Hurt");
+        }
         if (CurrentHealth <= 0)
         {
             Die();
@@ -184,6 +179,8 @@ public class PlayerCombat : MonoBehaviour
         // Disable the player and its extern interactions
         EnableCombat(false);
         playerMovement.EnableMovement(false);
+        GetComponent<PlayerMovement>().enabled = false;
+        IsDead = true;
 
         yield return new WaitForSeconds(1);
         anim.SetBool("IsDead", false);

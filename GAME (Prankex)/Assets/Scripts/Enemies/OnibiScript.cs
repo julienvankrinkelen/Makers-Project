@@ -136,7 +136,7 @@ public class OnibiScript : MonoBehaviour
         GetComponent<OnibiScript>().enabled = false;
         // anim.SetBool("IsDead", true);
         // Die animation
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1);
         gameObject.SetActive(false);
         //coin.SetActive(true);
     }
@@ -176,7 +176,7 @@ public class OnibiScript : MonoBehaviour
         if (rush == true)
         {
             Debug.Log("Rushing");
-            rb.AddForce(force * 20, ForceMode2D.Impulse);
+            rb.AddForce(force * 5, ForceMode2D.Impulse);
         }
         else
         {

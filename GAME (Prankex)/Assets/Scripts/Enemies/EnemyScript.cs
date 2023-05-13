@@ -45,11 +45,10 @@ public class EnemyScript : MonoBehaviour
             GetComponent<EnemyAI>().followEnabled = true;
 
         }
-        else
+        else if(Vector2.Distance(playerTransform.position, attackPoint.position) > 50 && anim.GetBool("IsDead") == false)
         {
             GetComponent<EnemyAI>().followEnabled = false;
         }
-
 
         
         if((Vector2.Distance(playerTransform.position, attackPoint.position) < 2 ) && Time.time >= nextAttackTime)
