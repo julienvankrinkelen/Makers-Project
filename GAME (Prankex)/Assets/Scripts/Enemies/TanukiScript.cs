@@ -16,8 +16,7 @@ public class TanukiScript : MonoBehaviour
     public float maxHealth = 1;
     float currentHealth;
 
-    // public GameObject coin;
-
+    public GameObject scrollDrop;
 
     private void Start()
     {
@@ -25,6 +24,7 @@ public class TanukiScript : MonoBehaviour
         // coin.SetActive(false);
         IsDead = false;
         currentHealth = maxHealth;
+        scrollDrop.SetActive(false);
     }
     private void Update()
     {
@@ -40,6 +40,8 @@ public class TanukiScript : MonoBehaviour
         transform.position = Vector2.MoveTowards(transform.position, waypoints[currentWaypointIndex].transform.position, Time.deltaTime * speed);
 
         Flip();
+
+        scrollDrop.transform.position = transform.position;
     }
 
     private void Flip()
@@ -85,6 +87,6 @@ public class TanukiScript : MonoBehaviour
         // Die animation
         yield return new WaitForSeconds(1);
         gameObject.SetActive(false);
-        //coin.SetActive(true);
+        scrollDrop.SetActive(true);
     }
 }
