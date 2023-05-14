@@ -20,13 +20,13 @@ public class SaveLoadGamestate : MonoBehaviour
     public PlayerCollectibles playerCollectibles;
 
     public GameObject[] omamori;
-    public bool[] omamoriPicked = new bool[4];
+    public bool[] omamoriPicked = new bool[15];
 
     public GameObject[] daruma;
-    public bool[] darumaPicked = new bool[4];
+    public bool[] darumaPicked = new bool[15];
 
     public GameObject[] scrolls;
-    public bool[] scrollPicked = new bool[1];
+    public bool[] scrollPicked = new bool[16];
 
     public GameObject candleItem;
     public bool candlePicked;
@@ -52,7 +52,7 @@ public class SaveLoadGamestate : MonoBehaviour
         {
             JustLoadedScene = 0;
             PlayerPrefs.SetInt("JustLoadedScene", JustLoadedScene);
-            StartCoroutine(LoadGamestate());
+            LoadGamestate();
         }
 
         JustDeletedSave = PlayerPrefs.GetInt("JustDeleteSave");
@@ -72,8 +72,13 @@ public class SaveLoadGamestate : MonoBehaviour
         SaveSystem.SavePlayer(this);
         
     }
+    public void LoadGamestate()
+    {
+        StartCoroutine(TempoLoadGamestate());
 
-    public IEnumerator LoadGamestate()
+    }
+
+    public IEnumerator TempoLoadGamestate()
     {
         //Tempo pour laisser le temps au jeu de charger tous les éléments, puis on les change
         yield return new WaitForSeconds(1);
@@ -175,6 +180,7 @@ public class SaveLoadGamestate : MonoBehaviour
         }
     }
 
+
     public Gamestate createGamestate(Gamestate gamestate)
     {
 
@@ -203,26 +209,27 @@ public class SaveLoadGamestate : MonoBehaviour
         gamestate.candlePicked = playerCollectibles.checkHasCandle();
 
         //omamori
-        gamestate.omamoriPicked = new bool[4];
+        gamestate.omamoriPicked = new bool[15];
         for(int i=0; i<gamestate.omamoriPicked.Length; i++)
         {
-            Debug.Log("WRITTEN IN MEMORY : OMAMORI " + i + " " + gamestate.omamoriPicked[i]);
             gamestate.omamoriPicked[i] = playerCollectibles.omamoriPicked[i];
+            Debug.Log("WRITTEN IN MEMORY : OMAMORI " + i + " " + gamestate.omamoriPicked[i]);
         }
-        gamestate.darumaPicked = new bool[4];
+        gamestate.darumaPicked = new bool[15];
         //daruma
         for (int i = 0; i < gamestate.darumaPicked.Length; i++)
         {
+            gamestate.darumaPicked[i] = playerCollectibles.darumaPicked[i];
             Debug.Log("WRITTEN IN MEMORY : DARUMA " + i + " " + gamestate.darumaPicked[i]);
 
-            gamestate.darumaPicked[i] = playerCollectibles.darumaPicked[i];
         }
-        gamestate.scrollPicked = new bool[1];
+        gamestate.scrollPicked = new bool[16];
         //scroll
         for (int i = 0; i < gamestate.scrollPicked.Length; i++)
         {
-            Debug.Log("WRITTEN IN MEMORY : Scroll " + i + " " + gamestate.scrollPicked[i]);
             gamestate.scrollPicked[i] = playerCollectibles.scrollPicked[i];
+            Debug.Log("WRITTEN IN MEMORY : Scroll " + i + " " + gamestate.scrollPicked[i]);
+
         }
 
 

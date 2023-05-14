@@ -36,9 +36,9 @@ public class PlayerCollectibles : MonoBehaviour
     public void Start()
     {
         
-        omamoriPicked = new bool[4];
-        darumaPicked = new bool[4];
-        scrollPicked = new bool[1];
+        omamoriPicked = new bool[15];
+        darumaPicked = new bool[15];
+        scrollPicked = new bool[16];
 
         
 
@@ -108,7 +108,7 @@ public class PlayerCollectibles : MonoBehaviour
     public void pickDaruma(GameObject daruma)
     {
         string darumaName = daruma.name;
-        int darumaNumber = (int)char.GetNumericValue(darumaName[6]);
+        int darumaNumber = parseCollectibleName(darumaName);
         Debug.Log("HAS PICKED DARUMA NB : " + darumaNumber);
         addDaruma();
 
@@ -125,7 +125,7 @@ public class PlayerCollectibles : MonoBehaviour
     public void pickScroll(GameObject scroll)
     {
         string scrollName = scroll.name;
-        int scrollNumber = (int)char.GetNumericValue(scrollName[6]);
+        int scrollNumber = parseCollectibleName(scrollName);
         Debug.Log("HAS PICKED SCROLL NB : " + scrollNumber);
         addExplosiveScroll();
 
@@ -141,7 +141,7 @@ public class PlayerCollectibles : MonoBehaviour
     public void pickOmamori(GameObject omamori)
     {
         string omamoriName = omamori.name;
-        int omamoriNumber = (int) char.GetNumericValue(omamoriName[7]);
+        int omamoriNumber = parseCollectibleName(omamoriName);
         Debug.Log("HAS PICKED OMAMORI NB : " + omamoriNumber);
         addOmamori();
 
@@ -196,5 +196,11 @@ public class PlayerCollectibles : MonoBehaviour
     public bool checkHasDash()
     {
         return hasDash;
+    }
+
+    // Convert the last two char of a string into integer
+    private int parseCollectibleName(string collectible) {
+        return int.Parse(collectible.Substring(collectible.Length - 2));
+
     }
 }
