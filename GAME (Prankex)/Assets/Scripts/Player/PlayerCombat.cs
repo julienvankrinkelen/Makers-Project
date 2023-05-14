@@ -15,7 +15,7 @@ public class PlayerCombat : MonoBehaviour
     private BoxCollider2D coll;
     private Rigidbody2D rb;
     private SpriteRenderer sprite;
-    private Animator anim;
+    public Animator anim;
     public GameObject panelTransiDeath;
 
     [SerializeField] private LayerMask jumpableGround;
@@ -28,8 +28,8 @@ public class PlayerCombat : MonoBehaviour
     private EdgeCollider2D airattackcoll;
     private CapsuleCollider2D attackcoll;
 
-    bool ScrollSelected = false;
-    bool CandleSelected = false;
+    public bool ScrollSelected = false;
+    public bool CandleSelected = false;
 
     public float PlayerHealth = 4f;
     public float CurrentHealth;
@@ -89,9 +89,7 @@ public class PlayerCombat : MonoBehaviour
             Collider2D.GetComponent<EnemyScript>().TakeDamage(attackDamage);
         }
     }
-
-
-
+    /*
     public void Object(InputAction.CallbackContext context)
     {
         if (context.performed && Time.time >= nextAttackTime && ScrollSelected)
@@ -118,11 +116,11 @@ public class PlayerCombat : MonoBehaviour
         }
     }
 
-    // Code BombWall
+    // Code DestroyWall
 
     // Code CandleLight
 
-
+    */
 
 
     private void OnCollisionEnter2D(Collision2D collision)

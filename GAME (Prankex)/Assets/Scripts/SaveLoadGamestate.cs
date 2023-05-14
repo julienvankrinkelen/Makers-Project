@@ -18,12 +18,15 @@ public class SaveLoadGamestate : MonoBehaviour
     
     [Header("Collectibles")]
     public PlayerCollectibles playerCollectibles;
-    public GameObject omamori1;
-    public bool omamori1Picked;
 
-    public bool daruma1Picked;
-    public bool artifact1Picked;
-    public bool scroll1Picked;
+    public GameObject[] omamori;
+    public bool[] omamoriPicked = new bool[15];
+
+    public GameObject[] daruma;
+    public bool[] darumaPicked = new bool[15];
+
+    public GameObject[] scrolls;
+    public bool[] scrollPicked = new bool[16];
 
     public GameObject candleItem;
     public bool candlePicked;
@@ -69,9 +72,16 @@ public class SaveLoadGamestate : MonoBehaviour
         SaveSystem.SavePlayer(this);
         
     }
-
     public void LoadGamestate()
     {
+        StartCoroutine(TempoLoadGamestate());
+
+    }
+
+    public IEnumerator TempoLoadGamestate()
+    {
+        //Tempo pour laisser le temps au jeu de charger tous les éléments, puis on les change
+        yield return new WaitForSeconds(1);
         JustLoadedScene = 0;
         PlayerPrefs.SetInt("JustLoadedScene", JustLoadedScene);
         int saveExists = PlayerPrefs.GetInt("Save Exists");
@@ -95,6 +105,8 @@ public class SaveLoadGamestate : MonoBehaviour
             transformEnnemy1.position = positionEnnemy1;
 
             //collectibles
+
+            //dash
             dashPicked = data.dashPicked;
             if (dashPicked)
             {
@@ -102,6 +114,7 @@ public class SaveLoadGamestate : MonoBehaviour
                 playerCollectibles.setDash(true);
             }
 
+            //candle
             candlePicked = data.candlePicked;
             if (candlePicked)
             {
@@ -109,12 +122,64 @@ public class SaveLoadGamestate : MonoBehaviour
                 playerCollectibles.setCandle(true);
             }
 
+            //daruma
+            darumaPicked = data.darumaPicked;
+            for (int i = 0; i < darumaPicked.Length; i++)
+            {   //Si le daruma a été pick
+                if (darumaPicked[i])
+                {
+                    daruma[i].SetActive(false);
+                    //Ajoute le daruma au compteur, dans le cas où on aurait besoin du nombre
+                    playerCollectibles.addDaruma();
+                    playerCollectibles.darumaPicked[i] = true;
+                }
+                else
+                {
+                    playerCollectibles.darumaPicked[i] = false;
+                }
+            }
+
+            //omamori
+            omamoriPicked = data.omamoriPicked;
+            for(int i=0; i<omamoriPicked.Length; i++)
+            {   //Si l'omamori a été pick
+                if (omamoriPicked[i])
+                {
+                    omamori[i].SetActive(false);
+                    //Ajoute l'omamori au compteur, dans le cas où on aurait besoin du nombre
+                    playerCollectibles.addOmamori();
+                    playerCollectibles.omamoriPicked[i] = true;
+                }
+                else
+                {
+                    playerCollectibles.omamoriPicked[i] = false;
+                }
+            }
+
+
+            //scroll
+            scrollPicked = data.scrollPicked;
+            for (int i = 0; i < scrollPicked.Length; i++)
+            {   //Si le scroll a été pick
+                if (scrollPicked[i])
+                {
+                    scrolls[i].SetActive(false);
+                    //Ajoute le scroll au compteur, dans le cas où on aurait besoin du nombre
+                    playerCollectibles.addExplosiveScroll();
+                    playerCollectibles.scrollPicked[i] = true;
+                }
+                else
+                {
+                    playerCollectibles.scrollPicked[i] = false;
+                }
+            }
         }
         else
         {
             Debug.Log("AUCUNE SAVE DISPONIBLE");
         }
     }
+
 
     public Gamestate createGamestate(Gamestate gamestate)
     {
@@ -136,8 +201,37 @@ public class SaveLoadGamestate : MonoBehaviour
 
 
         //collectibles
+
+        //dash
         gamestate.dashPicked = playerCollectibles.checkHasDash();
+
+        //candle
         gamestate.candlePicked = playerCollectibles.checkHasCandle();
+
+        //omamori
+        gamestate.omamoriPicked = new bool[15];
+        for(int i=0; i<gamestate.omamoriPicked.Length; i++)
+        {
+            gamestate.omamoriPicked[i] = playerCollectibles.omamoriPicked[i];
+            Debug.Log("WRITTEN IN MEMORY : OMAMORI " + i + " " + gamestate.omamoriPicked[i]);
+        }
+        gamestate.darumaPicked = new bool[15];
+        //daruma
+        for (int i = 0; i < gamestate.darumaPicked.Length; i++)
+        {
+            gamestate.darumaPicked[i] = playerCollectibles.darumaPicked[i];
+            Debug.Log("WRITTEN IN MEMORY : DARUMA " + i + " " + gamestate.darumaPicked[i]);
+
+        }
+        gamestate.scrollPicked = new bool[16];
+        //scroll
+        for (int i = 0; i < gamestate.scrollPicked.Length; i++)
+        {
+            gamestate.scrollPicked[i] = playerCollectibles.scrollPicked[i];
+            Debug.Log("WRITTEN IN MEMORY : Scroll " + i + " " + gamestate.scrollPicked[i]);
+
+        }
+
 
         PlayerPrefs.SetInt("JustDeleteSave", 0);
         return gamestate;

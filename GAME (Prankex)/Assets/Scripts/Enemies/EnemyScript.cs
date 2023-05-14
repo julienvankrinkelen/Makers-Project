@@ -40,18 +40,20 @@ public class EnemyScript : MonoBehaviour
 
     private void Update()
     {
-        if (Vector2.Distance(playerTransform.position, attackPoint.position) < 10 && anim.GetBool("IsDead") == false)
+        if (Vector2.Distance(playerTransform.position, attackPoint.position) < 10 && anim.GetBool("IsDead") == false && playerCombat.CurrentHealth>0)
         {
             GetComponent<EnemyAI>().followEnabled = true;
+            anim.SetBool("CombatMode", true);
 
         }
         else if(Vector2.Distance(playerTransform.position, attackPoint.position) > 50 && anim.GetBool("IsDead") == false)
         {
             GetComponent<EnemyAI>().followEnabled = false;
+            anim.SetBool("CombatMode", false);
         }
 
         
-        if((Vector2.Distance(playerTransform.position, attackPoint.position) < 2 ) && Time.time >= nextAttackTime)
+        if((Vector2.Distance(playerTransform.position, attackPoint.position) < 2 ) && Time.time >= nextAttackTime && playerCombat.CurrentHealth>0)
         {
             anim.SetTrigger("Attack");
             nextAttackTime = Time.time + 1f / attackRate;

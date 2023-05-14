@@ -9,9 +9,13 @@ public class PlayerCollectibles : MonoBehaviour
     private int omamoriNumber;
     private int explosiveScrollNumber;
     private bool hasCandle;
-    private int artefactNumber;
     private bool hasDash;
     private bool messageDashIsActive = false;
+
+    public bool[] omamoriPicked;
+    public bool[] darumaPicked;
+    public bool[] scrollPicked;
+
 
     public GameObject messageDash;
     public PlayerInput playerInput;
@@ -31,13 +35,31 @@ public class PlayerCollectibles : MonoBehaviour
 
     public void Start()
     {
+        
+        omamoriPicked = new bool[15];
+        darumaPicked = new bool[15];
+        scrollPicked = new bool[16];
+
+        
+
         explosiveScrollNumber = 0;
         darumaNumber =0;
         omamoriNumber =0;
-        artefactNumber = 0;
         hasCandle = false;
         hasDash = false;
 
+        fillArray(omamoriPicked);
+        fillArray(darumaPicked);
+        fillArray(scrollPicked);
+
+    }
+
+    private void fillArray(bool[] tab)
+    {
+        for(int i=0; i<tab.Length; i++)
+        {
+            tab[i] = false;
+        }
     }
 
 
@@ -72,6 +94,7 @@ public class PlayerCollectibles : MonoBehaviour
     {
         hasDash = dash;
     }
+
     public void pickedCandle()
     {
         hasCandle = true;
@@ -80,26 +103,72 @@ public class PlayerCollectibles : MonoBehaviour
     {
         hasCandle = candle;
     }
-    public void addExplosiveScroll()
+
+
+    public void pickDaruma(GameObject daruma)
     {
-        explosiveScrollNumber++;
+        string darumaName = daruma.name;
+        int darumaNumber = parseCollectibleName(darumaName);
+        Debug.Log("HAS PICKED DARUMA NB : " + darumaNumber);
+        addDaruma();
+
+        darumaPicked[darumaNumber] = true;
     }
 
-    public void addArtefact()
-    {
-        artefactNumber++;
-    }
     public void addDaruma()
     {
         darumaNumber++;
         //Stat buff atk
         playerCombat.AddDamage(0.1f);
     }
+
+    public void pickScroll(GameObject scroll)
+    {
+        string scrollName = scroll.name;
+        int scrollNumber = parseCollectibleName(scrollName);
+        Debug.Log("HAS PICKED SCROLL NB : " + scrollNumber);
+        addExplosiveScroll();
+
+        scrollPicked[scrollNumber] = true;
+    }
+    public void addExplosiveScroll()
+    {
+        explosiveScrollNumber++;
+    }
+
+
+    // Get the number of the omamori picked to upload the omamori array
+    public void pickOmamori(GameObject omamori)
+    {
+        string omamoriName = omamori.name;
+        int omamoriNumber = parseCollectibleName(omamoriName);
+        Debug.Log("HAS PICKED OMAMORI NB : " + omamoriNumber);
+        addOmamori();
+
+        omamoriPicked[omamoriNumber] = true;
+    }
     public void addOmamori()
     {
         omamoriNumber++;
         //Stat buff hp
         playerCombat.AddLife(1);
+    }
+
+
+    public void setNumberExplosiveScroll(int scrollNumber)
+    {
+        explosiveScrollNumber = scrollNumber;
+    }
+
+ 
+    public void setNumberOmamori(int numberOmamori)
+    {
+        omamoriNumber = numberOmamori;
+    }
+
+    public void setNumberDaruma(int numberDaruma)
+    {
+        darumaNumber = numberDaruma;
     }
 
     //Explosive scroll is usable.
@@ -116,10 +185,6 @@ public class PlayerCollectibles : MonoBehaviour
     {
         return omamoriNumber;
     }
-    public int getArtefactNumber()
-    {
-        return artefactNumber;
-    }
     public int getExplosiveScrollNumber()
     {
         return explosiveScrollNumber;
@@ -131,5 +196,11 @@ public class PlayerCollectibles : MonoBehaviour
     public bool checkHasDash()
     {
         return hasDash;
+    }
+
+    // Convert the last two char of a string into integer
+    private int parseCollectibleName(string collectible) {
+        return int.Parse(collectible.Substring(collectible.Length - 2));
+
     }
 }

@@ -35,8 +35,8 @@ public class MainMenu : MonoBehaviour
         print("SAVE EXIST : " + saveExists);
         if (saveExists == 1)
         {
-            PlayerPrefs.SetInt("JustLoadedScene", 1);
             SceneManager.LoadScene("new map");
+            PlayerPrefs.SetInt("JustLoadedScene", 1);
         }
         else
         {
