@@ -18,7 +18,7 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private float velPower = 0.96f;
     public float nextWaypointDistance = 3f;
     public float jumpNodeHeightRequirement = 0.8f;
-    public float jumpModifier = 0.3f;
+    public float jumpModifier = 0.5f;
     public float jumpCheckOffset = 0.1f;
 
     [Header("Custom Behavior")]
