@@ -15,11 +15,12 @@ public class DialogTest : MonoBehaviour
     private PlayerInputActions playerInputActions;
     public PlayerMovement playerMovement;
     public PlayerCombat playerCombat;
-    public InteractableNPC interactable;
 
     public GameObject box;
 
-    public CameraZoom Camera;
+    //public CameraZoom Camera;
+
+    public GameObject note;
 
 
     public bool DialogueStarted = false;
@@ -75,8 +76,8 @@ public class DialogTest : MonoBehaviour
         box.SetActive(true);
         textComponent.text = string.Empty;
         index = 0;
-        //DialogueStarted = true;
-        Camera.ZoomActive = true;
+       // DialogueStarted = true;
+        //Camera.ZoomActive = true;
         StartCoroutine(TypeLine());
     }
     //Ecrit une ligne entière (ligne à référencer soit dans le code, soit dans Unity... plus pratique dans le code à l'avenir bien sûr.
@@ -102,6 +103,7 @@ public class DialogTest : MonoBehaviour
     {
         print("NEXTO LINO");
         //Tant qu'il reste des lignes dans la liste de lignes
+        //Tant qu'il reste des lignes dans la liste de lignes
         if (index < lines.Length - 1)
         {
             index++;
@@ -115,9 +117,10 @@ public class DialogTest : MonoBehaviour
 
             playerMovement.EnableMovement(true);
             playerCombat.EnableCombat(true);
-            Camera.ZoomActive = false;
+           // Camera.ZoomActive = false;
             DialogueStarted = false;
-            StartCoroutine(canInteractTempo());
+            note.SetActive(false);
+           // StartCoroutine(canInteractTempo());
 
 
         }
@@ -129,13 +132,13 @@ public class DialogTest : MonoBehaviour
     // Le problème vient du fait que quand on appuie sur la touche d'interaction pour enlever la dernière ligne du dialogue,
     // on remet context.performed à TRUE, et canInteract est alors aussi remis à TRUE si on le met juste au-dessus. Donc il faut le remettre à TRUE juste à après que 
     // context.performed soit remis à 0 (appeler une temporisation très courte suffit).
-    private IEnumerator canInteractTempo()
+   /* private IEnumerator canInteractTempo()
     {
         yield return new WaitForSeconds(0.01f);
         box.SetActive(false);
-        interactable.canInteract = true;
 
     }
+   */
 
 
 

@@ -15,6 +15,7 @@ public class PlayerCollectibles : MonoBehaviour
     public bool[] omamoriPicked;
     public bool[] darumaPicked;
     public bool[] scrollPicked;
+    public bool[] notePicked;
 
 
     public GameObject messageDash;
@@ -39,6 +40,7 @@ public class PlayerCollectibles : MonoBehaviour
         omamoriPicked = new bool[15];
         darumaPicked = new bool[15];
         scrollPicked = new bool[16];
+        notePicked = new bool[5];
 
         
 
@@ -48,6 +50,7 @@ public class PlayerCollectibles : MonoBehaviour
         hasCandle = false;
         hasDash = false;
 
+        fillArray(notePicked);
         fillArray(omamoriPicked);
         fillArray(darumaPicked);
         fillArray(scrollPicked);
@@ -152,6 +155,14 @@ public class PlayerCollectibles : MonoBehaviour
         omamoriNumber++;
         //Stat buff hp
         playerCombat.AddLife(1);
+    }
+
+    public void pickNote(GameObject note)
+    {
+        string noteName = note.name;
+        int noteNumber = parseCollectibleName(noteName);
+        Debug.Log("HAS PICKED NOTE NB : " + noteNumber);
+        notePicked[noteNumber] = true;
     }
 
 
