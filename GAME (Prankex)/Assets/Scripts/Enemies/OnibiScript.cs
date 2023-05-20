@@ -118,6 +118,18 @@ public class OnibiScript : MonoBehaviour
         }
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Traps"))
+        {
+            TakeDamage(1);
+        }
+        if (collision.gameObject.CompareTag("Juice"))
+        {
+            TakeDamage(2);
+        }
+    }
+
     void Die()
     {
         // Die animation
