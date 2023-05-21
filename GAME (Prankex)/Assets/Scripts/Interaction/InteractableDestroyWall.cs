@@ -16,6 +16,7 @@ public class InteractableDestroyWall : MonoBehaviour
 
     public bool isInRange;
     public bool canInteract = true;
+    public bool pressedDestroy = false;
     public UnityEvent interactAction;
 
     public GameObject Indicator;
@@ -55,6 +56,7 @@ public class InteractableDestroyWall : MonoBehaviour
            // playerCombat.anim.SetTrigger("UseScroll");
             playerCollectibles.removeExplosiveScroll();
             canInteract = false;
+            pressedDestroy = true;
             interactAction.Invoke();
             playerCombat.nextAttackTime = Time.time + 1f / playerCombat.attackRate;
 
@@ -83,7 +85,7 @@ public class InteractableDestroyWall : MonoBehaviour
 
     public void SeeInteraction()
     {
-        if (canInteract == true && isInRange == true)
+        if (canInteract == true && isInRange == true && !pressedDestroy)
         {
             Indicator.SetActive(true);
             InteractText.SetActive(true);
