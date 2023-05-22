@@ -53,11 +53,8 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: Basic Enemy
-    uniqueID: 4281712517
-    locked: 0
-  - name: NPCs
-    uniqueID: 3219539263
+  - name: Water
+    uniqueID: 2534924997
     locked: 0
   - name: Default
     uniqueID: 0
@@ -67,6 +64,12 @@ TagManager:
     locked: 0
   - name: Ground
     uniqueID: 106844201
+    locked: 0
+  - name: Basic Enemy
+    uniqueID: 4281712517
+    locked: 0
+  - name: NPCs
+    uniqueID: 3219539263
     locked: 0
   - name: Player
     uniqueID: 3365659633

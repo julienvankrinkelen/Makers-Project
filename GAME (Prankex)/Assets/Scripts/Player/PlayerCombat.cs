@@ -162,7 +162,7 @@ public class PlayerCombat : MonoBehaviour
         }
         if (CurrentHealth <= 0)
         {
-            Die();
+            StartCoroutine(Die());
         }
     }
 
