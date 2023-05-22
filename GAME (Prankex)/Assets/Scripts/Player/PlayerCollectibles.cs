@@ -16,7 +16,9 @@ public class PlayerCollectibles : MonoBehaviour
     public bool[] darumaPicked;
     public bool[] scrollPicked;
     public bool[] notePicked;
+    public bool[] lanternLightened;
 
+    public GameObject[] lanterns;
 
     public GameObject messageDash;
     public PlayerInput playerInput;
@@ -41,6 +43,7 @@ public class PlayerCollectibles : MonoBehaviour
         darumaPicked = new bool[15];
         scrollPicked = new bool[16];
         notePicked = new bool[5];
+        lanternLightened = new bool[3];
 
         
 
@@ -165,12 +168,17 @@ public class PlayerCollectibles : MonoBehaviour
         notePicked[noteNumber] = true;
     }
 
+    public void lightenLantern(int i, bool boolean)
+    {
+        //lanterns[i].SetAnim("Burning", boolean);
+        lanternLightened[i] = true;
+
+    }
 
     public void setNumberExplosiveScroll(int scrollNumber)
     {
         explosiveScrollNumber = scrollNumber;
     }
-
  
     public void setNumberOmamori(int numberOmamori)
     {

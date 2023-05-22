@@ -4,30 +4,26 @@ using UnityEngine;
 
 public class DestructibleObject : MonoBehaviour
 {
+    public TerrainState terrainState;
 
-    private int currentHealth;
-    private int health = 1;
     //private Animator anim;
 
     private void Start()
     {
-        currentHealth = health;
        // anim = GetComponent<Animator>();
     }
     public void DestroyWall()
     {
-        currentHealth -= 1;
         Debug.Log("Wall destroyed ");
-
+        terrainState.destroyWall(gameObject);
         StartCoroutine(Explosion());
 
     }
 
     public void DestroyBush()
     {
-        currentHealth -= 1;
         Debug.Log("Bush destroyed ");
-
+        terrainState.destroyBush(gameObject);
         StartCoroutine(Burning());
     }
 

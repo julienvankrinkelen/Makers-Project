@@ -30,6 +30,15 @@ public class Gamestate
 
     public bool[] notePicked;
 
+    public bool[] lanternLightened;
+
+    //Terrain
+    public bool[] wallDestroyed;
+
+    public bool[] bushDestroyed;
+
+
+
 
     public Gamestate()
     {

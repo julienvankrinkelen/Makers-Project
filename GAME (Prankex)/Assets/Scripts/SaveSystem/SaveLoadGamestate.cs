@@ -37,7 +37,18 @@ public class SaveLoadGamestate : MonoBehaviour
     public GameObject[] notes;
     public bool[] notePicked = new bool[5];
 
-  
+    [Header("Terrain")]
+    public TerrainState terrainState;
+
+    public GameObject[] walls;
+    public bool[] wallDestroyed = new bool[12];
+
+    public GameObject[] bushes;
+    public bool[] bushDestroyed = new bool[4];
+
+    public bool[] lanternLightened = new bool[3];
+
+
     public int JustLoadedScene;
     public int JustDeletedSave;
 
@@ -191,6 +202,55 @@ public class SaveLoadGamestate : MonoBehaviour
                     playerCollectibles.notePicked[i] = false;
                 }
             }
+
+            //lanterns
+            lanternLightened = data.lanternLightened;
+            for (int i = 0; i < lanternLightened.Length; i++)
+            {   //Si la lanterne a été allumée
+                if (lanternLightened[i])
+                {
+                    playerCollectibles.lightenLantern(i,true);
+                    playerCollectibles.lanternLightened[i] = true;
+                }
+                else
+                {
+                    playerCollectibles.lanternLightened[i] = false;
+                }
+            }
+
+
+            //walls
+            wallDestroyed = data.wallDestroyed;
+            for (int i = 0; i < wallDestroyed.Length; i++)
+            {   //Si le wall a été détruit
+                if (wallDestroyed[i])
+                {
+                    walls[i].SetActive(false);
+                    terrainState.wallDestroyed[i] = true;
+                }
+                else
+                {
+                    terrainState.wallDestroyed[i] = false;
+                }
+            }
+
+            //bushes
+            bushDestroyed = data.bushDestroyed;
+            for (int i = 0; i < bushDestroyed.Length; i++)
+            {   //Si le bush a été brulé
+                if (bushDestroyed[i])
+                {
+                    bushes[i].SetActive(false);
+                    terrainState.bushDestroyed[i] = true;
+                }
+                else
+                {
+                    terrainState.bushDestroyed[i] = false;
+                }
+            }
+
+           
+
         }
         else
         {
@@ -257,6 +317,24 @@ public class SaveLoadGamestate : MonoBehaviour
             gamestate.notePicked[i] = playerCollectibles.notePicked[i];
             Debug.Log("WRITTEN IN MEMORY : Note " + i + " " + gamestate.notePicked[i]);
 
+        }
+
+        gamestate.wallDestroyed = new bool[12];
+        //walls
+        for (int i = 0; i < gamestate.wallDestroyed.Length; i++)
+        {
+            gamestate.wallDestroyed[i] = terrainState.wallDestroyed[i];
+            Debug.Log("WRITTEN IN MEMORY : Wall " + i + " " + gamestate.wallDestroyed[i]);
+
+        }
+
+        gamestate.bushDestroyed = new bool[4];
+        //walls
+        for (int i = 0; i < gamestate.bushDestroyed.Length; i++)
+        {
+            gamestate.bushDestroyed[i] = terrainState.bushDestroyed[i];
+            Debug.Log("WRITTEN IN MEMORY : Bush " + i + " " + gamestate.bushDestroyed[i]);
+            
         }
 
 
