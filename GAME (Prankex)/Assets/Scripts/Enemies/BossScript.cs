@@ -23,7 +23,6 @@ public class BossScript : MonoBehaviour
 
     [Header("Custom Behavior")]
     public bool followEnabled = false;
-    public bool jumpEnabled = false;
     public bool directionLookEnabled = true;
 
     private Path path;
@@ -33,10 +32,11 @@ public class BossScript : MonoBehaviour
     Rigidbody2D rb;
     Animator anim;
 
-    public float maxHealth = 2f;
+    public float maxHealth = 20f;
     public float currentHealth;
     private bool Phaseone = false;
     private bool Phasetwo = false;
+    private bool dancing = false;
     private bool isDead = false;
 
     public LayerMask playerLayer;
@@ -44,6 +44,8 @@ public class BossScript : MonoBehaviour
     public Transform playerTransform;
     public PlayerCombat playerCombat;
     public Collider2D playercollider;
+    public GameObject Zone1;
+    public GameObject Zone2;
 
     public float attackRange = 0.5f;
     public int attackDamage = 2;
@@ -69,10 +71,6 @@ public class BossScript : MonoBehaviour
         {
             PathFollow1();
         }
-        else if (Phaseone & !followEnabled)
-        {
-            anim.SetBool("Run", false);
-        }
         else if (Phasetwo & followEnabled & TargetInDistance())
         {
             PathFollow2();
@@ -84,27 +82,45 @@ public class BossScript : MonoBehaviour
         if (Vector2.Distance(playerTransform.position, attackPoint.position) < 10 && anim.GetBool("IsDead") == false && playerCombat.CurrentHealth > 0)
         {
             followEnabled = true;
-            anim.SetBool("CombatMode", true);
 
         }
         else if (Vector2.Distance(playerTransform.position, attackPoint.position) > 50 && anim.GetBool("IsDead") == false)
         {
             followEnabled = false;
-            anim.SetBool("CombatMode", false);
         }
 
 
-        if ((Vector2.Distance(playerTransform.position, attackPoint.position) < 6) && Time.time >= nextAttackTime && playerCombat.CurrentHealth > 0 && Phaseone)
+        if ((Vector2.Distance(playerTransform.position, attackPoint.position) < 6) && Time.time >= nextAttackTime && playerCombat.CurrentHealth > 0 && Phaseone && !Phasetwo)
         {
             Attack1();
             dash = true;
-            nextAttackTime = Time.time + 4f / attackRate;
+            nextAttackTime = Time.time + 3f / attackRate;
         }
         else
         {
             dash = false;
         }
 
+        if ((Vector2.Distance(playerTransform.position, attackPoint.position) < 6) && Time.time >= nextAttackTime && playerCombat.CurrentHealth > 0 && !Phaseone && Phasetwo)
+        {
+            Attack2();
+            dash = true;
+            nextAttackTime = Time.time + 3f / attackRate;
+        }
+        else
+        {
+            dash = false;
+        }
+
+        if ( currentHealth == maxHealth-(maxHealth/3))
+        {
+            StartCoroutine(Dance1());
+        }
+
+        if (currentHealth == maxHealth - (maxHealth / 3 * 2))
+        {
+            StartCoroutine(Dance2());
+        }
     }
 
     private void UpdatePath()
@@ -141,18 +157,8 @@ public class BossScript : MonoBehaviour
         float force = Mathf.Pow(Mathf.Abs(speedDif) * accelRate, velPower) * Mathf.Sign(speedDif);
 
 
-
-        // Jump
-        if (jumpEnabled == true && isGrounded)
-        {
-            if (direction.y > jumpNodeHeightRequirement)
-            {
-                rb.AddForce(Vector2.up * force * jumpModifier, ForceMode2D.Impulse);
-            }
-        }
-
         // Movement
-        rb.AddForce(force * Vector2.right, ForceMode2D.Force);
+        // rb.AddForce(force * Vector2.right, ForceMode2D.Force);
 
         // Next Waypoint
         float distance = Vector2.Distance(rb.position, path.vectorPath[currentWaypoint]);
@@ -166,23 +172,17 @@ public class BossScript : MonoBehaviour
             if (direction.x > 0f)
             {
                 transform.localScale = new Vector3(-1f * Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
-                anim.SetBool("Run", true);
             }
             else if (direction.x < -0f)
             {
                 transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
-                anim.SetBool("Run", true);
             }
         }
 
         if (dash == true)
         {
-            Debug.Log("Rushing");
+            Debug.Log("Dashing");
             rb.AddForce(force * Vector2.right * 5, ForceMode2D.Impulse);
-        }
-        else
-        {
-            rb.AddForce(force * Vector2.right , ForceMode2D.Force);
         }
 
     }
@@ -217,6 +217,27 @@ public class BossScript : MonoBehaviour
             currentWaypoint++;
         }
 
+        if (directionLookEnabled == true)
+        {
+            if (direction.x > 0f)
+            {
+                transform.localScale = new Vector3(-1f * Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+            }
+            else if (direction.x < -0f)
+            {
+                transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+            }
+        }
+
+        if (dash == true)
+        {
+            Debug.Log("Dashing");
+            rb.AddForce(force * Vector2.one * 5, ForceMode2D.Impulse);
+        }
+        else
+        {
+            rb.AddForce(force * Vector2.one, ForceMode2D.Force);
+        }
     }
 
     private bool TargetInDistance()
@@ -239,6 +260,64 @@ public class BossScript : MonoBehaviour
         anim.SetTrigger("Attack1");
 
     }
+
+    public void Attack2()
+    {
+
+        anim.SetTrigger("Attack2");
+
+    }
+
+    private IEnumerator Dance1()
+    {
+        dancing = true;
+        // transform.position == //middle of arena;
+        anim.SetBool("Dance1", true);
+        yield return new WaitForSeconds(2);
+        Zone1.SetActive(true);
+        yield return new WaitForSeconds(3);
+        Zone1.SetActive(false);
+        yield return new WaitForSeconds(1);
+        Zone2.SetActive(true);
+        yield return new WaitForSeconds(3);
+        Zone2.SetActive(false);
+        yield return new WaitForSeconds(1);
+        Zone1.SetActive(true);
+        yield return new WaitForSeconds(3);
+        Zone1.SetActive(false);
+        yield return new WaitForSeconds(1);
+        anim.SetBool("Dance1", false);
+
+        // time for transition animation
+        anim.SetBool("Transition", true);
+        yield return new WaitForSeconds(3);
+        anim.SetBool("Phasetwo", true);
+        dancing = false;
+
+    }
+
+    private IEnumerator Dance2()
+    {
+        dancing = true;
+        // transform.position == //middle of arena;
+        anim.SetBool("Dance2", true);
+        yield return new WaitForSeconds(2);
+        Zone1.SetActive(true);
+        yield return new WaitForSeconds(3);
+        Zone1.SetActive(false);
+        yield return new WaitForSeconds(1);
+        Zone2.SetActive(true);
+        yield return new WaitForSeconds(3);
+        Zone2.SetActive(false);
+        yield return new WaitForSeconds(1);
+        Zone1.SetActive(true);
+        yield return new WaitForSeconds(3);
+        Zone1.SetActive(false);
+        yield return new WaitForSeconds(1);
+        anim.SetBool("Dance2", false);
+        dancing = false;
+    }
+
     public void OnTriggerEnter2D(Collider2D Collider2D)
     {
         if (Collider2D.tag == "Player")
@@ -250,7 +329,7 @@ public class BossScript : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        if (!isDead)
+        if (!isDead && !dancing)
         {
             currentHealth -= damage;
             Debug.Log("Enemy health : " + currentHealth);
@@ -260,20 +339,18 @@ public class BossScript : MonoBehaviour
         }
         if (currentHealth <= 0)
         {
-            StartCoroutine(Bunshin());
+            StartCoroutine(FightEnd());
         }
     }
 
 
 
-    private IEnumerator Bunshin()
+    private IEnumerator FightEnd()
     {
-        GetComponent<EnemyScript>().enabled = false;
-        // anim.SetBool("IsDead", true);
+        followEnabled = false;
+        anim.SetBool("IsDead", true);
         // Die animation
         yield return new WaitForSeconds(1);
-        gameObject.SetActive(false);
-        //coin.SetActive(true);
     }
 
 
