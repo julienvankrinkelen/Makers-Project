@@ -71,6 +71,17 @@ public class BossScript : MonoBehaviour
         {
             PathFollow2();
         }
+
+        if (currentHealth == 13 && !Phasetwo && !dancing)
+        {
+            StartCoroutine(Dance1());
+        }
+
+        if (currentHealth == 6 && !dancing)
+        {
+            StartCoroutine(Dance2());
+        }
+
     }
 
     private void Update()
@@ -90,38 +101,6 @@ public class BossScript : MonoBehaviour
             followEnabled = false;
         }
 
-
-        if ((Vector2.Distance(playerTransform.position, transform.position) < 25) && Time.time >= nextAttackTime && playerCombat.CurrentHealth > 0 && Phaseone && !Phasetwo && !dancing)
-        {
-            Attack1();
-            dash = true;
-            nextAttackTime = Time.time + 3f / attackRate;
-        }
-        else
-        {
-            dash = false;
-        }
-
-        if ((Vector2.Distance(playerTransform.position, transform.position) < 6) && Time.time >= nextAttackTime && playerCombat.CurrentHealth > 0 && !Phaseone && Phasetwo && !dancing)
-        {
-            dash = true;
-            Attack2();
-            nextAttackTime = Time.time + 4f / attackRate;
-        }
-        else
-        {
-            dash = false;
-        }
-
-        if ( currentHealth == 13)
-        {
-            StartCoroutine(Dance1());
-        }
-
-        if (currentHealth == 6)
-        {
-            StartCoroutine(Dance2());
-        }
     }
 
     private void UpdatePath()
@@ -172,11 +151,23 @@ public class BossScript : MonoBehaviour
                 transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
             }
         }
+        if ((Vector2.Distance(playerTransform.position, transform.position) < 30) && Time.time >= nextAttackTime && playerCombat.CurrentHealth > 0 && Phaseone && !Phasetwo && !dancing)
+        {
+            dash = true;
+            Attack1();
+            Debug.Log("Dashnow");
+            nextAttackTime = Time.time + 3f / attackRate;
+        }
+        else
+        {
+            dash = false;
+        }
+
 
         if (dash == true)
         {
             Debug.Log("Dashing");
-            rb.AddForce(5 * force * Vector2.right, ForceMode2D.Impulse);
+            rb.AddForce(force * Vector2.right, ForceMode2D.Impulse);
         }
 
         // Next Waypoint
@@ -230,10 +221,22 @@ public class BossScript : MonoBehaviour
             }
         }
 
+        if ((Vector2.Distance(playerTransform.position, transform.position) < 30) && Time.time >= nextAttackTime && playerCombat.CurrentHealth > 0 && !Phaseone && Phasetwo && !dancing)
+        {
+            dash = true;
+            Debug.Log("Dashnow");
+            Attack2();
+            nextAttackTime = Time.time + 3f / attackRate;
+        }
+        else
+        {
+            dash = false;
+        }
+
         if (dash == true)
         {
             Debug.Log("Dashing");
-            rb.AddForce(force * Vector2.one * 5, ForceMode2D.Impulse);
+            rb.AddForce(force * Vector2.one * 2, ForceMode2D.Impulse);
         }
         else
         {
@@ -252,60 +255,67 @@ public class BossScript : MonoBehaviour
         anim.SetTrigger("Attack2");
     }
 
+    private IEnumerator ActivateThenDeactivate1(float waittime)
+    {
+        Zone1.SetActive(true);
+        yield return new WaitForSecondsRealtime(waittime);
+        Zone1.SetActive(false);
+    }
+
+    private IEnumerator ActivateThenDeactivate2(float waittime)
+    {
+        Zone2.SetActive(true);
+        yield return new WaitForSecondsRealtime(waittime);
+        Zone2.SetActive(false);
+    }
+
     private IEnumerator Dance1()
     {
         dancing = true;
         transform.position = new Vector3 (-478, 116, 0);
+        rb.bodyType = RigidbodyType2D.Static;
         anim.SetBool("Dance1", true);
-        yield return new WaitForSeconds(2);
-        Zone1.SetActive(true);
-        yield return new WaitForSeconds(3);
-        Zone1.SetActive(false);
-        yield return new WaitForSeconds(1);
-        Zone2.SetActive(true);
-        yield return new WaitForSeconds(3);
-        Zone2.SetActive(false);
-        yield return new WaitForSeconds(1);
-        Zone1.SetActive(true);
-        yield return new WaitForSeconds(3);
-        Zone1.SetActive(false);
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSecondsRealtime(2);
+        StartCoroutine(ActivateThenDeactivate1(4));
+        yield return new WaitForSecondsRealtime(6);
+        StartCoroutine(ActivateThenDeactivate2(4));
+        yield return new WaitForSecondsRealtime(6);
+        StartCoroutine(ActivateThenDeactivate1(4));
+        yield return new WaitForSecondsRealtime(6);
         anim.SetBool("Dance1", false);
 
         // time for transition animation
         anim.SetBool("Transition", true);
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSecondsRealtime(3);
+        rb.bodyType = RigidbodyType2D.Dynamic;
         anim.SetBool("Phasetwo", true);
+        yield return new WaitForSecondsRealtime(1);
+        Phasetwo = true;
         dancing = false;
-
     }
 
     private IEnumerator Dance2()
     {
         dancing = true;
-        // transform.position == //middle of arena;
+        // position a bit higher maybe
+        transform.position = new Vector3(-478, 116, 0);
+        rb.bodyType = RigidbodyType2D.Static;
         anim.SetBool("Dance2", true);
-        yield return new WaitForSeconds(2);
-        Zone1.SetActive(true);
-        yield return new WaitForSeconds(3);
-        Zone1.SetActive(false);
-        yield return new WaitForSeconds(1);
-        Zone2.SetActive(true);
-        yield return new WaitForSeconds(3);
-        Zone2.SetActive(false);
-        yield return new WaitForSeconds(1);
-        Zone1.SetActive(true);
-        yield return new WaitForSeconds(3);
-        Zone1.SetActive(false);
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSecondsRealtime(2);
+        StartCoroutine(ActivateThenDeactivate1(4));
+        yield return new WaitForSecondsRealtime(6);
+        StartCoroutine(ActivateThenDeactivate2(4));
+        yield return new WaitForSecondsRealtime(6);
+        StartCoroutine(ActivateThenDeactivate1(4));
+        yield return new WaitForSecondsRealtime(6);
         anim.SetBool("Dance2", false);
         dancing = false;
     }
 
 
-    public void TakeDamage(float damage)
+        public void TakeDamage(float damage)
     {
-        if (!isDead || !dancing)
+        if (!isDead && !dancing)
         {
             currentHealth -= damage;
             Debug.Log("Enemy health : " + currentHealth);
