@@ -8,7 +8,7 @@ public class EnemyAttack : MonoBehaviour
     public Collider2D playercollider;
 
 
-    public int attackDamage = 1;
+    public float attackDamage = 1;
 
 
     private void OnTriggerEnter2D(Collider2D collider2D)

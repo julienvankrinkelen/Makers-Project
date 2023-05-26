@@ -56,7 +56,7 @@ public class EnemyScript : MonoBehaviour
         if((Vector2.Distance(playerTransform.position, attackPoint.position) < 2 ) && Time.time >= nextAttackTime && playerCombat.CurrentHealth>0)
         {
             anim.SetTrigger("Attack");
-            nextAttackTime = Time.time + 1f / attackRate;
+            nextAttackTime = Time.time + 3f / attackRate;
         }
 
     }

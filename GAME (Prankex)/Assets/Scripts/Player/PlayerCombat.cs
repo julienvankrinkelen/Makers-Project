@@ -76,18 +76,23 @@ public class PlayerCombat : MonoBehaviour
 
     public void OnTriggerEnter2D(Collider2D Collider2D)
     {
-        if (Collider2D.tag == "Tanuki")
+        if (Collider2D.CompareTag("Tanuki"))
         {
             Collider2D.GetComponent<TanukiScript>().TakeDamage(attackDamage);
         }
-        else if(Collider2D.tag == "Onibi")
+        else if(Collider2D.CompareTag("Onibi"))
         {
             Collider2D.GetComponent<OnibiScript>().TakeDamage(attackDamage);
         }
-        else if(Collider2D.tag == "Enemy")
+        else if(Collider2D.CompareTag("Enemy"))
         {
             Collider2D.GetComponent<EnemyScript>().TakeDamage(attackDamage);
         }
+        else if (Collider2D.CompareTag("Boss"))
+        {
+            Collider2D.GetComponent<BossScript>().TakeDamage(attackDamage);
+        }
+
     }
     /*
     public void Object(InputAction.CallbackContext context)
