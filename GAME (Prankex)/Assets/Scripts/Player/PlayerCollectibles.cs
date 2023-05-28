@@ -11,6 +11,7 @@ public class PlayerCollectibles : MonoBehaviour
     private bool hasCandle;
     private bool hasDash;
     private bool messageDashIsActive = false;
+    private int lanternLightenedNumber;
 
     public bool[] omamoriPicked;
     public bool[] darumaPicked;
@@ -52,6 +53,7 @@ public class PlayerCollectibles : MonoBehaviour
         omamoriNumber =0;
         hasCandle = false;
         hasDash = false;
+        lanternLightenedNumber = 0;
 
         fillArray(notePicked);
         fillArray(omamoriPicked);
@@ -168,11 +170,21 @@ public class PlayerCollectibles : MonoBehaviour
         notePicked[noteNumber] = true;
     }
 
-    public void lightenLantern(int i, bool boolean)
+    public void lightenLantern(GameObject lantern, bool boolean)
     {
-        //lanterns[i].SetAnim("Burning", boolean);
-        lanternLightened[i] = true;
+        string lanternName = lantern.name;
+        int lanternNumber = parseCollectibleName(lanternName);
+        Debug.Log("HAS LIGHTENED LANTERN NB : " + lanternNumber);
+        setLanternLightened(lanternNumber, boolean);
+        lanternLightened[lanternNumber] = true;
+        lanternLightenedNumber++;
 
+    }
+
+    public void setLanternLightened(int i, bool boolean)
+    {
+        Animator anim = lanterns[i].GetComponent<Animator>();
+        anim.SetBool("Lantern_ON", boolean);
     }
 
     public void setNumberExplosiveScroll(int scrollNumber)
@@ -215,6 +227,10 @@ public class PlayerCollectibles : MonoBehaviour
     public bool checkHasDash()
     {
         return hasDash;
+    }
+    public int getLanternLightenedNumber() // Return the total lightened lantern number. Not correlated to the lantern number (name / id)
+    {
+        return lanternLightenedNumber;
     }
 
     // Convert the last two char of a string into integer

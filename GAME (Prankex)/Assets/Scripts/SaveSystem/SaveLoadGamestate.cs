@@ -209,7 +209,7 @@ public class SaveLoadGamestate : MonoBehaviour
             {   //Si la lanterne a été allumée
                 if (lanternLightened[i])
                 {
-                    playerCollectibles.lightenLantern(i,true);
+                    playerCollectibles.setLanternLightened(i,true);
                     playerCollectibles.lanternLightened[i] = true;
                 }
                 else
@@ -318,6 +318,14 @@ public class SaveLoadGamestate : MonoBehaviour
             Debug.Log("WRITTEN IN MEMORY : Note " + i + " " + gamestate.notePicked[i]);
 
         }
+        gamestate.lanternLightened = new bool[3];
+        //lanterns
+        for (int i = 0; i < gamestate.lanternLightened.Length; i++)
+        {
+            gamestate.lanternLightened[i] = playerCollectibles.lanternLightened[i];
+            Debug.Log("WRITTEN IN MEMORY : Lantern " + i + " " + gamestate.lanternLightened[i]);
+
+        }
 
         gamestate.wallDestroyed = new bool[12];
         //walls
@@ -329,7 +337,7 @@ public class SaveLoadGamestate : MonoBehaviour
         }
 
         gamestate.bushDestroyed = new bool[4];
-        //walls
+        //bushes
         for (int i = 0; i < gamestate.bushDestroyed.Length; i++)
         {
             gamestate.bushDestroyed[i] = terrainState.bushDestroyed[i];

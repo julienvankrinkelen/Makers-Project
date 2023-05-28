@@ -1,3 +1,4 @@
+using Pathfinding;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,11 +21,21 @@ public class DoorScript : MonoBehaviour
         anim.SetBool("ThreeCandle", false);
     }
 
-    // Update is called once per frame
-    void Update()
+
+    public void setCandleAnim(int numberOfCandles)
     {
-       if(anim.GetBool("ThreeCandle") == true)
+        if(numberOfCandles == 1) 
         {
+            anim.SetBool("FirstCandle", true);
+        }
+        else if(numberOfCandles == 2)
+        {
+            anim.SetBool("TwoCandle", true);
+        }
+        else if(numberOfCandles == 3)
+        {   
+            //Three lanterns were lightened, door is unlocked : player can go through
+            anim.SetBool("ThreeCandle", true) ;
             Physics2D.IgnoreCollision(coll, playercollider);
         }
     }

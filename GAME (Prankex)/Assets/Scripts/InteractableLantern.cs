@@ -12,6 +12,7 @@ public class InteractableLantern : MonoBehaviour
     public PlayerCollectibles playerCollectibles;
     public PlayerInput playerInput;
     private PlayerInputActions playerInputActions;
+    public DoorScript doorScript;
 
     public bool isInRange;
     public bool canInteract = true;
@@ -50,9 +51,14 @@ public class InteractableLantern : MonoBehaviour
             //&& playerCombat.CandleSelected
             && playerCollectibles.checkHasCandle())
         {
+            int currentLanternNumber = playerCollectibles.getLanternLightenedNumber(); // 0, 1 or 2 possible as the player is currently lighting another lantern
+            Debug.Log("CURRENT LANTERN NUMBER = " + currentLanternNumber);
+            doorScript.setCandleAnim(currentLanternNumber + 1);
+            //Set the lantern number (00, 01 or 02) to TRUE in lanternLightened array (save / load mechanism)
+            playerCollectibles.lightenLantern(this.transform.parent.gameObject, true);
             // playerCombat.anim.SetTrigger("UseCandle");
             canInteract = false;
-            interactAction.Invoke();
+           // interactAction.Invoke();
             playerCombat.nextAttackTime = Time.time + 1f / playerCombat.attackRate;
         }
     }
