@@ -26,7 +26,7 @@ public class SaveLoadGamestate : MonoBehaviour
     public bool[] darumaPicked = new bool[15];
 
     public GameObject[] scrolls;
-    public bool[] scrollPicked = new bool[16];
+    public bool[] scrollPicked = new bool[12];
 
     public GameObject candleItem;
     public bool candlePicked;
@@ -37,8 +37,11 @@ public class SaveLoadGamestate : MonoBehaviour
     public GameObject[] notes;
     public bool[] notePicked = new bool[5];
 
+    public bool[] lanternLightened = new bool[3];
+
     [Header("Terrain")]
     public TerrainState terrainState;
+    public DoorScript doorScript;
 
     public GameObject[] walls;
     public bool[] wallDestroyed = new bool[12];
@@ -46,8 +49,19 @@ public class SaveLoadGamestate : MonoBehaviour
     public GameObject[] bushes;
     public bool[] bushDestroyed = new bool[4];
 
-    public bool[] lanternLightened = new bool[3];
+    public bool[] doorLights = new bool[3];
 
+    [Header("Mobs")]
+    public MobsState mobsState;
+
+    public GameObject[] tanukis;
+    public bool[] tanukiDied = new bool[12];
+
+    public GameObject[] karakasas;
+    public float[] karakasaLife = new float[11];
+
+    public GameObject[] onibis;
+    public float[] onibiLife = new float[7];
 
     public int JustLoadedScene;
     public int JustDeletedSave;
@@ -249,7 +263,65 @@ public class SaveLoadGamestate : MonoBehaviour
                 }
             }
 
-           
+            //door lights
+            doorLights = data.doorLights;
+            int nbDoorLights = 0;
+            for (int i = 0; i < doorLights.Length; i++)
+            {   //Si la light de la porte du boss a été allumée
+                if (doorLights[i])
+                {
+                    terrainState.lightDoor(i);
+                    nbDoorLights++;
+                }
+                doorScript.setCandleAnim(nbDoorLights);
+
+            }
+
+
+            //tanukis
+            tanukiDied = data.tanukiDied;
+            for(int i = 0; i < tanukiDied.Length; i++)
+            {
+                if (tanukiDied[i])
+                {
+                    //Désactiver le tanuki et son interaction etc.
+                    tanukis[i].SetActive(false);
+                    
+                }
+            }
+
+            //karakasas
+            karakasaLife = data.karakasaLife;
+            for (int i = 0; i < karakasaLife.Length; i++)
+            {
+                //Récupère les scripts de chaque karakasas et set sa current health à sa vie du dernier point de sauvegarde
+                if (karakasaLife[i] <= 0)
+                {
+                    karakasas[i].SetActive(false);
+                }
+                else 
+                {
+                    karakasas[i].GetComponent<EnemyScript>().currentHealth = karakasaLife[i];
+                }
+            }
+
+            //onibis
+            onibiLife = data.onibiLife;
+            for (int i = 0; i < onibiLife.Length; i++)
+            {
+                //Récupère les scripts de chaque onibi et set sa current health à sa vie du dernier point de sauvegarde
+                if (onibiLife[i] <= 0)
+                {
+                    onibis[i].SetActive(false);
+                }
+                else
+                {
+                    onibis[i].GetComponent<EnemyScript>().currentHealth = onibiLife[i];
+                }
+            }
+
+
+
 
         }
         else
@@ -301,7 +373,7 @@ public class SaveLoadGamestate : MonoBehaviour
             Debug.Log("WRITTEN IN MEMORY : DARUMA " + i + " " + gamestate.darumaPicked[i]);
 
         }
-        gamestate.scrollPicked = new bool[16];
+        gamestate.scrollPicked = new bool[12];
         //scroll
         for (int i = 0; i < gamestate.scrollPicked.Length; i++)
         {
@@ -343,6 +415,39 @@ public class SaveLoadGamestate : MonoBehaviour
             gamestate.bushDestroyed[i] = terrainState.bushDestroyed[i];
             Debug.Log("WRITTEN IN MEMORY : Bush " + i + " " + gamestate.bushDestroyed[i]);
             
+        }
+
+        gamestate.doorLights = new bool[3];
+        //door lights
+        for (int i = 0; i < gamestate.doorLights.Length; i++)
+        {
+            gamestate.doorLights[i] = terrainState.doorLights[i];
+            Debug.Log("WRITTEN IN MEMORY : door light " + i + " " + gamestate.doorLights[i]);
+
+        }
+
+        gamestate.tanukiDied = new bool[12];
+        //tanukis
+        for(int i = 0; i < gamestate.tanukiDied.Length; i++)
+        {
+            gamestate.tanukiDied[i] = mobsState.tanukiDied[i];
+            Debug.Log("WRITTEN IN MEMORY : Tanuki " + i + " " + gamestate.tanukiDied[i]);
+        }
+
+        gamestate.karakasaLife = new float[11];
+        //karakasas
+        for (int i = 0; i < gamestate.karakasaLife.Length; i++)
+        {
+            gamestate.karakasaLife[i] = mobsState.karakasaLife[i];
+            Debug.Log("WRITTEN IN MEMORY : Karakasa " + i + " life =  " + gamestate.karakasaLife[i]);
+        }
+
+        gamestate.onibiLife = new float[7];
+        //onibis
+        for (int i = 0; i < gamestate.onibiLife.Length; i++)
+        {
+            gamestate.onibiLife[i] = mobsState.onibiLife[i];
+            Debug.Log("WRITTEN IN MEMORY : Onibi " + i + " life =  " + gamestate.onibiLife[i]);
         }
 
 

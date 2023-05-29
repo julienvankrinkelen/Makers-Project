@@ -7,13 +7,17 @@ public class TerrainState : MonoBehaviour
 
     public bool[] wallDestroyed;
     public bool[] bushDestroyed;
+    public bool[] doorLights;
     // Start is called before the first frame update
     void Start()
     {
         wallDestroyed = new bool[12];
         bushDestroyed = new bool[4];
+        doorLights = new bool[3];
+
         fillArray(wallDestroyed);
         fillArray(bushDestroyed);
+        fillArray(doorLights);
     }
 
     private void fillArray(bool[] tab)
@@ -41,6 +45,11 @@ public class TerrainState : MonoBehaviour
         Debug.Log("Has Destroyed bush nb : " + bushNumber);
 
         bushDestroyed[bushNumber] = true;
+    }
+
+    public void lightDoor(int i)
+    {
+        doorLights[i] = true;
     }
 
     private int parseCollectibleName(string collectible)

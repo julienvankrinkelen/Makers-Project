@@ -37,6 +37,16 @@ public class Gamestate
 
     public bool[] bushDestroyed;
 
+    public bool[] doorLights;
+
+    //Mobs
+    public bool[] tanukiDied;
+
+    public float[] karakasaLife;
+
+    public float[] onibiLife;
+
+
 
 
 

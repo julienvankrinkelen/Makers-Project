@@ -5,6 +5,8 @@ using Pathfinding;
 
 public class EnemyScript : MonoBehaviour
 {
+    public MobsState mobsState;
+
     public Animator anim;
     public SpriteRenderer sprite;
     public Rigidbody2D rb;
@@ -78,11 +80,14 @@ public class EnemyScript : MonoBehaviour
     {
         if (!isDead)
         {
+
             currentHealth -= damage;
             Debug.Log("Enemy health : " + currentHealth);
             // Hurt animation
             anim.SetTrigger("Hurt");
             rb.AddForce((Vector2.up * DamageForce) + (Vector2.right * DamageForce), ForceMode2D.Impulse);
+            //Registering karakasa life into mobs state save script
+            mobsState.registerLifeKarakasa(gameObject, this.currentHealth);
         }
         if (currentHealth <= 0)
         {

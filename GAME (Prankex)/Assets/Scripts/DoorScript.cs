@@ -24,7 +24,12 @@ public class DoorScript : MonoBehaviour
 
     public void setCandleAnim(int numberOfCandles)
     {
-        if(numberOfCandles == 1) 
+        //Uniquement possiblement appelée par SaveLoadGamestate
+        if(numberOfCandles == 0) 
+        {
+            Debug.Log("Aucune lanterne n'a été allumée selon la dernière save");
+        }
+        else if(numberOfCandles == 1) 
         {
             anim.SetBool("FirstCandle", true);
         }
