@@ -34,7 +34,7 @@ public class OnibiScript : MonoBehaviour
     public Transform attackPoint;
 
     public float attackRange = 1f;
-    public float attackDamage = 1;
+    public float attackDamage = 0.5f;
     public float attackRate = 5f;
     float nextAttackTime = 0f;
 
@@ -110,7 +110,7 @@ public class OnibiScript : MonoBehaviour
 
             // Hurt animation
             anim.SetTrigger("Hurt");
-            rb.AddForce((Vector2.up * (speed / 50)) + (Vector2.right * (speed / 50)), ForceMode2D.Impulse);
+            // rb.AddForce((Vector2.up * (speed / 50)) + (Vector2.right * (speed / 50)), ForceMode2D.Impulse);
         }
         if (currentHealth <= 0)
         {
@@ -188,7 +188,7 @@ public class OnibiScript : MonoBehaviour
         if (rush == true)
         {
             Debug.Log("Rushing");
-            rb.AddForce(force * 5, ForceMode2D.Impulse);
+            rb.AddForce(force * 3, ForceMode2D.Impulse);
         }
         else
         {

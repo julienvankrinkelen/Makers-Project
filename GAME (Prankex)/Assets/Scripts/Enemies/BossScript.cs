@@ -32,9 +32,11 @@ public class BossScript : MonoBehaviour
 
     public float maxHealth = 20f;
     public float currentHealth;
+    private bool attackok = false;
     private bool Phaseone = false;
     private bool Phasetwo = false;
     private bool dancing = false;
+    private bool dancetwodone = false;
     private bool isDead = false;
 
     public LayerMask playerLayer;
@@ -48,7 +50,6 @@ public class BossScript : MonoBehaviour
     public int attackDamage = 2;
     public float attackRate = 0.5f;
     float nextAttackTime = 0f;
-    [SerializeField] private float DamageForce = 3;
     private bool dash = false;
 
     private void Start()
@@ -60,14 +61,30 @@ public class BossScript : MonoBehaviour
         InvokeRepeating(nameof(UpdatePath), 0f, pathUpdateSeconds);
 
     }
-
+    
+    private IEnumerator StartFight()
+    {
+        // Blabla -> You there ? It never ends
+        yield return new WaitForSecondsRealtime(2);
+        Phaseone = true;
+        followEnabled = true;
+        // You are just a mere pile of seconds
+        yield return new WaitForSecondsRealtime(3);
+        rb.bodyType = RigidbodyType2D.Dynamic;
+        attackok = true;
+    }
     private void FixedUpdate()
     {
-        if (TargetInDistance() && followEnabled & Phaseone)
+        if (Vector2.Distance(playerTransform.position, transform.position) < 25 && anim.GetBool("IsDead") == false && playerCombat.CurrentHealth > 0 && !Phaseone && !Phasetwo && !dancing)
+        {
+            StartCoroutine(StartFight());
+        }
+
+        if (TargetInDistance() && followEnabled && Phaseone && !Phasetwo)
         {
             PathFollow1();
         }
-        else if (Phasetwo & followEnabled & TargetInDistance())
+        if (Phasetwo && followEnabled && TargetInDistance())
         {
             PathFollow2();
         }
@@ -77,28 +94,9 @@ public class BossScript : MonoBehaviour
             StartCoroutine(Dance1());
         }
 
-        if (currentHealth == 6 && !dancing)
+        if (currentHealth == 6 && !dancing && !dancetwodone)
         {
             StartCoroutine(Dance2());
-        }
-
-    }
-
-    private void Update()
-    {
-        if (Vector2.Distance(playerTransform.position, transform.position) < 25 && anim.GetBool("IsDead") == false && playerCombat.CurrentHealth > 0 && !Phasetwo && !dancing)
-        {
-            Phaseone = true;
-
-        }
-        if (Vector2.Distance(playerTransform.position, transform.position) < 25 && anim.GetBool("IsDead") == false && playerCombat.CurrentHealth > 0)
-        {
-            followEnabled = true;
-
-        }
-        else if (Vector2.Distance(playerTransform.position, transform.position) > 50 && anim.GetBool("IsDead") == false)
-        {
-            followEnabled = false;
         }
 
     }
@@ -151,12 +149,12 @@ public class BossScript : MonoBehaviour
                 transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
             }
         }
-        if ((Vector2.Distance(playerTransform.position, transform.position) < 30) && Time.time >= nextAttackTime && playerCombat.CurrentHealth > 0 && Phaseone && !Phasetwo && !dancing)
+        if ((Vector2.Distance(playerTransform.position, transform.position) <= 50) && Time.time >= nextAttackTime && playerCombat.CurrentHealth > 0  && !dancing && attackok)
         {
             dash = true;
             Attack1();
             Debug.Log("Dashnow");
-            nextAttackTime = Time.time + 3f / attackRate;
+            nextAttackTime = Time.time + 1f / attackRate;
         }
         else
         {
@@ -200,33 +198,34 @@ public class BossScript : MonoBehaviour
 
         // Direction calculation
         Vector2 direction = ((Vector2)path.vectorPath[currentWaypoint] - rb.position).normalized;
-        Vector2 force = direction * speed * Time.deltaTime;
+        // Vector2 force = direction * speed * Time.deltaTime;
+        float targetSpeed = direction.x * speed;
+        float speedDif = targetSpeed - rb.velocity.x;
+        float accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? acceleration : deceleration;
+        float force = Mathf.Pow(Mathf.Abs(speedDif) * accelRate, velPower) * Mathf.Sign(speedDif);
 
-        // Next Waypoint
-        float distance = Vector2.Distance(rb.position, path.vectorPath[currentWaypoint]);
-        if (distance < nextWaypointDistance)
-        {
-            currentWaypoint++;
-        }
+        // Movement 
+        rb.AddForce(force * Vector2.one, ForceMode2D.Force);
+
 
         if (directionLookEnabled == true)
         {
-            if (direction.x > 0f)
+            if (direction.x < 0f)
             {
                 transform.localScale = new Vector3(-1f * Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
             }
-            else if (direction.x < -0f)
+            else if (direction.x > -0f)
             {
                 transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
             }
         }
 
-        if ((Vector2.Distance(playerTransform.position, transform.position) < 30) && Time.time >= nextAttackTime && playerCombat.CurrentHealth > 0 && !Phaseone && Phasetwo && !dancing)
+        if ((Vector2.Distance(playerTransform.position, transform.position) < 100) && Time.time >= nextAttackTime && playerCombat.CurrentHealth > 0  && Phasetwo && !dancing)
         {
             dash = true;
-            Debug.Log("Dashnow");
+            Debug.Log("Dashnow2");
             Attack2();
-            nextAttackTime = Time.time + 3f / attackRate;
+            nextAttackTime = Time.time + 1f / attackRate;
         }
         else
         {
@@ -235,13 +234,17 @@ public class BossScript : MonoBehaviour
 
         if (dash == true)
         {
-            Debug.Log("Dashing");
-            rb.AddForce(force * Vector2.one * 2, ForceMode2D.Impulse);
+            Debug.Log("Dashing2");
+            rb.AddForce(1.5f * force * Vector2.one, ForceMode2D.Impulse);
         }
-        else
+
+        // Next Waypoint
+        float distance = Vector2.Distance(rb.position, path.vectorPath[currentWaypoint]);
+        if (distance < nextWaypointDistance)
         {
-            rb.AddForce(force * Vector2.one, ForceMode2D.Force);
+            currentWaypoint++;
         }
+
     }
 
 
@@ -288,8 +291,10 @@ public class BossScript : MonoBehaviour
         anim.SetBool("Transition", true);
         yield return new WaitForSecondsRealtime(3);
         rb.bodyType = RigidbodyType2D.Dynamic;
+        anim.SetBool("Transition", false);
         anim.SetBool("Phasetwo", true);
         yield return new WaitForSecondsRealtime(1);
+        rb.gravityScale = 0.5f;
         Phasetwo = true;
         dancing = false;
     }
@@ -298,7 +303,7 @@ public class BossScript : MonoBehaviour
     {
         dancing = true;
         // position a bit higher maybe
-        transform.position = new Vector3(-478, 116, 0);
+        transform.position = new Vector3(-478, 120, 0);
         rb.bodyType = RigidbodyType2D.Static;
         anim.SetBool("Dance2", true);
         yield return new WaitForSecondsRealtime(2);
@@ -309,6 +314,8 @@ public class BossScript : MonoBehaviour
         StartCoroutine(ActivateThenDeactivate1(4));
         yield return new WaitForSecondsRealtime(6);
         anim.SetBool("Dance2", false);
+        rb.bodyType = RigidbodyType2D.Dynamic;
+        dancetwodone = true;
         dancing = false;
     }
 
@@ -319,9 +326,6 @@ public class BossScript : MonoBehaviour
         {
             currentHealth -= damage;
             Debug.Log("Enemy health : " + currentHealth);
-            // Hurt animation
-            anim.SetTrigger("Hurt");
-            rb.AddForce((Vector2.up * DamageForce) + (Vector2.right * DamageForce), ForceMode2D.Impulse);
         }
         if (currentHealth <= 0)
         {
@@ -334,10 +338,14 @@ public class BossScript : MonoBehaviour
     private IEnumerator FightEnd()
     {
         followEnabled = false;
+        rb.bodyType = RigidbodyType2D.Static;
         anim.SetBool("IsDead", true);
+        anim.SetBool("Phasetwo", false);
+        anim.SetBool("Transition", true);
         isDead = true;
         // Die animation
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(3);
+        anim.SetBool("Transition", false);
     }
 
     private bool TargetInDistance()
