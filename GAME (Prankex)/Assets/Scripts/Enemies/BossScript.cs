@@ -207,7 +207,6 @@ public class BossScript : MonoBehaviour
         // Movement 
         rb.AddForce(force * Vector2.one, ForceMode2D.Force);
 
-
         if (directionLookEnabled == true)
         {
             if (direction.x < 0f)
@@ -235,9 +234,9 @@ public class BossScript : MonoBehaviour
         if (dash == true)
         {
             Debug.Log("Dashing2");
-            rb.AddForce(1.5f * force * Vector2.one, ForceMode2D.Impulse);
+            rb.AddForce(force * Vector2.one * 1.5f, ForceMode2D.Impulse);
         }
-
+        
         // Next Waypoint
         float distance = Vector2.Distance(rb.position, path.vectorPath[currentWaypoint]);
         if (distance < nextWaypointDistance)
@@ -279,17 +278,17 @@ public class BossScript : MonoBehaviour
         rb.bodyType = RigidbodyType2D.Static;
         anim.SetBool("Dance1", true);
         yield return new WaitForSecondsRealtime(2);
-        StartCoroutine(ActivateThenDeactivate1(4));
-        yield return new WaitForSecondsRealtime(6);
-        StartCoroutine(ActivateThenDeactivate2(4));
-        yield return new WaitForSecondsRealtime(6);
-        StartCoroutine(ActivateThenDeactivate1(4));
-        yield return new WaitForSecondsRealtime(6);
+        StartCoroutine(ActivateThenDeactivate1(2));
+        yield return new WaitForSecondsRealtime(2);
+        StartCoroutine(ActivateThenDeactivate2(2));
+        yield return new WaitForSecondsRealtime(2);
+        StartCoroutine(ActivateThenDeactivate1(2));
+        yield return new WaitForSecondsRealtime(2);
         anim.SetBool("Dance1", false);
 
         // time for transition animation
         anim.SetBool("Transition", true);
-        yield return new WaitForSecondsRealtime(3);
+        yield return new WaitForSecondsRealtime(1);
         rb.bodyType = RigidbodyType2D.Dynamic;
         anim.SetBool("Transition", false);
         anim.SetBool("Phasetwo", true);
@@ -307,12 +306,16 @@ public class BossScript : MonoBehaviour
         rb.bodyType = RigidbodyType2D.Static;
         anim.SetBool("Dance2", true);
         yield return new WaitForSecondsRealtime(2);
-        StartCoroutine(ActivateThenDeactivate1(4));
-        yield return new WaitForSecondsRealtime(6);
-        StartCoroutine(ActivateThenDeactivate2(4));
-        yield return new WaitForSecondsRealtime(6);
-        StartCoroutine(ActivateThenDeactivate1(4));
-        yield return new WaitForSecondsRealtime(6);
+        StartCoroutine(ActivateThenDeactivate1(2));
+        yield return new WaitForSecondsRealtime(2);
+        StartCoroutine(ActivateThenDeactivate2(2));
+        yield return new WaitForSecondsRealtime(2);
+        StartCoroutine(ActivateThenDeactivate1(2));
+        yield return new WaitForSecondsRealtime(2);
+        StartCoroutine(ActivateThenDeactivate2(2));
+        yield return new WaitForSecondsRealtime(2);
+        StartCoroutine(ActivateThenDeactivate1(2));
+        yield return new WaitForSecondsRealtime(2);
         anim.SetBool("Dance2", false);
         rb.bodyType = RigidbodyType2D.Dynamic;
         dancetwodone = true;
