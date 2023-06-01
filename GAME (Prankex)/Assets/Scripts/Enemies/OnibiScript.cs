@@ -26,7 +26,7 @@ public class OnibiScript : MonoBehaviour
 
     [Header("Combat")]
     public float maxHealth = 2;
-    float currentHealth;
+    public float currentHealth;
     private bool isDead = false;
     bool rush = false;
 

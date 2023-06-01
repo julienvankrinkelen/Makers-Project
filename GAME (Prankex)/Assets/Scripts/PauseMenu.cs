@@ -35,11 +35,7 @@ public class PauseMenu : MonoBehaviour
     {
         pauseMenu.SetActive(false);
     }
-    private void Update()
-    {
-        
-       
-    }
+
     public void Pause(InputAction.CallbackContext context)
     {
         if (!isPaused)
