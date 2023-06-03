@@ -31,6 +31,7 @@ public class PlayerCombat : MonoBehaviour
     public bool ScrollSelected = false;
     public bool CandleSelected = false;
 
+    public float maxHealth = 4f;
     public float PlayerHealth = 4f;
     public float CurrentHealth;
     private bool IsDead = false;
@@ -44,7 +45,7 @@ public class PlayerCombat : MonoBehaviour
         airattackcoll = GetComponent<EdgeCollider2D>();
         attackcoll = GetComponent<CapsuleCollider2D>();
 
-        CurrentHealth = PlayerHealth;
+        CurrentHealth = maxHealth;
     }
     private void Awake()
     {
