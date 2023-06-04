@@ -23,14 +23,17 @@ public class SaveLoadGamestate : MonoBehaviour
     public GameObject[] omamori;
     public bool[] omamoriPicked = new bool[15];
     public int nbOmamori;
+    public bool firstPickOmamori;
 
     public GameObject[] daruma;
     public bool[] darumaPicked = new bool[15];
     public int nbDaruma;
+    public bool firstPickDaruma;
 
     //public GameObject[] scrolls;
     //public bool[] scrollPicked = new bool[12];
     public int nbCurrentScrolls;
+    public bool firstPickScroll;
 
     public GameObject candleItem;
     public bool candlePicked;
@@ -173,6 +176,7 @@ public class SaveLoadGamestate : MonoBehaviour
 
             nbDaruma = data.nbDaruma;
             playerCollectibles.setNumberDaruma(nbDaruma);
+            firstPickDaruma = data.firstPickDaruma;
 
             //omamori
             omamoriPicked = data.omamoriPicked;
@@ -193,6 +197,7 @@ public class SaveLoadGamestate : MonoBehaviour
 
             nbOmamori = data.nbOmamori;
             playerCollectibles.setNumberOmamori(nbOmamori);
+            firstPickOmamori = data.firstPickOmamori;
 
             /*
             //scroll
@@ -217,6 +222,7 @@ public class SaveLoadGamestate : MonoBehaviour
             //numberScrolls
             nbCurrentScrolls = data.nbCurrentScrolls;
             playerCollectibles.setNumberExplosiveScroll(nbCurrentScrolls);
+            firstPickScroll = data.firstPickScroll;
 
 
             //notes
@@ -385,6 +391,8 @@ public class SaveLoadGamestate : MonoBehaviour
         }
         gamestate.nbOmamori = playerCollectibles.getOmamoriNumber();
         Debug.Log("WRITTEN IN MEMORY : Number of omamori : " + gamestate.nbOmamori);
+        gamestate.firstPickOmamori = playerCollectibles.getFirstPickOmamori();
+        Debug.Log("WRITTEN IN MEMORY : First pick omamori : " + gamestate.firstPickOmamori);
 
         gamestate.darumaPicked = new bool[15];
         //daruma
@@ -397,6 +405,8 @@ public class SaveLoadGamestate : MonoBehaviour
         }
         gamestate.nbDaruma = playerCollectibles.getDarumaNumber();
         Debug.Log("WRITTEN IN MEMORY : Number of daruma : " + gamestate.nbDaruma);
+        gamestate.firstPickDaruma = playerCollectibles.getFirstPickDaruma();
+        Debug.Log("WRITTEN IN MEMORY : First pick daruma : " + gamestate.firstPickDaruma);
 
         /*
         gamestate.scrollPicked = new bool[12];
@@ -410,6 +420,9 @@ public class SaveLoadGamestate : MonoBehaviour
         */
         gamestate.nbCurrentScrolls = playerCollectibles.getExplosiveScrollNumber();
         Debug.Log("WRITTEN IN MEMORY : Number of scrolls : " + gamestate.nbCurrentScrolls);
+        gamestate.firstPickScroll = playerCollectibles.getFirstPickScroll();
+        Debug.Log("WRITTEN IN MEMORY : First pick scroll : " + gamestate.firstPickScroll);
+
 
         gamestate.notePicked = new bool[5];
         //note

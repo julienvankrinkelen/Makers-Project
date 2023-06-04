@@ -12,8 +12,12 @@ public class PlayerCollectibles : MonoBehaviour
     private int explosiveScrollNumber;
     private bool hasCandle;
     private bool hasDash;
-    private bool messageDashIsActive = false;
+    private bool messageCanDisable = false;
     private int lanternLightenedNumber;
+
+    private bool firstPickDaruma;
+    private bool firstPickOmamori;
+    private bool firstPickScroll;
 
     public bool[] omamoriPicked;
     public bool[] darumaPicked;
@@ -24,6 +28,25 @@ public class PlayerCollectibles : MonoBehaviour
     public GameObject[] lanterns;
 
     public GameObject messageDash;
+    public GameObject messageDashCanPress;
+
+    public GameObject messageCandle;
+    public GameObject messageCandleCanPress;
+
+    public GameObject messageOmamori;
+    public GameObject messageOmamoriCanPress;
+
+    public GameObject messageDaruma;
+    public GameObject messageDarumaCanPress;
+
+    public GameObject messageScroll;
+    public GameObject messageScrollCanPress;
+
+    // variables used to select item message to display in switch system 
+    public GameObject message;
+    public GameObject messageCanPress;
+
+
     public PlayerInput playerInput;
     public PlayerInputActions playerInputActions;
     public PlayerCombat playerCombat;
@@ -73,33 +96,74 @@ public class PlayerCollectibles : MonoBehaviour
     }
 
 
-    // Ino order to "unfreeze" the screen when picking dash. Press F, the "interact" button.
+    // In order to "unfreeze" the screen when picking dash. Press F, the "interact" button.
     public void Interact(InputAction.CallbackContext context)
     {
-        if (messageDashIsActive)
+
+
+        if (messageCanDisable)
         {
-            messageDash.SetActive(false);
+            messageCanPress.SetActive(false);
+            Debug.Log("Disable 2e Message Item");
 
             Time.timeScale = 1f;
             playerMovement.EnableMovement(true);
             playerCombat.EnableCombat(true);
 
-            messageDashIsActive = false;
+            messageCanDisable = false;
         }
     }
+
+    
 
     public void pickedDash()
     {
         hasDash = true;
-        messageDash.SetActive(true);
-
-        Time.timeScale = 0f;
+        StartCoroutine(displayMessageItem("dash"));
+    
+    }
+    private IEnumerator displayMessageItem(string item)
+    {
+       
+        switch (item){
+            case "dash":
+                this.message = messageDash;
+                this.messageCanPress = messageDashCanPress;
+                break;
+            case "candle":
+                this.message = messageCandle;
+                this.messageCanPress = messageCandleCanPress;
+                break;
+            case "omamori":
+                this.message = messageOmamori;
+                this.messageCanPress = messageOmamoriCanPress;
+                break;
+            case "daruma":
+                this.message = messageDaruma;
+                this.messageCanPress = messageDarumaCanPress;
+                break;
+            case "scroll":
+                this.message = messageScroll;
+                this.messageCanPress = messageScrollCanPress;
+                break;
+        }
+        
+        message.SetActive(true);
+        Debug.Log("Display 1er Message Item");
         playerMovement.EnableMovement(false);
         playerCombat.EnableCombat(false);
+        Time.timeScale = 0f;
 
-        messageDashIsActive = true;
+        // On empêche le joueur de skip sans le vouloir le message
+        yield return new WaitForSecondsRealtime(3);
+        messageCanDisable = true;
+        message.SetActive(false);
+        Debug.Log("Disable 1er Message Item");
+
+        messageCanPress.SetActive(true);
+        Debug.Log("Display 2e Message Item");
+
     }
-
     public void setDash(bool dash)
     {
         hasDash = dash;
@@ -108,6 +172,9 @@ public class PlayerCollectibles : MonoBehaviour
     public void pickedCandle()
     {
         hasCandle = true;
+
+        StartCoroutine(displayMessageItem("candle"));
+
     }
     public void setCandle(bool candle)
     {
@@ -121,8 +188,16 @@ public class PlayerCollectibles : MonoBehaviour
         int darumaNumber = parseCollectibleName(darumaName);
         Debug.Log("HAS PICKED DARUMA NB : " + darumaNumber);
         addDaruma();
+        if (!firstPickDaruma)
+        {
+            firstPickDaruma = true;
+        }
 
         darumaPicked[darumaNumber] = true;
+
+        StartCoroutine(displayMessageItem("daruma"));
+        
+
     }
 
     public void addDaruma()
@@ -138,8 +213,16 @@ public class PlayerCollectibles : MonoBehaviour
         int scrollNumber = parseCollectibleName(scrollName);
         Debug.Log("HAS PICKED SCROLL NB : " + scrollNumber);
         addExplosiveScroll();
+        if (!firstPickScroll)
+        {
+            firstPickScroll = true;
+        }
+
 
         scrollPicked[scrollNumber] = true;
+
+        StartCoroutine(displayMessageItem("scroll"));
+
     }
     public void addExplosiveScroll()
     {
@@ -156,6 +239,14 @@ public class PlayerCollectibles : MonoBehaviour
         addOmamori();
 
         omamoriPicked[omamoriNumber] = true;
+
+        if (!firstPickOmamori)
+        {
+            firstPickOmamori = true;
+        }
+
+        StartCoroutine(displayMessageItem("omamori"));
+
     }
     public void addOmamori()
     {
@@ -170,6 +261,7 @@ public class PlayerCollectibles : MonoBehaviour
         int noteNumber = parseCollectibleName(noteName);
         Debug.Log("HAS PICKED NOTE NB : " + noteNumber);
         notePicked[noteNumber] = true;
+
     }
 
     public void lightenLantern(GameObject lantern, bool boolean)
@@ -235,6 +327,21 @@ public class PlayerCollectibles : MonoBehaviour
     {
         return lanternLightenedNumber;
     }
+
+    public bool getFirstPickDaruma()
+    {
+        return firstPickDaruma;
+    }
+    public bool getFirstPickOmamori()
+    {
+        return firstPickOmamori;
+    }
+
+    public bool getFirstPickScroll()
+    {
+        return firstPickScroll;
+    }
+
 
     // Convert the last two char of a string into integer
     private int parseCollectibleName(string collectible) {
