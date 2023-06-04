@@ -11,7 +11,7 @@ public class Gamestate
 {
    
     //player
-    public float health;
+    public float currentHealth;
     public float attackDamage;
     public float[] positionPlayer;
 
@@ -23,10 +23,13 @@ public class Gamestate
     public bool candlePicked;
 
     public bool[] omamoriPicked;
+    public int nbOmamori;
 
     public bool[] darumaPicked;
+    public int nbDaruma;
 
-    public bool[] scrollPicked;
+    // public bool[] scrollPicked;
+    public int nbCurrentScrolls;
 
     public bool[] notePicked;
 
@@ -36,6 +39,16 @@ public class Gamestate
     public bool[] wallDestroyed;
 
     public bool[] bushDestroyed;
+
+    public bool[] doorLights;
+
+    //Mobs
+    public bool[] tanukiDied;
+
+    public float[] karakasaLife;
+
+    public float[] onibiLife;
+
 
 
 

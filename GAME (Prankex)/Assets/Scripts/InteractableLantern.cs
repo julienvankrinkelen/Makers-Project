@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -16,8 +17,8 @@ public class InteractableLantern : MonoBehaviour
 
     public bool isInRange;
     public bool canInteract = true;
-    public UnityEvent interactAction;
-
+    public bool isLightened = false;
+    
     public GameObject Indicator;
     public GameObject InteractText;
 
@@ -32,7 +33,6 @@ public class InteractableLantern : MonoBehaviour
         playerInput = GetComponent<PlayerInput>();
         playerInputActions = new PlayerInputActions();
         playerInputActions.Player.Enable();
-
         playerInputActions.Player.Object.performed += Object;
     }
 
@@ -48,6 +48,7 @@ public class InteractableLantern : MonoBehaviour
             && context.performed
             && canInteract == true
             && Time.time >= playerCombat.nextAttackTime
+            && !isLightened
             //&& playerCombat.CandleSelected
             && playerCollectibles.checkHasCandle())
         {
@@ -58,8 +59,9 @@ public class InteractableLantern : MonoBehaviour
             playerCollectibles.lightenLantern(this.transform.parent.gameObject, true);
             // playerCombat.anim.SetTrigger("UseCandle");
             canInteract = false;
-           // interactAction.Invoke();
             playerCombat.nextAttackTime = Time.time + 1f / playerCombat.attackRate;
+            //On désactive car la lanterne est activée une fois pour toutes.
+            isLightened = true;
         }
     }
 
@@ -68,7 +70,7 @@ public class InteractableLantern : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             isInRange = true;
-            Debug.Log("Player is in range of destructible Wall");
+            Debug.Log("Player is in range of Interactable Lantern");
 
         }
     }
@@ -77,14 +79,14 @@ public class InteractableLantern : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             isInRange = false;
-            Debug.Log("Player is not range of destructible wall anymore");
+            Debug.Log("Player is not range of Interactable Lantern anymore");
             canInteract = true;
         }
     }
 
     public void SeeInteraction()
     {
-        if (canInteract == true && isInRange == true)
+        if (canInteract == true && isInRange == true && !isLightened)
         {
             Indicator.SetActive(true);
             InteractText.SetActive(true);

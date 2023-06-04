@@ -31,6 +31,7 @@ public class PlayerCombat : MonoBehaviour
     public bool ScrollSelected = false;
     public bool CandleSelected = false;
 
+    public float maxHealth = 4f;
     public float PlayerHealth = 4f;
     public float CurrentHealth;
     private bool IsDead = false;
@@ -44,7 +45,7 @@ public class PlayerCombat : MonoBehaviour
         airattackcoll = GetComponent<EdgeCollider2D>();
         attackcoll = GetComponent<CapsuleCollider2D>();
 
-        CurrentHealth = PlayerHealth;
+        CurrentHealth = maxHealth;
     }
     private void Awake()
     {
@@ -182,7 +183,7 @@ public class PlayerCombat : MonoBehaviour
         // Disable the player and its extern interactions
         EnableCombat(false);
         playerMovement.EnableMovement(false);
-        GetComponent<PlayerMovement>().enabled = false;
+        //GetComponent<PlayerMovement>().enabled = false;
         IsDead = true;
 
         yield return new WaitForSeconds(1);
@@ -194,17 +195,22 @@ public class PlayerCombat : MonoBehaviour
         panelTransiDeath.SetActive(false);
         playerMovement.EnableMovement(true);
         EnableCombat(true);
+        Debug.Log("Enabling movement & combat after death !");
         // Load derni�re save 
         // Si save non existante : recommencer une new game
         int saveExists = PlayerPrefs.GetInt("Save Exists");
         if(saveExists == 1)
         {
+            Debug.Log("Loading previous save after dying");
             saveLoadGamestate.LoadGamestate();
         }
         else
         {
+            Debug.Log("Loading new game bc no save before dying");
             SceneManager.LoadScene("new map");
         }
+
+        
 
     }
 

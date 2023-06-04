@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class TanukiScript : MonoBehaviour
 {
+    public MobsState mobsState;
     [SerializeField] private GameObject[] waypoints;
     private int currentWaypointIndex = 0;
     public Collider2D playercollider;
@@ -17,6 +18,7 @@ public class TanukiScript : MonoBehaviour
     float currentHealth;
 
     public GameObject scrollDrop;
+
 
     private void Start()
     {
@@ -82,6 +84,7 @@ public class TanukiScript : MonoBehaviour
 
     private IEnumerator Bunshin()
     {
+        mobsState.dieTanuki(gameObject);
         GetComponent<TanukiScript>().enabled = false;
         anim.SetBool("IsDead", true);
         // Die animation

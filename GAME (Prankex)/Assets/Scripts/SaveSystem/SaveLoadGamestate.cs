@@ -9,8 +9,9 @@ using UnityEngine.UIElements;
 public class SaveLoadGamestate : MonoBehaviour
 {
     [Header("Player")]
-    public PlayerCombat player;
+    public PlayerCombat player; // Contient vie, 
     public Transform transformPlayer;
+   
 
     [Header("Ennemies")]
     public Transform transformEnnemy1;
@@ -21,12 +22,15 @@ public class SaveLoadGamestate : MonoBehaviour
 
     public GameObject[] omamori;
     public bool[] omamoriPicked = new bool[15];
+    public int nbOmamori;
 
     public GameObject[] daruma;
     public bool[] darumaPicked = new bool[15];
+    public int nbDaruma;
 
-    public GameObject[] scrolls;
-    public bool[] scrollPicked = new bool[16];
+    //public GameObject[] scrolls;
+    //public bool[] scrollPicked = new bool[12];
+    public int nbCurrentScrolls;
 
     public GameObject candleItem;
     public bool candlePicked;
@@ -37,8 +41,11 @@ public class SaveLoadGamestate : MonoBehaviour
     public GameObject[] notes;
     public bool[] notePicked = new bool[5];
 
+    public bool[] lanternLightened = new bool[3];
+
     [Header("Terrain")]
     public TerrainState terrainState;
+    public DoorScript doorScript;
 
     public GameObject[] walls;
     public bool[] wallDestroyed = new bool[12];
@@ -46,8 +53,19 @@ public class SaveLoadGamestate : MonoBehaviour
     public GameObject[] bushes;
     public bool[] bushDestroyed = new bool[4];
 
-    public bool[] lanternLightened = new bool[3];
+    public bool[] doorLights = new bool[3];
 
+    [Header("Mobs")]
+    public MobsState mobsState;
+
+    public GameObject[] tanukis;
+    public bool[] tanukiDied = new bool[12];
+
+    public GameObject[] karakasas;
+    public float[] karakasaLife = new float[11];
+
+    public GameObject[] onibis;
+    public float[] onibiLife = new float[7];
 
     public int JustLoadedScene;
     public int JustDeletedSave;
@@ -104,7 +122,7 @@ public class SaveLoadGamestate : MonoBehaviour
             Gamestate data = SaveSystem.LoadGamestate();
 
             //player
-            player.CurrentHealth = data.health;
+            player.CurrentHealth = data.currentHealth;
             player.attackDamage = data.attackDamage;
 
             Vector2 positionPlayer;
@@ -153,6 +171,9 @@ public class SaveLoadGamestate : MonoBehaviour
                 }
             }
 
+            nbDaruma = data.nbDaruma;
+            playerCollectibles.setNumberDaruma(nbDaruma);
+
             //omamori
             omamoriPicked = data.omamoriPicked;
             for(int i=0; i<omamoriPicked.Length; i++)
@@ -170,9 +191,13 @@ public class SaveLoadGamestate : MonoBehaviour
                 }
             }
 
+            nbOmamori = data.nbOmamori;
+            playerCollectibles.setNumberOmamori(nbOmamori);
 
+            /*
             //scroll
             scrollPicked = data.scrollPicked;
+            // GameObject Scroll déjà géré dans le tanuki : c'est un fils de tanuki. Scroll ici sert à  
             for (int i = 0; i < scrollPicked.Length; i++)
             {   //Si le scroll a été pick
                 if (scrollPicked[i])
@@ -187,6 +212,12 @@ public class SaveLoadGamestate : MonoBehaviour
                     playerCollectibles.scrollPicked[i] = false;
                 }
             }
+            */
+
+            //numberScrolls
+            nbCurrentScrolls = data.nbCurrentScrolls;
+            playerCollectibles.setNumberExplosiveScroll(nbCurrentScrolls);
+
 
             //notes
             notePicked = data.notePicked;
@@ -249,7 +280,66 @@ public class SaveLoadGamestate : MonoBehaviour
                 }
             }
 
-           
+            //door lights
+            doorLights = data.doorLights;
+            int nbDoorLights = 0;
+            for (int i = 0; i < doorLights.Length; i++)
+            {   //Si la light de la porte du boss a été allumée
+                if (doorLights[i])
+                {
+                    terrainState.lightDoor(i);
+                    nbDoorLights++;
+                }
+                doorScript.setCandleAnim(nbDoorLights);
+
+            }
+
+
+            //tanukis
+            tanukiDied = data.tanukiDied;
+            for(int i = 0; i < tanukiDied.Length; i++)
+            {
+                if (tanukiDied[i])
+                {
+                    //Désactiver le tanuki et son interaction etc.
+                    tanukis[i].SetActive(false);
+                    mobsState.tanukiDied[i] = true;
+                    
+                }
+            }
+
+            //karakasas
+            karakasaLife = data.karakasaLife;
+            for (int i = 0; i < karakasaLife.Length; i++)
+            {
+                mobsState.karakasaLife[i] = karakasaLife[i];
+                //Récupère les scripts de chaque karakasas et set sa current health à sa vie du dernier point de sauvegarde
+                if (karakasaLife[i] <= 0)
+                {
+                    karakasas[i].SetActive(false);
+                }
+                else 
+                {
+                    karakasas[i].GetComponent<EnemyScript>().currentHealth = karakasaLife[i];
+                }
+            }
+
+            //onibis
+            onibiLife = data.onibiLife;
+            for (int i = 0; i < onibiLife.Length; i++) {
+
+                //Pour la prochaine save, garder en mémoire celle d'avant ? vraiment utile séquentiellement ?
+                mobsState.onibiLife[i] = onibiLife[i];
+                //Récupère les scripts de chaque onibi et set sa current health à sa vie du dernier point de sauvegarde
+                if (onibiLife[i] <= 0)
+                {
+                    onibis[i].SetActive(false);
+                }
+                else
+                {
+                    onibis[i].GetComponent<OnibiScript>().currentHealth = onibiLife[i];
+                }
+            }
 
         }
         else
@@ -264,7 +354,7 @@ public class SaveLoadGamestate : MonoBehaviour
 
         this.gamestate = gamestate;
         //player
-        gamestate.health = player.CurrentHealth;
+        gamestate.currentHealth = player.CurrentHealth;
         gamestate.attackDamage = player.attackDamage;
 
         gamestate.positionPlayer = new float[2];
@@ -293,6 +383,9 @@ public class SaveLoadGamestate : MonoBehaviour
             gamestate.omamoriPicked[i] = playerCollectibles.omamoriPicked[i];
             Debug.Log("WRITTEN IN MEMORY : OMAMORI " + i + " " + gamestate.omamoriPicked[i]);
         }
+        gamestate.nbOmamori = playerCollectibles.getOmamoriNumber();
+        Debug.Log("WRITTEN IN MEMORY : Number of omamori : " + gamestate.nbOmamori);
+
         gamestate.darumaPicked = new bool[15];
         //daruma
         for (int i = 0; i < gamestate.darumaPicked.Length; i++)
@@ -300,8 +393,13 @@ public class SaveLoadGamestate : MonoBehaviour
             gamestate.darumaPicked[i] = playerCollectibles.darumaPicked[i];
             Debug.Log("WRITTEN IN MEMORY : DARUMA " + i + " " + gamestate.darumaPicked[i]);
 
+       
         }
-        gamestate.scrollPicked = new bool[16];
+        gamestate.nbDaruma = playerCollectibles.getDarumaNumber();
+        Debug.Log("WRITTEN IN MEMORY : Number of daruma : " + gamestate.nbDaruma);
+
+        /*
+        gamestate.scrollPicked = new bool[12];
         //scroll
         for (int i = 0; i < gamestate.scrollPicked.Length; i++)
         {
@@ -309,6 +407,9 @@ public class SaveLoadGamestate : MonoBehaviour
             Debug.Log("WRITTEN IN MEMORY : Scroll " + i + " " + gamestate.scrollPicked[i]);
 
         }
+        */
+        gamestate.nbCurrentScrolls = playerCollectibles.getExplosiveScrollNumber();
+        Debug.Log("WRITTEN IN MEMORY : Number of scrolls : " + gamestate.nbCurrentScrolls);
 
         gamestate.notePicked = new bool[5];
         //note
@@ -343,6 +444,39 @@ public class SaveLoadGamestate : MonoBehaviour
             gamestate.bushDestroyed[i] = terrainState.bushDestroyed[i];
             Debug.Log("WRITTEN IN MEMORY : Bush " + i + " " + gamestate.bushDestroyed[i]);
             
+        }
+
+        gamestate.doorLights = new bool[3];
+        //door lights
+        for (int i = 0; i < gamestate.doorLights.Length; i++)
+        {
+            gamestate.doorLights[i] = terrainState.doorLights[i];
+            Debug.Log("WRITTEN IN MEMORY : door light " + i + " " + gamestate.doorLights[i]);
+
+        }
+
+        gamestate.tanukiDied = new bool[12];
+        //tanukis
+        for(int i = 0; i < gamestate.tanukiDied.Length; i++)
+        {
+            gamestate.tanukiDied[i] = mobsState.tanukiDied[i];
+            Debug.Log("WRITTEN IN MEMORY : Tanuki " + i + " " + gamestate.tanukiDied[i]);
+        }
+
+        gamestate.karakasaLife = new float[11];
+        //karakasas
+        for (int i = 0; i < gamestate.karakasaLife.Length; i++)
+        {
+            gamestate.karakasaLife[i] = mobsState.karakasaLife[i];
+            Debug.Log("WRITTEN IN MEMORY : Karakasa " + i + " life =  " + gamestate.karakasaLife[i]);
+        }
+
+        gamestate.onibiLife = new float[7];
+        //onibis
+        for (int i = 0; i < gamestate.onibiLife.Length; i++)
+        {
+            gamestate.onibiLife[i] = mobsState.onibiLife[i];
+            Debug.Log("WRITTEN IN MEMORY : Onibi " + i + " life =  " + gamestate.onibiLife[i]);
         }
 
 

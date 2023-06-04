@@ -5,6 +5,8 @@ using UnityEngine.InputSystem;
 
 public class PlayerCollectibles : MonoBehaviour
 {
+    public TerrainState terrainState;
+
     private int darumaNumber;
     private int omamoriNumber;
     private int explosiveScrollNumber;
@@ -42,7 +44,7 @@ public class PlayerCollectibles : MonoBehaviour
         
         omamoriPicked = new bool[15];
         darumaPicked = new bool[15];
-        scrollPicked = new bool[16];
+        scrollPicked = new bool[12];
         notePicked = new bool[5];
         lanternLightened = new bool[3];
 
@@ -183,6 +185,7 @@ public class PlayerCollectibles : MonoBehaviour
 
     public void setLanternLightened(int i, bool boolean)
     {
+        terrainState.lightDoor(i);
         Animator anim = lanterns[i].GetComponent<Animator>();
         anim.SetBool("Lantern_ON", boolean);
     }
