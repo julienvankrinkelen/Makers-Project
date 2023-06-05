@@ -8,17 +8,9 @@ public class LifeBar : MonoBehaviour
 
     public GameObject[] Hearts;
     public GameObject[] HeartShadows;
-    /*
-    public GameObject Heart0;
-    public GameObject Heart1;
-    public GameObject Heart2;
-    public GameObject Heart3;
-
-    public GameObject HeartShadow0;
-    public GameObject HeartShadow1;
-    public GameObject HeartShadow2;
-    public GameObject HeartShadow3;
-    */
+    
+    //Taille du tableau Hearts et HeartShadows
+    private int nbOfAssets = 5;
     public PlayerCombat player;
     // Update is called once per frame
 
@@ -28,45 +20,40 @@ public class LifeBar : MonoBehaviour
     }
     void Update()
     {
-        switch (player.CurrentHealth)
+        // En partant du principe que maxHealth >= currentHealth et que tout est bien géré.
+        // Programmation défensive possible
+
+        setNbHeartsAssets( (int) player.maxHealth);
+        setLifeAssets( (int) player.CurrentHealth);
+    }
+
+    private void setNbHeartsAssets(int maxHealth)
+    {
+        for(int i=0; i<maxHealth; i++)
         {
-            case 0:
-                setLifeAssets(0);
+            HeartShadows[i].SetActive(true);
+            Hearts[i].SetActive(false);
 
-                break;
-            case 1:
-                setLifeAssets(1);
-                break;
-            case 2:
-                setLifeAssets(2);
-
-                break;
-            case 3:
-                setLifeAssets(3);
-
-                break;
-            case 4:
-                setLifeAssets(4);
-
-                break;
-
+        }
+        for (int i=maxHealth; i<nbOfAssets; i++)
+        {
+            HeartShadows[i].SetActive(false);
         }
     }
 
-    private void setLifeAssets(int nbOfAssets)
+    private void setLifeAssets(int currentHealth)
     {
-        for(int i=0; i<nbOfAssets; i++)
+        for (int i = 0; i < currentHealth; i++)
         {
             Hearts[i].SetActive(true);
             HeartShadows[i].SetActive(false);
         }
-        for(int i=nbOfAssets; i<player.maxHealth; i++)
+        for (int i = currentHealth; i < nbOfAssets; i++)
         {
-
             Hearts[i].SetActive(false);
-            HeartShadows[i].SetActive(true);
         }
     }
-   
+
+
 
 }

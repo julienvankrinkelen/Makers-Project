@@ -10,8 +10,6 @@ using JetBrains.Annotations;
 public class CollectObjects : MonoBehaviour
 {
 
-
-
     public PlayerCollectibles playerCollectibles;
 
     private string collectible;
@@ -23,7 +21,7 @@ public class CollectObjects : MonoBehaviour
         print(playerCollectibles);
         collectible = gameObject.tag;
         collectibleObject.SetActive(true);
-        
+      
     }
    
 

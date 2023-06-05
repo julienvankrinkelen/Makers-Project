@@ -12,6 +12,9 @@ public class PlayerCombat : MonoBehaviour
     public SaveLoadGamestate saveLoadGamestate;
     public PlayerMovement playerMovement;
 
+    public GameObject deathAnimObject;
+    public Animator deathAnim;
+
     private BoxCollider2D coll;
     private Rigidbody2D rb;
     private SpriteRenderer sprite;
@@ -38,6 +41,8 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] private float DamageForce = 13;
     private void Start()
     {
+        deathAnim = deathAnimObject.GetComponent<Animator>();
+
         coll = GetComponent<BoxCollider2D>();
         rb = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
@@ -151,7 +156,7 @@ public class PlayerCombat : MonoBehaviour
             // Hurt animation
             anim.SetTrigger("Hurt");
         }
-        if (CurrentHealth <= 0)
+        if (CurrentHealth <= 0 && !IsDead)
         {
             StartCoroutine(Die());
         }
@@ -166,7 +171,7 @@ public class PlayerCombat : MonoBehaviour
             // Hurt animation
             anim.SetTrigger("Hurt");
         }
-        if (CurrentHealth <= 0)
+        if (CurrentHealth <= 0 && !IsDead)
         {
             StartCoroutine(Die());
         }
@@ -176,26 +181,33 @@ public class PlayerCombat : MonoBehaviour
 
     public IEnumerator Die()
     {
+        IsDead = true;
         Debug.Log("You died!");
-
-        // Die animation
-        anim.SetBool("IsDead", true);
+        
         // Disable the player and its extern interactions
+
         EnableCombat(false);
         playerMovement.EnableMovement(false);
-        //GetComponent<PlayerMovement>().enabled = false;
-        IsDead = true;
 
+        // Die animation
+        anim.SetTrigger("IsDead");
         yield return new WaitForSeconds(1);
-        anim.SetBool("IsDead", false);
-        //ECRAN NOIR TRANSI
+
+        //GetComponent<PlayerMovement>().enabled = false;
+
+        // Loading Screen
         panelTransiDeath.SetActive(true);
-        yield return new WaitForSeconds(1);
-        // DESACTIVER ECRAN NOIR
-        panelTransiDeath.SetActive(false);
+        deathAnim.SetBool("ShowLoadingScreen", true);
+
+        
+        IsDead = false;
+
+        yield return new WaitForSeconds(3);
         playerMovement.EnableMovement(true);
         EnableCombat(true);
         Debug.Log("Enabling movement & combat after death !");
+       
+
         // Load derni�re save 
         // Si save non existante : recommencer une new game
         int saveExists = PlayerPrefs.GetInt("Save Exists");
@@ -209,8 +221,12 @@ public class PlayerCombat : MonoBehaviour
             Debug.Log("Loading new game bc no save before dying");
             SceneManager.LoadScene("new map");
         }
-
         
+        // Désactiver loading Screen
+        deathAnim.SetBool("ShowLoadingScreen", false);
+        panelTransiDeath.SetActive(false);
+        
+
 
     }
 
@@ -235,7 +251,13 @@ public class PlayerCombat : MonoBehaviour
     //Omamori bonus hp permanent
     public void AddLife(float life)
     {
-        CurrentHealth += life;
+        maxHealth += life;
+
+    }
+    // Heal aux autels
+    public void Heal(float heal)
+    {
+        CurrentHealth+= heal;
     }
 
 }

@@ -52,6 +52,11 @@ public class TerrainState : MonoBehaviour
         doorLights[i] = true;
     }
 
+    public void unlightDoor(int i)
+    {
+        doorLights[i] = false;
+    }
+
     private int parseCollectibleName(string collectible)
     {
         return int.Parse(collectible.Substring(collectible.Length - 2));

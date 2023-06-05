@@ -24,16 +24,13 @@ public class Gamestate
 
     public bool[] omamoriPicked;
     public int nbOmamori;
-    public bool firstPickOmamori;
 
     public bool[] darumaPicked;
     public int nbDaruma;
-    public bool firstPickDaruma;
 
 
     // public bool[] scrollPicked;
     public int nbCurrentScrolls;
-    public bool firstPickScroll;
 
     public bool[] notePicked;
 

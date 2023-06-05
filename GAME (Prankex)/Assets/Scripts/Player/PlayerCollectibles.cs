@@ -7,17 +7,13 @@ public class PlayerCollectibles : MonoBehaviour
 {
     public TerrainState terrainState;
 
-    private int darumaNumber;
-    private int omamoriNumber;
-    private int explosiveScrollNumber;
+    private int numberOfDaruma;
+    private int numberOfOmamori;
+    private int numberOfExplosiveScroll;
     private bool hasCandle;
     private bool hasDash;
     private bool messageCanDisable = false;
     private int lanternLightenedNumber;
-
-    private bool firstPickDaruma;
-    private bool firstPickOmamori;
-    private bool firstPickScroll;
 
     public bool[] omamoriPicked;
     public bool[] darumaPicked;
@@ -73,9 +69,9 @@ public class PlayerCollectibles : MonoBehaviour
 
         
 
-        explosiveScrollNumber = 0;
-        darumaNumber =0;
-        omamoriNumber =0;
+        numberOfDaruma = 0;
+        numberOfOmamori =0;
+        numberOfExplosiveScroll =0;
         hasCandle = false;
         hasDash = false;
         lanternLightenedNumber = 0;
@@ -99,8 +95,6 @@ public class PlayerCollectibles : MonoBehaviour
     // In order to "unfreeze" the screen when picking dash. Press F, the "interact" button.
     public void Interact(InputAction.CallbackContext context)
     {
-
-
         if (messageCanDisable)
         {
             messageCanPress.SetActive(false);
@@ -114,14 +108,6 @@ public class PlayerCollectibles : MonoBehaviour
         }
     }
 
-    
-
-    public void pickedDash()
-    {
-        hasDash = true;
-        StartCoroutine(displayMessageItem("dash"));
-    
-    }
     private IEnumerator displayMessageItem(string item)
     {
        
@@ -164,6 +150,14 @@ public class PlayerCollectibles : MonoBehaviour
         Debug.Log("Display 2e Message Item");
 
     }
+
+    public void pickedDash()
+    {
+        hasDash = true;
+        StartCoroutine(displayMessageItem("dash"));
+
+    }
+
     public void setDash(bool dash)
     {
         hasDash = dash;
@@ -187,46 +181,46 @@ public class PlayerCollectibles : MonoBehaviour
         string darumaName = daruma.name;
         int darumaNumber = parseCollectibleName(darumaName);
         Debug.Log("HAS PICKED DARUMA NB : " + darumaNumber);
-        addDaruma();
-        if (!firstPickDaruma)
-        {
-            firstPickDaruma = true;
-        }
-
         darumaPicked[darumaNumber] = true;
 
-        StartCoroutine(displayMessageItem("daruma"));
-        
+        if (numberOfDaruma == 0)
+        {
+            StartCoroutine(displayMessageItem("daruma"));
+        }
+        addDaruma();
+
 
     }
-
+    // Uniquement appelée lors du ramassage d'un objet in-game.
+    // Pas appelé lors du save donc aucun pb de sur-utilisation
     public void addDaruma()
     {
-        darumaNumber++;
+        numberOfDaruma++;
         //Stat buff atk
-        playerCombat.AddDamage(0.1f);
+        if (numberOfDaruma % 3 == 0)
+        {
+            Debug.Log("Number of Daruma : " + numberOfDaruma + " -> adding 1 atkDamage to player");
+            playerCombat.AddDamage(1);
+        }
     }
 
-    public void pickScroll(GameObject scroll)
-    {
+    public void pickScroll(GameObject scroll) {
         string scrollName = scroll.name;
         int scrollNumber = parseCollectibleName(scrollName);
         Debug.Log("HAS PICKED SCROLL NB : " + scrollNumber);
-        addExplosiveScroll();
-        if (!firstPickScroll)
-        {
-            firstPickScroll = true;
-        }
-
 
         scrollPicked[scrollNumber] = true;
+        if (numberOfExplosiveScroll == 0)
+        {
+            StartCoroutine(displayMessageItem("scroll"));
+        }
+        addExplosiveScroll();
 
-        StartCoroutine(displayMessageItem("scroll"));
 
     }
     public void addExplosiveScroll()
     {
-        explosiveScrollNumber++;
+        numberOfExplosiveScroll++;
     }
 
 
@@ -236,23 +230,27 @@ public class PlayerCollectibles : MonoBehaviour
         string omamoriName = omamori.name;
         int omamoriNumber = parseCollectibleName(omamoriName);
         Debug.Log("HAS PICKED OMAMORI NB : " + omamoriNumber);
-        addOmamori();
-
         omamoriPicked[omamoriNumber] = true;
 
-        if (!firstPickOmamori)
-        {
-            firstPickOmamori = true;
+        if (numberOfOmamori == 0){
+            StartCoroutine(displayMessageItem("omamori"));
         }
+        addOmamori();
 
-        StartCoroutine(displayMessageItem("omamori"));
 
     }
+
+    // Uniquement appelée lors du ramassage d'un objet in-game.
+    // Pas appelé lors du save donc aucun pb de sur-utilisation
     public void addOmamori()
     {
-        omamoriNumber++;
-        //Stat buff hp
-        playerCombat.AddLife(1);
+        numberOfOmamori++;
+        //Stat buff hp tous les 3 omamori
+        if(numberOfOmamori % 3 == 0)
+        {
+            Debug.Log("Number of Omamori : " + numberOfOmamori + " -> adding 1 hp");
+            playerCombat.AddLife(1);
+        }
     }
 
     public void pickNote(GameObject note)
@@ -284,36 +282,36 @@ public class PlayerCollectibles : MonoBehaviour
 
     public void setNumberExplosiveScroll(int scrollNumber)
     {
-        explosiveScrollNumber = scrollNumber;
+        numberOfExplosiveScroll = scrollNumber;
     }
  
     public void setNumberOmamori(int numberOmamori)
     {
-        omamoriNumber = numberOmamori;
+        numberOfOmamori = numberOmamori;
     }
 
     public void setNumberDaruma(int numberDaruma)
     {
-        darumaNumber = numberDaruma;
+        numberOfDaruma = numberDaruma;
     }
 
     //Explosive scroll is usable.
     public void removeExplosiveScroll()
     {
-        explosiveScrollNumber--;
+        numberOfExplosiveScroll--;
     }
 
     public int getDarumaNumber()
     {
-        return darumaNumber;
+        return numberOfDaruma;
     }
     public int getOmamoriNumber()
     {
-        return omamoriNumber;
+        return numberOfOmamori;
     }
     public int getExplosiveScrollNumber()
     {
-        return explosiveScrollNumber;
+        return numberOfExplosiveScroll;
     }
     public bool checkHasCandle()
     {
@@ -327,21 +325,6 @@ public class PlayerCollectibles : MonoBehaviour
     {
         return lanternLightenedNumber;
     }
-
-    public bool getFirstPickDaruma()
-    {
-        return firstPickDaruma;
-    }
-    public bool getFirstPickOmamori()
-    {
-        return firstPickOmamori;
-    }
-
-    public bool getFirstPickScroll()
-    {
-        return firstPickScroll;
-    }
-
 
     // Convert the last two char of a string into integer
     private int parseCollectibleName(string collectible) {

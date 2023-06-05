@@ -25,7 +25,7 @@ public class OnibiScript : MonoBehaviour
     public Animator anim;
 
     [Header("Combat")]
-    public float maxHealth = 2;
+    public float maxHealth = 5f;
     public float currentHealth;
     private bool isDead = false;
     bool rush = false;

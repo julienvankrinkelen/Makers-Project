@@ -23,17 +23,14 @@ public class SaveLoadGamestate : MonoBehaviour
     public GameObject[] omamori;
     public bool[] omamoriPicked = new bool[15];
     public int nbOmamori;
-    public bool firstPickOmamori;
 
     public GameObject[] daruma;
     public bool[] darumaPicked = new bool[15];
     public int nbDaruma;
-    public bool firstPickDaruma;
 
     //public GameObject[] scrolls;
     //public bool[] scrollPicked = new bool[12];
     public int nbCurrentScrolls;
-    public bool firstPickScroll;
 
     public GameObject candleItem;
     public bool candlePicked;
@@ -148,6 +145,11 @@ public class SaveLoadGamestate : MonoBehaviour
                 dashItem.SetActive(false);
                 playerCollectibles.setDash(true);
             }
+            else
+            {
+                dashItem.SetActive(true);
+                playerCollectibles.setDash(false);
+            }
 
             //candle
             candlePicked = data.candlePicked;
@@ -156,48 +158,57 @@ public class SaveLoadGamestate : MonoBehaviour
                 candleItem.SetActive(false);
                 playerCollectibles.setCandle(true);
             }
+            else
+            {
+                candleItem.SetActive(true);
+                playerCollectibles.setCandle(false);
+            }
 
             //daruma
             darumaPicked = data.darumaPicked;
+            int numberOfDaruma = 0;
             for (int i = 0; i < darumaPicked.Length; i++)
             {   //Si le daruma a été pick
                 if (darumaPicked[i])
                 {
                     daruma[i].SetActive(false);
                     //Ajoute le daruma au compteur, dans le cas où on aurait besoin du nombre
-                    playerCollectibles.addDaruma();
+                    numberOfDaruma++;
                     playerCollectibles.darumaPicked[i] = true;
                 }
                 else
                 {
+                    daruma[i].SetActive(true);
                     playerCollectibles.darumaPicked[i] = false;
                 }
+                playerCollectibles.setNumberDaruma(numberOfDaruma);
             }
 
             nbDaruma = data.nbDaruma;
             playerCollectibles.setNumberDaruma(nbDaruma);
-            firstPickDaruma = data.firstPickDaruma;
 
             //omamori
             omamoriPicked = data.omamoriPicked;
-            for(int i=0; i<omamoriPicked.Length; i++)
+            int numberOfOmamori = 0;
+            for (int i=0; i<omamoriPicked.Length; i++)
             {   //Si l'omamori a été pick
                 if (omamoriPicked[i])
                 {
                     omamori[i].SetActive(false);
                     //Ajoute l'omamori au compteur, dans le cas où on aurait besoin du nombre
-                    playerCollectibles.addOmamori();
+                    numberOfOmamori++;
                     playerCollectibles.omamoriPicked[i] = true;
                 }
                 else
                 {
+                    omamori[i].SetActive(true);
                     playerCollectibles.omamoriPicked[i] = false;
                 }
+                playerCollectibles.setNumberOmamori(numberOfOmamori);
             }
 
             nbOmamori = data.nbOmamori;
             playerCollectibles.setNumberOmamori(nbOmamori);
-            firstPickOmamori = data.firstPickOmamori;
 
             /*
             //scroll
@@ -222,7 +233,6 @@ public class SaveLoadGamestate : MonoBehaviour
             //numberScrolls
             nbCurrentScrolls = data.nbCurrentScrolls;
             playerCollectibles.setNumberExplosiveScroll(nbCurrentScrolls);
-            firstPickScroll = data.firstPickScroll;
 
 
             //notes
@@ -251,6 +261,7 @@ public class SaveLoadGamestate : MonoBehaviour
                 }
                 else
                 {
+                    playerCollectibles.setLanternLightened(i, false);
                     playerCollectibles.lanternLightened[i] = false;
                 }
             }
@@ -267,6 +278,7 @@ public class SaveLoadGamestate : MonoBehaviour
                 }
                 else
                 {
+                    walls[i].SetActive(true);
                     terrainState.wallDestroyed[i] = false;
                 }
             }
@@ -282,6 +294,7 @@ public class SaveLoadGamestate : MonoBehaviour
                 }
                 else
                 {
+                    bushes[i].SetActive(true);
                     terrainState.bushDestroyed[i] = false;
                 }
             }
@@ -295,6 +308,11 @@ public class SaveLoadGamestate : MonoBehaviour
                 {
                     terrainState.lightDoor(i);
                     nbDoorLights++;
+                }
+                else
+                {
+                    terrainState.unlightDoor(i);
+
                 }
                 doorScript.setCandleAnim(nbDoorLights);
 
@@ -391,8 +409,6 @@ public class SaveLoadGamestate : MonoBehaviour
         }
         gamestate.nbOmamori = playerCollectibles.getOmamoriNumber();
         Debug.Log("WRITTEN IN MEMORY : Number of omamori : " + gamestate.nbOmamori);
-        gamestate.firstPickOmamori = playerCollectibles.getFirstPickOmamori();
-        Debug.Log("WRITTEN IN MEMORY : First pick omamori : " + gamestate.firstPickOmamori);
 
         gamestate.darumaPicked = new bool[15];
         //daruma
@@ -405,8 +421,6 @@ public class SaveLoadGamestate : MonoBehaviour
         }
         gamestate.nbDaruma = playerCollectibles.getDarumaNumber();
         Debug.Log("WRITTEN IN MEMORY : Number of daruma : " + gamestate.nbDaruma);
-        gamestate.firstPickDaruma = playerCollectibles.getFirstPickDaruma();
-        Debug.Log("WRITTEN IN MEMORY : First pick daruma : " + gamestate.firstPickDaruma);
 
         /*
         gamestate.scrollPicked = new bool[12];
@@ -420,8 +434,6 @@ public class SaveLoadGamestate : MonoBehaviour
         */
         gamestate.nbCurrentScrolls = playerCollectibles.getExplosiveScrollNumber();
         Debug.Log("WRITTEN IN MEMORY : Number of scrolls : " + gamestate.nbCurrentScrolls);
-        gamestate.firstPickScroll = playerCollectibles.getFirstPickScroll();
-        Debug.Log("WRITTEN IN MEMORY : First pick scroll : " + gamestate.firstPickScroll);
 
 
         gamestate.notePicked = new bool[5];

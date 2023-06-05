@@ -13,7 +13,7 @@ public class EnemyScript : MonoBehaviour
     public Collider2D playercollider;
     
 
-    public float maxHealth = 2f;
+    public float maxHealth = 3f;
     public float currentHealth;
 
     public LayerMask playerLayer;
