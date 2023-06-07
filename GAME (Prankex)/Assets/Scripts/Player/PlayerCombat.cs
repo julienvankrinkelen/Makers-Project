@@ -189,20 +189,22 @@ public class PlayerCombat : MonoBehaviour
         EnableCombat(false);
         playerMovement.EnableMovement(false);
 
+        // Loading Screenm
+        panelTransiDeath.SetActive(true);
+        deathAnim.SetBool("ShowLoadingScreen", true);
         // Die animation
-        anim.SetTrigger("IsDead");
+        anim.SetBool("IsDead", true);
         yield return new WaitForSeconds(1);
 
         //GetComponent<PlayerMovement>().enabled = false;
+        this.sprite.enabled = false;
+       
 
-        // Loading Screen
-        panelTransiDeath.SetActive(true);
-        deathAnim.SetBool("ShowLoadingScreen", true);
-
-        
         IsDead = false;
 
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(5);
+        anim.SetBool("IsDead", false);
+
         playerMovement.EnableMovement(true);
         EnableCombat(true);
         Debug.Log("Enabling movement & combat after death !");
@@ -222,9 +224,7 @@ public class PlayerCombat : MonoBehaviour
             SceneManager.LoadScene("new map");
         }
         
-        // Désactiver loading Screen
-        deathAnim.SetBool("ShowLoadingScreen", false);
-        panelTransiDeath.SetActive(false);
+       
         
 
 

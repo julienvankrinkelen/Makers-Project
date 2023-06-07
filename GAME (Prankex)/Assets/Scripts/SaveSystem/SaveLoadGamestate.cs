@@ -8,8 +8,13 @@ using UnityEngine.UIElements;
 
 public class SaveLoadGamestate : MonoBehaviour
 {
+
+    public GameObject panelTransiDeath;
+    public GameObject panelDeath;
+    public Animator deathAnim;
+
     [Header("Player")]
-    public PlayerCombat player; // Contient vie, 
+    public PlayerCombat player;
     public Transform transformPlayer;
    
 
@@ -72,6 +77,10 @@ public class SaveLoadGamestate : MonoBehaviour
 
     private Gamestate gamestate;
 
+    public void Start()
+    {
+        deathAnim = panelDeath.GetComponent<Animator>();
+    }
 
     public void Update()
     {
@@ -113,7 +122,7 @@ public class SaveLoadGamestate : MonoBehaviour
     public IEnumerator TempoLoadGamestate()
     {
         //Tempo pour laisser le temps au jeu de charger tous les éléments, puis on les change
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSecondsRealtime(0.5f);
         JustLoadedScene = 0;
         PlayerPrefs.SetInt("JustLoadedScene", JustLoadedScene);
         int saveExists = PlayerPrefs.GetInt("Save Exists");
@@ -364,6 +373,11 @@ public class SaveLoadGamestate : MonoBehaviour
                     onibis[i].GetComponent<OnibiScript>().currentHealth = onibiLife[i];
                 }
             }
+
+
+            // Désactiver loading Screen
+            deathAnim.SetBool("ShowLoadingScreen", false);
+            panelTransiDeath.SetActive(false);
 
         }
         else
