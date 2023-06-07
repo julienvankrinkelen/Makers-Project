@@ -23,12 +23,12 @@ public class OptionsControl: MonoBehaviour
     }
     public void VolumeMusicSlider(float volume)
     {
-        volumeMusicTextUI.text = volume.ToString("0.0");
+        volumeMusicTextUI.text = Mathf.Round(volume * 100).ToString() + "%";
     }
 
     public void VolumeGeneralSlider(float volume)
     {
-        volumeGeneralTextUI.text = volume.ToString("0.0");
+        volumeGeneralTextUI.text = Mathf.Round(volume * 100).ToString() + "%";
     }
 
     public void SaveVolumeButton()
