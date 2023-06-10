@@ -35,14 +35,12 @@ public class PlayerCombat : MonoBehaviour
     public bool CandleSelected = false;
 
     public float maxHealth = 4f;
-    public float PlayerHealth = 4f;
     public float CurrentHealth;
     private bool IsDead = false;
     [SerializeField] private float DamageForce = 13;
     private void Start()
     {
         deathAnim = deathAnimObject.GetComponent<Animator>();
-
         coll = GetComponent<BoxCollider2D>();
         rb = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
@@ -51,6 +49,7 @@ public class PlayerCombat : MonoBehaviour
         attackcoll = GetComponent<CapsuleCollider2D>();
 
         CurrentHealth = maxHealth;
+        panelTransiDeath.SetActive(false);
     }
     private void Awake()
     {
@@ -208,7 +207,8 @@ public class PlayerCombat : MonoBehaviour
         playerMovement.EnableMovement(true);
         EnableCombat(true);
         Debug.Log("Enabling movement & combat after death !");
-       
+        this.sprite.enabled = true;
+
 
         // Load derni�re save 
         // Si save non existante : recommencer une new game
@@ -223,10 +223,6 @@ public class PlayerCombat : MonoBehaviour
             Debug.Log("Loading new game bc no save before dying");
             SceneManager.LoadScene("new map");
         }
-        
-       
-        
-
 
     }
 
@@ -254,10 +250,12 @@ public class PlayerCombat : MonoBehaviour
         maxHealth += life;
 
     }
-    // Heal aux autels
-    public void Heal(float heal)
+    // Heal aux autels : remet le player full life en fonction de ses HP max
+    public void Heal()
     {
-        CurrentHealth+= heal;
+        float toHeal = maxHealth - CurrentHealth;
+        CurrentHealth+= toHeal;
+        Debug.Log("Just healed player for " + toHeal + " HP");
     }
 
 }

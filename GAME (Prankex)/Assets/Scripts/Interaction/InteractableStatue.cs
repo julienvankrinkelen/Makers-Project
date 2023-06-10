@@ -6,6 +6,7 @@ using UnityEditor.Rendering.LookDev;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class InteractableStatue : MonoBehaviour
 {
@@ -27,7 +28,7 @@ public class InteractableStatue : MonoBehaviour
     }
     private void Awake()
     {
-        
+
         playerInput = GetComponent<PlayerInput>();
         playerInputActions = new PlayerInputActions();
         playerInputActions.Player.Enable();
@@ -38,19 +39,19 @@ public class InteractableStatue : MonoBehaviour
     private void Update()
     {
         SeeInteraction();
-    
+
     }
 
     public void Interact(InputAction.CallbackContext context)
     {
         if (isInRange && context.performed && canInteract == true)
         {
-           
+
             canInteract = false;
             interactAction.Invoke();
 
         }
-        
+
     }
 
     public void OnTriggerEnter2D(Collider2D collision)
@@ -59,7 +60,7 @@ public class InteractableStatue : MonoBehaviour
         {
             isInRange = true;
             Debug.Log("Player is in range of interactable object");
-          
+
         }
     }
     public void OnTriggerExit2D(Collider2D collision)
@@ -79,14 +80,15 @@ public class InteractableStatue : MonoBehaviour
         {
             Indicator.SetActive(true);
             InteractText.SetActive(true);
-           
+
 
         }
         else
         {
             InteractText.SetActive(false);
             Indicator.SetActive(false);
- 
+
         }
     }
+
 }
