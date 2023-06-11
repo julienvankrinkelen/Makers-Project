@@ -33,6 +33,7 @@ public class Gamestate
     public int nbCurrentScrolls;
 
     public bool[] notePicked;
+    public int numberOfNotes;
 
     public bool[] lanternLightened;
 

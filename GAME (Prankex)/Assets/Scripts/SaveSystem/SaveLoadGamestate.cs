@@ -45,6 +45,7 @@ public class SaveLoadGamestate : MonoBehaviour
 
     public GameObject[] notes;
     public bool[] notePicked = new bool[5];
+    public int numberOfNotes;
 
     public bool[] lanternLightened = new bool[3];
 
@@ -258,6 +259,8 @@ public class SaveLoadGamestate : MonoBehaviour
                     playerCollectibles.notePicked[i] = false;
                 }
             }
+            numberOfNotes = data.numberOfNotes;
+            playerCollectibles.setNumberOfNotes(numberOfNotes);
 
             //lanterns
             lanternLightened = data.lanternLightened;
@@ -459,6 +462,7 @@ public class SaveLoadGamestate : MonoBehaviour
 
         }
         gamestate.lanternLightened = new bool[3];
+        gamestate.numberOfNotes = playerCollectibles.getNumberOfNotes();
         //lanterns
         for (int i = 0; i < gamestate.lanternLightened.Length; i++)
         {

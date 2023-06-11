@@ -14,6 +14,7 @@ public class PlayerCollectibles : MonoBehaviour
     private bool hasDash;
     private bool messageCanDisable = false;
     private int lanternLightenedNumber;
+    private int numberOfNotes;
 
     public bool[] omamoriPicked;
     public bool[] darumaPicked;
@@ -75,6 +76,7 @@ public class PlayerCollectibles : MonoBehaviour
         hasCandle = false;
         hasDash = false;
         lanternLightenedNumber = 0;
+        numberOfNotes = 0;
 
         fillArray(notePicked);
         fillArray(omamoriPicked);
@@ -259,7 +261,7 @@ public class PlayerCollectibles : MonoBehaviour
         int noteNumber = parseCollectibleName(noteName);
         Debug.Log("HAS PICKED NOTE NB : " + noteNumber);
         notePicked[noteNumber] = true;
-
+        numberOfNotes++; //Update number of notes
     }
 
     public void lightenLantern(GameObject lantern, bool boolean)
@@ -301,6 +303,11 @@ public class PlayerCollectibles : MonoBehaviour
         numberOfExplosiveScroll--;
     }
 
+    public void setNumberOfNotes(int numberNotes)
+    {
+        numberOfNotes = numberNotes;
+    }
+
     public int getDarumaNumber()
     {
         return numberOfDaruma;
@@ -324,6 +331,10 @@ public class PlayerCollectibles : MonoBehaviour
     public int getLanternLightenedNumber() // Return the total lightened lantern number. Not correlated to the lantern number (name / id)
     {
         return lanternLightenedNumber;
+    }
+    public int getNumberOfNotes()
+    {
+        return numberOfNotes;
     }
 
     // Convert the last two char of a string into integer
