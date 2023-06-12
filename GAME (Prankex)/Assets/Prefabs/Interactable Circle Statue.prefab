@@ -231,6 +231,7 @@ MonoBehaviour:
         m_CallState: 2
   Indicator: {fileID: 2089997560043741183}
   InteractText: {fileID: 0}
+  panel: {fileID: 0}
 --- !u!58 &8488120804892040215
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -256,11 +257,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 443626637733284258, guid: e03dc8b4daa3c9949957e5d80306fe76, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -347
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 443626637733284258, guid: e03dc8b4daa3c9949957e5d80306fe76, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -195
+      value: -262
       objectReference: {fileID: 0}
     - target: {fileID: 4017619782567570787, guid: e03dc8b4daa3c9949957e5d80306fe76, type: 3}
       propertyPath: m_Name

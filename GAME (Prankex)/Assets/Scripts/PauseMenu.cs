@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Security.Cryptography;
 using TMPro;
 using UnityEditor.Rendering.LookDev;
 using UnityEngine;
@@ -12,11 +13,13 @@ public class PauseMenu : MonoBehaviour
 {
 
     public GameObject pauseMenu;
+    public GameObject lifeBar;
+
     private PlayerInput playerInput;
     private PlayerInputActions playerInputActions;
     public PlayerMovement playerMovement;
     public PlayerCombat playerCombat;
-
+    
     public PlayerCollectibles playerCollectibles;
 
     public static bool isPaused = false;
@@ -51,6 +54,7 @@ public class PauseMenu : MonoBehaviour
 
     public void PauseGame()
     {
+        lifeBar.SetActive(false);
         pauseMenu.SetActive(true);
         //Stop toutes les animations, freeze le temps
         Time.timeScale = 0f;
@@ -61,6 +65,7 @@ public class PauseMenu : MonoBehaviour
 
     public void ResumeGame()
     {
+        lifeBar.SetActive(true);
         pauseMenu.SetActive(false);
         Time.timeScale = 1f;
         playerMovement.EnableMovement(true);
