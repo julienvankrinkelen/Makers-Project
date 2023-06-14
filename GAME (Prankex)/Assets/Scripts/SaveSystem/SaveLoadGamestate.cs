@@ -36,6 +36,7 @@ public class SaveLoadGamestate : MonoBehaviour
     //public GameObject[] scrolls;
     //public bool[] scrollPicked = new bool[12];
     public int nbCurrentScrolls;
+    public int nbScrollsPicked;
 
     public GameObject candleItem;
     public bool candlePicked;
@@ -134,6 +135,7 @@ public class SaveLoadGamestate : MonoBehaviour
             //player
             player.CurrentHealth = data.currentHealth;
             player.attackDamage = data.attackDamage;
+            player.maxHealth = data.maxHealth;
 
             Vector2 positionPlayer;
             positionPlayer.x = data.positionPlayer[0];
@@ -191,7 +193,7 @@ public class SaveLoadGamestate : MonoBehaviour
                     daruma[i].SetActive(true);
                     playerCollectibles.darumaPicked[i] = false;
                 }
-                playerCollectibles.setNumberDaruma(numberOfDaruma);
+                //playerCollectibles.setNumberDaruma(numberOfDaruma);
             }
 
             nbDaruma = data.nbDaruma;
@@ -214,7 +216,7 @@ public class SaveLoadGamestate : MonoBehaviour
                     omamori[i].SetActive(true);
                     playerCollectibles.omamoriPicked[i] = false;
                 }
-                playerCollectibles.setNumberOmamori(numberOfOmamori);
+              //  playerCollectibles.setNumberOmamori(numberOfOmamori);
             }
 
             nbOmamori = data.nbOmamori;
@@ -243,6 +245,8 @@ public class SaveLoadGamestate : MonoBehaviour
             //numberScrolls
             nbCurrentScrolls = data.nbCurrentScrolls;
             playerCollectibles.setNumberExplosiveScroll(nbCurrentScrolls);
+            nbScrollsPicked = data.nbScrollsPicked;
+            playerCollectibles.setNumberScrollsPicked(nbScrollsPicked);
 
 
             //notes
@@ -397,7 +401,7 @@ public class SaveLoadGamestate : MonoBehaviour
         //player
         gamestate.currentHealth = player.CurrentHealth;
         gamestate.attackDamage = player.attackDamage;
-
+        gamestate.maxHealth = player.maxHealth;
         gamestate.positionPlayer = new float[2];
         gamestate.positionPlayer[0] = transformPlayer.position.x;
         gamestate.positionPlayer[1] = transformPlayer.position.y;
@@ -433,8 +437,6 @@ public class SaveLoadGamestate : MonoBehaviour
         {
             gamestate.darumaPicked[i] = playerCollectibles.darumaPicked[i];
             Debug.Log("WRITTEN IN MEMORY : DARUMA " + i + " " + gamestate.darumaPicked[i]);
-
-       
         }
         gamestate.nbDaruma = playerCollectibles.getDarumaNumber();
         Debug.Log("WRITTEN IN MEMORY : Number of daruma : " + gamestate.nbDaruma);
@@ -450,7 +452,9 @@ public class SaveLoadGamestate : MonoBehaviour
         }
         */
         gamestate.nbCurrentScrolls = playerCollectibles.getExplosiveScrollNumber();
-        Debug.Log("WRITTEN IN MEMORY : Number of scrolls : " + gamestate.nbCurrentScrolls);
+        Debug.Log("WRITTEN IN MEMORY : Number of current scrolls : " + gamestate.nbCurrentScrolls);
+        gamestate.nbScrollsPicked = playerCollectibles.getExplosiveScrollTotalNumber();
+        Debug.Log("WRITTEN IN MEMORY : Number of scrolls total picked : " + gamestate.nbScrollsPicked);
 
 
         gamestate.notePicked = new bool[5];

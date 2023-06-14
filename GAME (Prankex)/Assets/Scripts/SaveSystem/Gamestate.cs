@@ -13,6 +13,8 @@ public class Gamestate
     //player
     public float currentHealth;
     public float attackDamage;
+    public float maxHealth;
+
     public float[] positionPlayer;
 
     //ennemies
@@ -29,8 +31,8 @@ public class Gamestate
     public int nbDaruma;
 
 
-    // public bool[] scrollPicked;
     public int nbCurrentScrolls;
+    public int nbScrollsPicked;
 
     public bool[] notePicked;
     public int numberOfNotes;

@@ -8,6 +8,7 @@ public class VolumeMusic : MonoBehaviour
 
 {
      private AudioSource audioSource;
+     private float volumeMusicValue;
 // Start is called before the first frame update
     void Start()
     {
@@ -17,7 +18,7 @@ public class VolumeMusic : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float volumeMusicValue = PlayerPrefs.GetFloat("VolumeMusicValue");
+        volumeMusicValue = PlayerPrefs.GetFloat("VolumeMusicValue");
         audioSource.volume = volumeMusicValue;
     }
 }

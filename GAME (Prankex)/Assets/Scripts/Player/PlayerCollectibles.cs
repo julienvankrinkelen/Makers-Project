@@ -10,9 +10,12 @@ public class PlayerCollectibles : MonoBehaviour
     private int numberOfDaruma;
     private int numberOfOmamori;
     private int numberOfExplosiveScroll;
+    private int numberScrollsPicked;
+
     private bool hasCandle;
     private bool hasDash;
     private bool messageCanDisable = false;
+
     private int lanternLightenedNumber;
     private int numberOfNotes;
 
@@ -73,6 +76,7 @@ public class PlayerCollectibles : MonoBehaviour
         numberOfDaruma = 0;
         numberOfOmamori =0;
         numberOfExplosiveScroll =0;
+        numberScrollsPicked = 0;
         hasCandle = false;
         hasDash = false;
         lanternLightenedNumber = 0;
@@ -212,7 +216,7 @@ public class PlayerCollectibles : MonoBehaviour
         Debug.Log("HAS PICKED SCROLL NB : " + scrollNumber);
 
         scrollPicked[scrollNumber] = true;
-        if (numberOfExplosiveScroll == 0)
+        if (numberScrollsPicked == 0)
         {
             StartCoroutine(displayMessageItem("scroll"));
         }
@@ -222,7 +226,8 @@ public class PlayerCollectibles : MonoBehaviour
     }
     public void addExplosiveScroll()
     {
-        numberOfExplosiveScroll++;
+        numberOfExplosiveScroll++; // Dynamic number (+/-).
+        numberScrollsPicked++; // Total number : can only add up.
     }
 
 
@@ -286,6 +291,10 @@ public class PlayerCollectibles : MonoBehaviour
     {
         numberOfExplosiveScroll = scrollNumber;
     }
+    public void setNumberScrollsPicked(int scrollNumberPicked)
+    {
+        numberScrollsPicked = scrollNumberPicked;
+    }
  
     public void setNumberOmamori(int numberOmamori)
     {
@@ -319,6 +328,10 @@ public class PlayerCollectibles : MonoBehaviour
     public int getExplosiveScrollNumber()
     {
         return numberOfExplosiveScroll;
+    }
+    public int getExplosiveScrollTotalNumber()
+    {
+        return numberScrollsPicked;
     }
     public bool checkHasCandle()
     {

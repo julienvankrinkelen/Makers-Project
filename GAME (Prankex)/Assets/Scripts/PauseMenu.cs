@@ -22,6 +22,11 @@ public class PauseMenu : MonoBehaviour
     
     public PlayerCollectibles playerCollectibles;
 
+    public GameObject textNote;
+    public GameObject textScroll;
+    public GameObject textDash;
+    public GameObject textCandle;
+
     public static bool isPaused = false;
     private void Awake()
     {
@@ -61,6 +66,8 @@ public class PauseMenu : MonoBehaviour
         playerMovement.EnableMovement(false);
         playerCombat.EnableCombat(false);
         isPaused = true;
+
+        setTextItems();
     }
 
     public void ResumeGame()
@@ -71,6 +78,15 @@ public class PauseMenu : MonoBehaviour
         playerMovement.EnableMovement(true);
         playerCombat.EnableCombat(true);
         isPaused = false;
+    }
+
+    public void setTextItems()
+    {
+        textCandle.SetActive(playerCollectibles.checkHasCandle());
+        textDash.SetActive(playerCollectibles.checkHasDash());
+        textScroll.SetActive(playerCollectibles.getExplosiveScrollNumber()>0);
+        textNote.SetActive(playerCollectibles.getNumberOfNotes()>0);
+
     }
     public void GoToMainMenu()
     {

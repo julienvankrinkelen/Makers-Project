@@ -92,7 +92,14 @@ public class ScriptHUD : MonoBehaviour
     private void setTextSpriteScroll()
     {
         int numberOfScrolls = playerCollectibles.getExplosiveScrollNumber();
-        textScroll.text = "" + numberOfScrolls;
+        if(numberOfScrolls == 0)
+        {
+            textScroll.text = "";
+        }
+        else
+        {
+            textScroll.text = "" + numberOfScrolls;
+        }
         if (numberOfScrolls > 0)
         {
             scrollSpriteOn.SetActive(true);
@@ -108,7 +115,14 @@ public class ScriptHUD : MonoBehaviour
     private void setTextSpriteNotes()
     {
         int numberOfNotes = playerCollectibles.getNumberOfNotes();
-        textNotes.text = "" + numberOfNotes;
+        if(numberOfNotes == 0)
+        {
+            textNotes.text = "";
+        }
+        else
+        {
+            textNotes.text = "" + numberOfNotes;
+        }
         if (numberOfNotes > 0)
         {
             noteSpriteOn.SetActive(true);
