@@ -54,11 +54,14 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: Water
-    uniqueID: 2534924997
-    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Props
+    uniqueID: 3210817453
+    locked: 0
+  - name: Water
+    uniqueID: 2534924997
     locked: 0
   - name: Wall
     uniqueID: 4203858121
