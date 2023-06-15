@@ -50,10 +50,9 @@ public class InteractableDestroyWall : MonoBehaviour
             && context.performed
             && canInteract == true 
             && Time.time >= playerCombat.nextAttackTime 
-            //&& playerCombat.ScrollSelected 
             && playerCollectibles.getExplosiveScrollNumber()>=1)
         {
-           // playerCombat.anim.SetTrigger("UseScroll");
+            playerCombat.anim.SetTrigger("UseScroll");
             playerCollectibles.removeExplosiveScroll();
             canInteract = false;
             pressedDestroy = true;

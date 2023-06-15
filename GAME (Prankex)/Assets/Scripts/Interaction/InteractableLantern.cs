@@ -52,6 +52,7 @@ public class InteractableLantern : MonoBehaviour
             //&& playerCombat.CandleSelected
             && playerCollectibles.checkHasCandle())
         {
+            playerCombat.anim.SetTrigger("UseCandle");
             int currentLanternNumber = playerCollectibles.getLanternLightenedNumber(); // 0, 1 or 2 possible as the player is currently lighting another lantern
             Debug.Log("CURRENT LANTERN NUMBER = " + currentLanternNumber);
             doorScript.setCandleAnim(currentLanternNumber + 1);

@@ -49,11 +49,9 @@ public class InteractableDestroyBush : MonoBehaviour
             && context.performed
             && canInteract == true
             && Time.time >= playerCombat.nextAttackTime
-            //&& playerCombat.ScrollSelected 
             && playerCollectibles.checkHasCandle())
         {
-            // playerCombat.anim.SetTrigger("UseCandle");
-         
+            playerCombat.anim.SetTrigger("UseCandle");
             canInteract = false;
             interactAction.Invoke();
             playerCombat.nextAttackTime = Time.time + 1f / playerCombat.attackRate;
