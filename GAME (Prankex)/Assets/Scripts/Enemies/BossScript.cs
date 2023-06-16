@@ -30,7 +30,7 @@ public class BossScript : MonoBehaviour
     Rigidbody2D rb;
     public Animator anim;
 
-    public float maxHealth = 20f;
+    public float maxHealth = 40f;
     public float currentHealth;
     private bool attackok = false;
     private bool Phaseone = false;
@@ -89,12 +89,12 @@ public class BossScript : MonoBehaviour
             PathFollow2();
         }
 
-        if (currentHealth == 13 && !Phasetwo && !dancing)
+        if (currentHealth <= 24 && !Phasetwo && !dancing)
         {
             StartCoroutine(Dance1());
         }
 
-        if (currentHealth == 6 && !dancing && !dancetwodone)
+        if (currentHealth <= 12 && !dancing && !dancetwodone)
         {
             StartCoroutine(Dance2());
         }
@@ -341,6 +341,7 @@ public class BossScript : MonoBehaviour
     private IEnumerator FightEnd()
     {
         followEnabled = false;
+        transform.position = new Vector3(-478, 116, 0);
         rb.bodyType = RigidbodyType2D.Static;
         anim.SetBool("IsDead", true);
         anim.SetBool("Phasetwo", false);

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8911119437306238391}
   - component: {fileID: 8911119437306238376}
   - component: {fileID: 8911119437432479416}
+  - component: {fileID: 2758022058325035427}
   m_Layer: 8
   m_Name: EnemyGFX
   m_TagString: Untagged
@@ -27,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8911119437432479419}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.622, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -75,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: f2ed27d6c1c3ccc48959bcca269d88f0, type: 3}
+  m_Sprite: {fileID: 21300000, guid: da4c14958b7643a4fa1040f513df9ac0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -85,7 +86,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
 --- !u!95 &8911119437306238376
 Animator:
   serializedVersion: 5
@@ -118,15 +119,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74978fc226d270545abfc96aa6e7e6e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 8
   playercollider: {fileID: 0}
-  attackPoint: {fileID: 0}
-  playerTransform: {fileID: 0}
-  hitboxKarakasa: {fileID: 0}
-  attackRange: 0.5
   attackDamage: 1
+--- !u!61 &2758022058325035427
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8911119437432479419}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.72220945, y: -0.11475307}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.5625, y: 0.96875}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.81406116, y: 0.24996713}
+  m_EdgeRadius: 0
 --- !u!1 &8911119438131103494
 GameObject:
   m_ObjectHideFlags: 0
@@ -141,6 +161,7 @@ GameObject:
   - component: {fileID: 8911119438131103495}
   - component: {fileID: 8911119438131103489}
   - component: {fileID: 7364331874594636740}
+  - component: {fileID: 579226749604360579}
   m_Layer: 8
   m_Name: Enemy
   m_TagString: Untagged
@@ -157,7 +178,7 @@ Transform:
   m_GameObject: {fileID: 8911119438131103494}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 35.954, y: -0.73, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 4, y: 4, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8911119437306238388}
@@ -205,7 +226,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.019443512, y: 0.024304926}
+  m_Offset: {x: 0.036744118, y: -0.0060892105}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -216,7 +237,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.7083435, y: 1.204161}
+  m_Size: {x: 0.405756, y: 0.9355202}
   m_EdgeRadius: 0
 --- !u!50 &8911119438131103495
 Rigidbody2D:
@@ -251,16 +272,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c52093e0e2e12dc499f2fdf093554dcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mobsState: {fileID: 0}
   anim: {fileID: 8911119437306238376}
   sprite: {fileID: 8911119437306238391}
   rb: {fileID: 8911119438131103495}
   playercollider: {fileID: 0}
   maxHealth: 2
+  currentHealth: 0
   playerLayer:
     serializedVersion: 2
     m_Bits: 8
   attackPoint: {fileID: 0}
   playerTransform: {fileID: 0}
+  playerCombat: {fileID: 0}
   attackRange: 0.5
   attackDamage: 1
   attackRate: 2
@@ -286,10 +310,26 @@ MonoBehaviour:
   deceleration: 16
   velPower: 0.96
   nextWaypointDistance: 3
-  jumpNodeHeightRequirement: 0.4
-  jumpModifier: 0.3
-  jumpCheckOffset: 0.1
+  jumpNodeHeightRequirement: 0.5
+  jumpModifier: 0.5
+  jumpCheckOffset: 0.3
   followEnabled: 0
   jumpEnabled: 1
   directionLookEnabled: 1
   animator: {fileID: 8911119437306238376}
+--- !u!58 &579226749604360579
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8911119438131103494}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
