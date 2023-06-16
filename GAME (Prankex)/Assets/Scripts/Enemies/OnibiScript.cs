@@ -33,9 +33,9 @@ public class OnibiScript : MonoBehaviour
     public LayerMask playerLayer;
     public Transform attackPoint;
 
-    public float attackRange = 1f;
-    public float attackDamage = 0.5f;
-    public float attackRate = 5f;
+    public GameObject indicator;
+    public Collider2D hitbox;
+    public float attackRate = 0.25f;
     float nextAttackTime = 0f;
 
     #endregion
@@ -64,7 +64,7 @@ public class OnibiScript : MonoBehaviour
         if ((Vector2.Distance(target.position, attackPoint.position) < 5) && Time.time >= nextAttackTime)
         {
             rush = true;
-            Rush();
+            StartCoroutine(Rush());
             nextAttackTime = Time.time + 1f / attackRate;
         }
         else
@@ -79,27 +79,15 @@ public class OnibiScript : MonoBehaviour
         }
     }
 
-    public void Rush()
+    private IEnumerator Rush()
     {
-        
-        // check for player in range in the layer assigned
-        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, playerLayer);
-
-        foreach (Collider2D enemy in hitEnemies)
-        {
-            Debug.Log("You have been hit");
-            enemy.GetComponent<PlayerCombat>().TakeDamage(attackDamage);
-        }
-
+        hitbox.enabled = true;
+        indicator.SetActive(true);
+        yield return new WaitForSeconds(1);
+        hitbox.enabled = false;
+        indicator.SetActive(false);
     }
 
-    private void OnDrawGizmosSelected()
-    {
-        if (attackPoint == null)
-            return;
-
-        Gizmos.DrawWireSphere(attackPoint.position, attackRange);
-    }
 
     public void TakeDamage(float damage)
     {
@@ -187,7 +175,6 @@ public class OnibiScript : MonoBehaviour
 
         if (rush == true)
         {
-            Debug.Log("Rushing");
             rb.AddForce(force * 3, ForceMode2D.Impulse);
         }
         else

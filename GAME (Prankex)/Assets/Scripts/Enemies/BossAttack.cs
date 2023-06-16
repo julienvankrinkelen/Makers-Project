@@ -4,12 +4,10 @@ using UnityEngine;
 
 public class BossAttack : MonoBehaviour
 {
-    public LayerMask playerLayer;
     public Collider2D playercollider;
 
 
     public float attackDamage = 1;
-
 
     private void OnTriggerEnter2D(Collider2D collider2D)
     {

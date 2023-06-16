@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class EnemyAttack : MonoBehaviour
 {
-    public LayerMask playerLayer;
     public Collider2D playercollider;
 
 
@@ -16,5 +15,5 @@ public class EnemyAttack : MonoBehaviour
         playercollider.GetComponent<PlayerCombat>().TakeDamage(attackDamage);
     }
 
-
+    
 }

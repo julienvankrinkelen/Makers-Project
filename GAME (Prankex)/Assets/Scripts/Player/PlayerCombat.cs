@@ -26,10 +26,9 @@ public class PlayerCombat : MonoBehaviour
 
     public float attackRange = 0.5f;
     public float attackDamage = 1f;
-    public float attackRate = 2f;
+    public float attackRate = 1f;
     public float nextAttackTime = 0f;
-    private EdgeCollider2D airattackcoll;
-    private CapsuleCollider2D attackcoll;
+
 
     public bool ScrollSelected = false;
     public bool CandleSelected = false;
@@ -45,8 +44,6 @@ public class PlayerCombat : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
-        airattackcoll = GetComponent<EdgeCollider2D>();
-        attackcoll = GetComponent<CapsuleCollider2D>();
 
         CurrentHealth = maxHealth;
         panelTransiDeath.SetActive(false);
