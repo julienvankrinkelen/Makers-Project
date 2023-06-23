@@ -13,7 +13,7 @@ public class CollectNote : MonoBehaviour
 {
 
 
-    public DialogTest dialogTest;
+    public NoteDialog NoteDialog;
     public PlayerCollectibles playerCollectibles;
 
     public bool isInRange;
@@ -25,7 +25,7 @@ public class CollectNote : MonoBehaviour
     private void CollectTheNote()
     {
         spNote.enabled = false;
-        dialogTest.StartDialog();
+        NoteDialog.StartDialog();
         playerCollectibles.pickNote(note);
     }
 

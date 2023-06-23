@@ -84,7 +84,7 @@ public class InteractableDestroyWall : MonoBehaviour
 
     public void SeeInteraction()
     {
-        if (canInteract == true && isInRange == true && !pressedDestroy)
+        if (canInteract == true && isInRange == true && !pressedDestroy && playerCollectibles.getExplosiveScrollNumber() >= 1)
         {
             Indicator.SetActive(true);
             InteractText.SetActive(true);

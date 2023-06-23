@@ -87,7 +87,7 @@ public class InteractableLantern : MonoBehaviour
 
     public void SeeInteraction()
     {
-        if (canInteract == true && isInRange == true && !isLightened)
+        if (canInteract == true && isInRange == true && !isLightened && playerCollectibles.checkHasCandle())
         {
             Indicator.SetActive(true);
             InteractText.SetActive(true);

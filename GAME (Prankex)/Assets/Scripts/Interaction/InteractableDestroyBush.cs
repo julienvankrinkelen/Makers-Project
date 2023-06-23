@@ -81,7 +81,7 @@ public class InteractableDestroyBush : MonoBehaviour
 
     public void SeeInteraction()
     {
-        if (canInteract == true && isInRange == true)
+        if (canInteract == true && isInRange == true && playerCollectibles.checkHasCandle())
         {
             Indicator.SetActive(true);
             InteractText.SetActive(true);

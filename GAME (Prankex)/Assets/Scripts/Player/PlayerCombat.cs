@@ -132,11 +132,11 @@ public class PlayerCombat : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Traps"))
+        if (collision.gameObject.CompareTag("Traps") && CurrentHealth>0)
         {
             TakeDamage(1);
         }
-        if (collision.gameObject.CompareTag("Juice"))
+        if (collision.gameObject.CompareTag("Juice") && CurrentHealth>0)
         {
             TakeDamageJ(2);
         }
@@ -190,6 +190,7 @@ public class PlayerCombat : MonoBehaviour
         deathAnim.SetBool("ShowLoadingScreen", true);
         // Die animation
         anim.SetBool("IsDead", true);
+        
         yield return new WaitForSeconds(1);
 
         //GetComponent<PlayerMovement>().enabled = false;
