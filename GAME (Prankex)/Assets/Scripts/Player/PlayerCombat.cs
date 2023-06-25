@@ -143,7 +143,7 @@ public class PlayerCombat : MonoBehaviour
     }
     public void TakeDamage(float damage)
     {
-        if (!IsDead)
+        if (CurrentHealth>0)
         {
 
             CurrentHealth -= damage;
@@ -159,7 +159,7 @@ public class PlayerCombat : MonoBehaviour
     }
     public void TakeDamageJ(int damage)
     {
-        if (!IsDead)
+        if (CurrentHealth>0)
         {
             CurrentHealth -= damage;
             rb.AddForce((Vector2.up * (DamageForce * 3)) + (Vector2.right * (DamageForce * 3)), ForceMode2D.Impulse);

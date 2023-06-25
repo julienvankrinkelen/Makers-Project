@@ -51,7 +51,10 @@ public class ScriptHUD : MonoBehaviour
         // Programmation défensive possible
 
         setNbHeartsAssets( (int) player.maxHealth);
-        setLifeAssets( (int) player.CurrentHealth);
+        if (player.CurrentHealth > 0)
+        {
+            setLifeAssets((int)player.CurrentHealth);
+        }
         setNbDarumaCircles();
         setNbOmamoriCircles();
         setTextDaruma();

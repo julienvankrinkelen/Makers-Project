@@ -25,7 +25,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float jumpCutMultiplier = 0.05f;
     [SerializeField] private float maxGravity = 6;
     [SerializeField] private float DashForce = 50f;
-    [SerializeField] private TrailRenderer tr;
 
     [SerializeField] private LayerMask jumpableGround;
     [SerializeField] private LayerMask wallLayer;
