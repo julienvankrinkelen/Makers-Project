@@ -17,6 +17,7 @@ public class NewScene : MonoBehaviour
     
     void Awake()
     {
+        loadingScreen.SetActive(false);
         blackScreen.SetActive(true);
         videoPlayer = videoObject.GetComponent<VideoPlayer>();
         Debug.Log("ENTERING START NEW SCENE");
@@ -35,6 +36,7 @@ public class NewScene : MonoBehaviour
 
     public IEnumerator displayLoadingScreen()
     {
+        loadingScreen.SetActive(true);
         videoPlayer.Play();
         blackScreen.SetActive(false);
 
@@ -49,6 +51,7 @@ public class NewScene : MonoBehaviour
         loading.SetBool("ShowLoadingScreen", false);
         canvasLoading.SetActive(false);
         HUD.SetActive(true);
+        loadingScreen.SetActive(false);
 
     }
 }

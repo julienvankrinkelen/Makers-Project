@@ -45,7 +45,7 @@ public class SaveLoadGamestate : MonoBehaviour
     public bool dashPicked;
 
     public GameObject[] notes;
-    public bool[] notePicked = new bool[5];
+    public bool[] notePicked = new bool[6];
     public int numberOfNotes;
 
     public bool[] lanternLightened = new bool[3];
@@ -221,26 +221,6 @@ public class SaveLoadGamestate : MonoBehaviour
 
             nbOmamori = data.nbOmamori;
             playerCollectibles.setNumberOmamori(nbOmamori);
-
-            /*
-            //scroll
-            scrollPicked = data.scrollPicked;
-            // GameObject Scroll déjà géré dans le tanuki : c'est un fils de tanuki. Scroll ici sert à  
-            for (int i = 0; i < scrollPicked.Length; i++)
-            {   //Si le scroll a été pick
-                if (scrollPicked[i])
-                {
-                    scrolls[i].SetActive(false);
-                    //Ajoute le scroll au compteur, dans le cas où on aurait besoin du nombre
-                    playerCollectibles.addExplosiveScroll();
-                    playerCollectibles.scrollPicked[i] = true;
-                }
-                else
-                {
-                    playerCollectibles.scrollPicked[i] = false;
-                }
-            }
-            */
 
             //numberScrolls
             nbCurrentScrolls = data.nbCurrentScrolls;
@@ -457,7 +437,7 @@ public class SaveLoadGamestate : MonoBehaviour
         Debug.Log("WRITTEN IN MEMORY : Number of scrolls total picked : " + gamestate.nbScrollsPicked);
 
 
-        gamestate.notePicked = new bool[5];
+        gamestate.notePicked = new bool[6];
         //note
         for (int i = 0; i < gamestate.notePicked.Length; i++)
         {

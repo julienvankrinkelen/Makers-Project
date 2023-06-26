@@ -68,7 +68,7 @@ public class PlayerCollectibles : MonoBehaviour
         omamoriPicked = new bool[15];
         darumaPicked = new bool[15];
         scrollPicked = new bool[12];
-        notePicked = new bool[5];
+        notePicked = new bool[6];
         lanternLightened = new bool[3];
 
         
@@ -257,6 +257,7 @@ public class PlayerCollectibles : MonoBehaviour
         {
             Debug.Log("Number of Omamori : " + numberOfOmamori + " -> adding 1 hp");
             playerCombat.AddLife(1);
+
         }
     }
 

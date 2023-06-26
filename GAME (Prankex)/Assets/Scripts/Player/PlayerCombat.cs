@@ -96,39 +96,6 @@ public class PlayerCombat : MonoBehaviour
         }
 
     }
-    /*
-    public void Object(InputAction.CallbackContext context)
-    {
-        if (context.performed && Time.time >= nextAttackTime && ScrollSelected)
-        {
-            // animation trigger
-            anim.SetTrigger("Scroll");
-            nextAttackTime = Time.time + 1f / attackRate;
-
-        }
-
-        if (context.performed && Time.time >= nextAttackTime && CandleSelected)
-        {
-            // animation trigger
-            anim.SetTrigger("Candle");
-            nextAttackTime = Time.time + 1f / attackRate;
-
-        }
-
-
-        if (context.canceled)
-        {
-            anim.ResetTrigger("Scroll");
-            anim.ResetTrigger("Candle");
-        }
-    }
-
-    // Code DestroyWall
-
-    // Code CandleLight
-
-    */
-
 
     private void OnCollisionEnter2D(Collision2D collision)
     {

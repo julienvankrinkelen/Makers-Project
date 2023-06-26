@@ -20,6 +20,11 @@ TagManager:
   - DestructibleWall
   - Onibi
   - Boss
+  - Zone01
+  - Zone02
+  - Zone03
+  - ZoneBoss
+  - ZoneNoMusic
   layers:
   - Default
   - TransparentFX

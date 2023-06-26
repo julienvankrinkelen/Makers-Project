@@ -10,6 +10,9 @@ public class MainMenu : MonoBehaviour
 {
     public int saveExists;
 
+    public AudioSource src;
+    public AudioClip sfx1, sfx2;
+
     public GameObject panelChoice;
     public GameObject mainMenu;
   
@@ -55,4 +58,17 @@ public class MainMenu : MonoBehaviour
         PlayerPrefs.SetInt("JustDeleteSave", 1);
         SceneManager.LoadScene("new map");
     }
+
+    public void SoundButton()
+    {
+        src.clip = sfx1;
+        src.Play();
+    }
+    public void SoundBack()
+    {
+        src.clip = sfx2;
+        src.Play();
+    }
+
+
 }
