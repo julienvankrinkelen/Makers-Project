@@ -12,7 +12,14 @@ public class EnemyAttack : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collider2D)
     {
-        playercollider.GetComponent<PlayerCombat>().TakeDamage(attackDamage);
+        if (collider2D == playercollider)
+        {
+            playercollider.GetComponent<PlayerCombat>().TakeDamage(attackDamage);
+        }
+        else
+        {
+
+        }
     }
 
     

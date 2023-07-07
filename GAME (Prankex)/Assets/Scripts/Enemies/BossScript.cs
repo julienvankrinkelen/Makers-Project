@@ -9,7 +9,7 @@ public class BossScript : MonoBehaviour
     [Header("Pathfinding")]
     public Transform target;
     public float activateDistance = 50f;
-    public float pathUpdateSeconds = 0.5f;
+    public float pathUpdateSeconds = 0.2f;
 
     [Header("Physics")]
     public float speed = 8f;
@@ -62,17 +62,6 @@ public class BossScript : MonoBehaviour
 
     }
     
-    private IEnumerator StartFight()
-    {
-        // Blabla -> You there ? It never ends
-        yield return new WaitForSecondsRealtime(2);
-        Phaseone = true;
-        followEnabled = true;
-        // You are just a mere pile of seconds
-        yield return new WaitForSecondsRealtime(3);
-        rb.bodyType = RigidbodyType2D.Dynamic;
-        attackok = true;
-    }
     private void FixedUpdate()
     {
         if (Vector2.Distance(playerTransform.position, transform.position) < 25 && anim.GetBool("IsDead") == false && playerCombat.CurrentHealth > 0 && !Phaseone && !Phasetwo && !dancing)
@@ -100,6 +89,8 @@ public class BossScript : MonoBehaviour
         }
 
     }
+
+
 
     private void UpdatePath()
     {
@@ -198,12 +189,18 @@ public class BossScript : MonoBehaviour
 
         // Direction calculation
         Vector2 direction = ((Vector2)path.vectorPath[currentWaypoint] - rb.position).normalized;
-        // Vector2 force = direction * speed * Time.deltaTime;
-        float targetSpeed = direction.x * speed;
-        float speedDif = targetSpeed - rb.velocity.x;
-        float accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? acceleration : deceleration;
-        float force = Mathf.Pow(Mathf.Abs(speedDif) * accelRate, velPower) * Mathf.Sign(speedDif);
+        
+        float targetSpeedx = direction.x * speed;
+        float speedDifx = targetSpeedx - rb.velocity.x;
+        float accelRatex = (Mathf.Abs(targetSpeedx) > 0.01f) ? acceleration : deceleration;
+        float forcex = Mathf.Pow(Mathf.Abs(speedDifx) * accelRatex, velPower) * Mathf.Sign(speedDifx);
 
+        float targetSpeedy = direction.y * speed;
+        float speedDify = targetSpeedy - rb.velocity.y;
+        float accelRatey = (Mathf.Abs(targetSpeedy) > 0.01f) ? acceleration : deceleration;
+        float forcey = Mathf.Pow(Mathf.Abs(speedDify) * accelRatey, velPower) * Mathf.Sign(speedDify);
+
+        Vector2 force = new Vector2(forcex, forcey);
         // Movement 
         rb.AddForce(force * Vector2.one, ForceMode2D.Force);
 
@@ -234,7 +231,7 @@ public class BossScript : MonoBehaviour
         if (dash == true)
         {
             Debug.Log("Dashing2");
-            rb.AddForce(force * Vector2.one * 1.5f, ForceMode2D.Impulse);
+            rb.AddForce(force * Vector2.one * 1.25f, ForceMode2D.Impulse);
         }
         
         // Next Waypoint
@@ -269,6 +266,19 @@ public class BossScript : MonoBehaviour
         Zone2.SetActive(true);
         yield return new WaitForSecondsRealtime(waittime);
         Zone2.SetActive(false);
+    }
+
+    private IEnumerator StartFight()
+    {
+        // Blabla -> You there ? It never ends
+        yield return new WaitForSecondsRealtime(2);
+        StartCoroutine(ActivateThenDeactivate2(2));
+        Phaseone = true;
+        followEnabled = true;
+        // You are just a mere pile of seconds
+        yield return new WaitForSecondsRealtime(3);
+        rb.bodyType = RigidbodyType2D.Dynamic;
+        attackok = true;
     }
 
     private IEnumerator Dance1()
