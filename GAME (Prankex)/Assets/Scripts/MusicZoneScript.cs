@@ -161,8 +161,10 @@ public class MusicZoneScript : MonoBehaviour
             {
                 StartCoroutine(FadeInTrack(newTrack));
             }
-            isTransitioning = false;
+            
         }
+        isTransitioning = false;
+
     }
 
     public IEnumerator FadeInTrack(AudioSource newTrack)
