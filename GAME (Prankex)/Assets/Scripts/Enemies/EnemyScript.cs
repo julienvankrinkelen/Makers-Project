@@ -21,6 +21,10 @@ public class EnemyScript : MonoBehaviour
     public Transform playerTransform;
     public PlayerCombat playerCombat;
 
+    [SerializeField] private AudioSource dieSoundEffect;
+    [SerializeField] private AudioSource hurtSoundEffect;
+    [SerializeField] private AudioSource attackSoundEffect;
+
     public float attackRange = 0.5f;
     public int attackDamage = 2;
     public float attackRate = 0.5f;
@@ -58,6 +62,7 @@ public class EnemyScript : MonoBehaviour
         if((Vector2.Distance(playerTransform.position, attackPoint.position) < 2 ) && Time.time >= nextAttackTime && playerCombat.CurrentHealth>0)
         {
             anim.SetTrigger("Attack");
+            attackSoundEffect.Play();
             nextAttackTime = Time.time + 3f / attackRate;
         }
 
@@ -85,6 +90,7 @@ public class EnemyScript : MonoBehaviour
             Debug.Log("Enemy health : " + currentHealth);
             // Hurt animation
             anim.SetTrigger("Hurt");
+            hurtSoundEffect.Play();
             rb.AddForce((Vector2.up * DamageForce) + (Vector2.right * DamageForce), ForceMode2D.Impulse);
             //Registering karakasa life into mobs state save script
             mobsState.registerLifeKarakasa(gameObject, this.currentHealth);
@@ -113,6 +119,7 @@ public class EnemyScript : MonoBehaviour
 
         // Die animation
         anim.SetBool("IsDead", true);
+        dieSoundEffect.Play();
 
         // Disable the enemy
         isDead = true;

@@ -29,6 +29,9 @@ public class PlayerCombat : MonoBehaviour
     public float attackRate = 1f;
     public float nextAttackTime = 0f;
 
+    [SerializeField] private AudioSource hurtSoundEffect;
+    [SerializeField] private AudioSource dieSoundEffect;
+    [SerializeField] private AudioSource attackSoundEffect;
 
     public bool ScrollSelected = false;
     public bool CandleSelected = false;
@@ -64,7 +67,7 @@ public class PlayerCombat : MonoBehaviour
         {
             // animation trigger
             anim.SetTrigger("slash");
-
+            attackSoundEffect.Play();
             nextAttackTime = Time.time + 1f / attackRate;
 
         }
@@ -118,6 +121,7 @@ public class PlayerCombat : MonoBehaviour
 
             // Hurt animation
             anim.SetTrigger("Hurt");
+            hurtSoundEffect.Play();
         }
         if (CurrentHealth <= 0 && !IsDead)
         {
@@ -157,7 +161,7 @@ public class PlayerCombat : MonoBehaviour
         deathAnim.SetBool("ShowLoadingScreen", true);
         // Die animation
         anim.SetBool("IsDead", true);
-        
+        dieSoundEffect.Play();
         yield return new WaitForSeconds(1);
 
         //GetComponent<PlayerMovement>().enabled = false;

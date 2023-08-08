@@ -52,6 +52,12 @@ public class BossScript : MonoBehaviour
     float nextAttackTime = 0f;
     private bool dash = false;
 
+    [SerializeField] private AudioSource dieSoundEffect;
+    [SerializeField] private AudioSource transiSoundEffect;
+    [SerializeField] private AudioSource incantSoundEffect;
+    [SerializeField] private AudioSource thunderSoundEffect;
+    [SerializeField] private AudioSource attackSoundEffect;
+
     private void Start()
     {
         seeker = GetComponent<Seeker>();

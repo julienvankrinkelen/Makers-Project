@@ -38,6 +38,8 @@ public class OnibiScript : MonoBehaviour
     public float attackRate = 0.25f;
     float nextAttackTime = 0f;
 
+    [SerializeField] private AudioSource dieSoundEffect;
+    [SerializeField] private AudioSource hurtSoundEffect;
     #endregion
 
     private void Start()
@@ -98,11 +100,13 @@ public class OnibiScript : MonoBehaviour
 
             // Hurt animation
             anim.SetTrigger("Hurt");
+            hurtSoundEffect.Play();
             // rb.AddForce((Vector2.up * (speed / 50)) + (Vector2.right * (speed / 50)), ForceMode2D.Impulse);
         }
         if (currentHealth <= 0)
         {
             Die();
+
         }
     }
 
@@ -122,7 +126,7 @@ public class OnibiScript : MonoBehaviour
     {
         // Die animation
         anim.SetBool("IsDead", true);
-
+        dieSoundEffect.Play();
         // Disable the enemy
         isDead = true;
 

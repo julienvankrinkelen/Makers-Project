@@ -52,6 +52,9 @@ public class PlayerMovement : MonoBehaviour
     private float DashingCooldown = 1f;
     private Vector2 veloToApply;
 
+    [SerializeField] private AudioSource dashSoundEffect; 
+    [SerializeField] private AudioSource runSoundEffect; 
+    [SerializeField] private AudioSource itemSoundEffect; 
    
     private float gravityScale = 2.3f;
     
@@ -420,40 +423,55 @@ public class PlayerMovement : MonoBehaviour
     private void UpdateAnimationState()
     {
         MovementState state;
+        AudioSource source;
         if (IsGrounded() && horizontal > 0f)
         {
             state = MovementState.running;
+            source = runSoundEffect;
         }
         else if (IsGrounded() && horizontal < 0f)
         {
             state = MovementState.running;
+            source = runSoundEffect;
+
         }
         else if (IsGrounded())
         {
             state = MovementState.idle;
+            source = null;
         }
         else 
         {
             state = MovementState.falling;
+            source = null;
         }
 
         if (isJumping == true || isWallJumping == true || rb.velocity.y > .1f && !IsDashing)
         {
             state = MovementState.jumping;
+            source = null;
+
         }
         else if (rb.velocity.y < -.1f && !isWallSliding)
         {
             state = MovementState.falling;
+            source = null;
         }
         else if (IsDashing == true)
         {
             state = MovementState.rolling;
+            source = dashSoundEffect;
         }
         else if (isWallSliding == true)
         {
             state = MovementState.sliding;
+            source = null;
         }
         anim.SetInteger("state", (int)state);
+        if (source != null)
+        {
+            source.Play();
+        }
     }
 
     public void EnableMovement(bool boolean){
