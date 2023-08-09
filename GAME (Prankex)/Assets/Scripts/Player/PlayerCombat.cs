@@ -32,6 +32,8 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] private AudioSource hurtSoundEffect;
     [SerializeField] private AudioSource dieSoundEffect;
     [SerializeField] private AudioSource attackSoundEffect;
+    [SerializeField] private AudioSource itemUsedSoundEffect;
+    [SerializeField] private AudioSource interactClickSoundEffect;
 
     public bool ScrollSelected = false;
     public bool CandleSelected = false;
@@ -225,6 +227,15 @@ public class PlayerCombat : MonoBehaviour
         float toHeal = maxHealth - CurrentHealth;
         CurrentHealth+= toHeal;
         Debug.Log("Just healed player for " + toHeal + " HP");
+    }
+
+    public void SoundItemUsed()
+    {
+        itemUsedSoundEffect.Play();
+    }
+    public void InteractClickItemUsed()
+    {
+        interactClickSoundEffect.Play();
     }
 
 }

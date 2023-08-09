@@ -75,7 +75,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 05ecef37f2e6e434187cc0184d1862cf, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -583,8 +583,8 @@ MonoBehaviour:
   indicator: {fileID: 2662494084682842862}
   hitbox: {fileID: 2066017381824857055}
   attackRate: 0.25
-  dieSoundEffect: {fileID: 0}
-  hurtSoundEffect: {fileID: 0}
+  dieSoundEffect: {fileID: 5589545685417247732}
+  hurtSoundEffect: {fileID: 8965850288317490437}
 --- !u!1 &5959559600042575045
 GameObject:
   m_ObjectHideFlags: 0
@@ -627,7 +627,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 5c038be27ab16884997db3d309d30d93, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1

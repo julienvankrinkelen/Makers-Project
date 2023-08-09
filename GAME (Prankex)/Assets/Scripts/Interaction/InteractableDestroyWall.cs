@@ -53,6 +53,7 @@ public class InteractableDestroyWall : MonoBehaviour
             && playerCollectibles.getExplosiveScrollNumber()>=1)
         {
             playerCombat.anim.SetTrigger("UseScroll");
+            playerCombat.SoundItemUsed();
             playerCollectibles.removeExplosiveScroll();
             canInteract = false;
             pressedDestroy = true;

@@ -40,13 +40,13 @@ public class NPCDialog : MonoBehaviour
             //Si l'affichage de la ligne de dialogue est terminée : on passe à la suivante
             if (textComponent.text == lines[index])
             {
-                print("BUG 1");
+                playerCombat.InteractClickItemUsed();
                 NextLine();
             }
             //Sinon on affiche le restant du text (pour les gens comme moi :))
             else
             {
-                print("BUG 2");
+                playerCombat.InteractClickItemUsed();
                 StopAllCoroutines();
                 textComponent.text = lines[index];
 

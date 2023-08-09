@@ -27,6 +27,9 @@ public class PauseMenu : MonoBehaviour
     public GameObject textDash;
     public GameObject textCandle;
 
+    [SerializeField] private AudioSource clickSoundEffect;
+    [SerializeField] private AudioSource backSoundEffect;
+
     public static bool isPaused = false;
     private void Awake()
     {
@@ -96,5 +99,14 @@ public class PauseMenu : MonoBehaviour
     public void QuitGame()
     {
         Application.Quit();
+    }
+
+    public void SoundButton()
+    {
+        clickSoundEffect.Play();
+    }
+    public void SoundBack()
+    {
+        backSoundEffect.Play();
     }
 }

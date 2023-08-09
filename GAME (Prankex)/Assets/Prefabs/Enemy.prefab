@@ -76,7 +76,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: a6d8bb42d075e1946b7888c108f0d8c8, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -204,7 +204,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: af7bd349bb170d64caf7acaca5d8fdde, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -576,9 +576,9 @@ MonoBehaviour:
   attackPoint: {fileID: 0}
   playerTransform: {fileID: 0}
   playerCombat: {fileID: 0}
-  dieSoundEffect: {fileID: 0}
-  hurtSoundEffect: {fileID: 0}
-  attackSoundEffect: {fileID: 0}
+  dieSoundEffect: {fileID: 6648569003704511007}
+  hurtSoundEffect: {fileID: 7245173785580450803}
+  attackSoundEffect: {fileID: 7660269278907345553}
   attackRange: 0.5
   attackDamage: 1
   attackRate: 2
@@ -669,7 +669,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 5c038be27ab16884997db3d309d30d93, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1

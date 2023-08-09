@@ -52,6 +52,12 @@ public class PlayerCollectibles : MonoBehaviour
     public PlayerCombat playerCombat;
     public PlayerMovement playerMovement;
 
+    [SerializeField] private AudioSource DashObtainedSoundEffect;
+    [SerializeField] private AudioSource CandleObtainedSoundEffect;
+    [SerializeField] private AudioSource ScrollObtainedSoundEffect;
+    [SerializeField] private AudioSource NoteObtainedSoundEffect;
+    [SerializeField] private AudioSource BonusObtainedSoundEffect;
+
 
     void Awake()
     {
@@ -105,6 +111,7 @@ public class PlayerCollectibles : MonoBehaviour
         {
             messageCanPress.SetActive(false);
             Debug.Log("Disable 2e Message Item");
+            playerCombat.InteractClickItemUsed();
 
             Time.timeScale = 1f;
             playerMovement.EnableMovement(true);
@@ -160,6 +167,7 @@ public class PlayerCollectibles : MonoBehaviour
     public void pickedDash()
     {
         hasDash = true;
+        DashObtainedSoundEffect.Play();
         StartCoroutine(displayMessageItem("dash"));
 
     }
@@ -172,7 +180,7 @@ public class PlayerCollectibles : MonoBehaviour
     public void pickedCandle()
     {
         hasCandle = true;
-
+        CandleObtainedSoundEffect.Play();
         StartCoroutine(displayMessageItem("candle"));
 
     }
@@ -194,6 +202,7 @@ public class PlayerCollectibles : MonoBehaviour
             StartCoroutine(displayMessageItem("daruma"));
         }
         addDaruma();
+        BonusObtainedSoundEffect.Play();
 
 
     }
@@ -221,7 +230,7 @@ public class PlayerCollectibles : MonoBehaviour
             StartCoroutine(displayMessageItem("scroll"));
         }
         addExplosiveScroll();
-
+        ScrollObtainedSoundEffect.Play();
 
     }
     public void addExplosiveScroll()
@@ -243,7 +252,7 @@ public class PlayerCollectibles : MonoBehaviour
             StartCoroutine(displayMessageItem("omamori"));
         }
         addOmamori();
-
+        BonusObtainedSoundEffect.Play();
 
     }
 
@@ -268,6 +277,7 @@ public class PlayerCollectibles : MonoBehaviour
         Debug.Log("HAS PICKED NOTE NB : " + noteNumber);
         notePicked[noteNumber] = true;
         numberOfNotes++; //Update number of notes
+        NoteObtainedSoundEffect.Play();
     }
 
     public void lightenLantern(GameObject lantern, bool boolean)

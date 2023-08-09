@@ -19,6 +19,8 @@ public class TanukiScript : MonoBehaviour
 
     public GameObject scrollDrop;
 
+    [SerializeField] private AudioSource DieSoundEffect;
+
 
     private void Start()
     {
@@ -87,6 +89,7 @@ public class TanukiScript : MonoBehaviour
         mobsState.dieTanuki(gameObject);
         GetComponent<TanukiScript>().enabled = false;
         anim.SetBool("IsDead", true);
+        DieSoundEffect.Play();
         // Die animation
         yield return new WaitForSeconds(1);
         gameObject.SetActive(false);

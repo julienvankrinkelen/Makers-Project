@@ -13,6 +13,8 @@ public class OptionsControl: MonoBehaviour
     [SerializeField] private TextMeshProUGUI volumeGeneralTextUI;
 
     [SerializeField] private Toggle toggleFullScreen;
+
+    public VolumeMusic volumeMusic;
     private void Start()
     {
         int startPref = PlayerPrefs.GetInt("fullScreen");
@@ -24,6 +26,7 @@ public class OptionsControl: MonoBehaviour
     public void VolumeMusicSlider(float volume)
     {
         volumeMusicTextUI.text = Mathf.Round(volume * 100).ToString() + "%";
+
     }
 
     public void VolumeGeneralSlider(float volume)
@@ -38,6 +41,7 @@ public class OptionsControl: MonoBehaviour
         PlayerPrefs.SetFloat("VolumeGeneralValue", volumeGeneralValue);
         PlayerPrefs.SetFloat("VolumeMusicValue", volumeMusicValue);
         LoadValues();
+        volumeMusic.ChangeVolumeMusic();
     }
     public void LoadValues()
     {

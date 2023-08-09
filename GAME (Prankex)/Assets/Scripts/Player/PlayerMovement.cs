@@ -470,7 +470,10 @@ public class PlayerMovement : MonoBehaviour
         anim.SetInteger("state", (int)state);
         if (source != null)
         {
-            source.Play();
+            if (!source.isPlaying)
+            {
+                source.Play();
+            }
         }
     }
 
