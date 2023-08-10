@@ -6,6 +6,8 @@ public class DestructibleObject : MonoBehaviour
 {
     public TerrainState terrainState;
 
+
+
     //private Animator anim;
 
     private void Start()
@@ -32,6 +34,7 @@ public class DestructibleObject : MonoBehaviour
         // Destroyed animation
         //anim.SetTrigger("Destroyed");
         yield return new WaitForSeconds(3);
+
         gameObject.SetActive(false);
     }
 

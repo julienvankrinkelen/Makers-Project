@@ -216,6 +216,7 @@ public class PlayerCollectibles : MonoBehaviour
         {
             Debug.Log("Number of Daruma : " + numberOfDaruma + " -> adding 1 atkDamage to player");
             playerCombat.AddDamage(1);
+            playerCombat.SoundLevelUp();
         }
     }
 
@@ -266,7 +267,7 @@ public class PlayerCollectibles : MonoBehaviour
         {
             Debug.Log("Number of Omamori : " + numberOfOmamori + " -> adding 1 hp");
             playerCombat.AddLife(1);
-
+            playerCombat.SoundLevelUp();
         }
     }
 

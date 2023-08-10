@@ -34,6 +34,12 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] private AudioSource attackSoundEffect;
     [SerializeField] private AudioSource itemUsedSoundEffect;
     [SerializeField] private AudioSource interactClickSoundEffect;
+    [SerializeField] private AudioSource healStatueSoundEffect;
+    [SerializeField] private AudioSource wallDestroySoundEffect;
+    [SerializeField] private AudioSource bushDestroySoundEffect;
+    [SerializeField] private AudioSource lanternLightenSoundEffect;
+    [SerializeField] private AudioSource levelUpSoundEffect;
+
 
     public bool ScrollSelected = false;
     public bool CandleSelected = false;
@@ -224,6 +230,7 @@ public class PlayerCombat : MonoBehaviour
     // Heal aux autels : remet le player full life en fonction de ses HP max
     public void Heal()
     {
+        healStatueSoundEffect.Play();
         float toHeal = maxHealth - CurrentHealth;
         CurrentHealth+= toHeal;
         Debug.Log("Just healed player for " + toHeal + " HP");
@@ -237,5 +244,35 @@ public class PlayerCombat : MonoBehaviour
     {
         interactClickSoundEffect.Play();
     }
+
+    public void SoundWallDestroy()
+    {
+        StartCoroutine(WallSoundDelay());
+    }
+
+    private IEnumerator WallSoundDelay()
+    {
+        yield return new WaitForSecondsRealtime(3);
+        wallDestroySoundEffect.Play();
+    }
+    public void SoundBushDestroy()
+    {
+        StartCoroutine(BushSoundDelay());
+    }
+    private IEnumerator BushSoundDelay()
+    {
+        yield return new WaitForSecondsRealtime(3);
+        bushDestroySoundEffect.Play();
+    }
+    public void SoundLanternLighten()
+    {
+        lanternLightenSoundEffect.Play();
+    }
+
+    public void SoundLevelUp()
+    {
+        levelUpSoundEffect.Play();
+    }
+
 
 }

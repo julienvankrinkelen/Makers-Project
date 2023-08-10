@@ -53,6 +53,7 @@ public class InteractableDestroyBush : MonoBehaviour
         {
             playerCombat.anim.SetTrigger("UseCandle");
             playerCombat.SoundItemUsed();
+            playerCombat.SoundBushDestroy();
             canInteract = false;
             interactAction.Invoke();
             playerCombat.nextAttackTime = Time.time + 1f / playerCombat.attackRate;

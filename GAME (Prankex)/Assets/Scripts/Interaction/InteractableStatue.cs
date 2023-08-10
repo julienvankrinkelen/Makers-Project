@@ -21,6 +21,8 @@ public class InteractableStatue : MonoBehaviour
     public GameObject InteractText;
     public GameObject panel;
 
+    [SerializeField] private AudioSource openStatueSoundEffect;
+
     private void Start()
     {
         InteractText.SetActive(false);
@@ -46,7 +48,7 @@ public class InteractableStatue : MonoBehaviour
     {
         if (isInRange && context.performed && canInteract == true)
         {
-
+            openStatueSoundEffect.Play();
             canInteract = false;
             interactAction.Invoke();
 

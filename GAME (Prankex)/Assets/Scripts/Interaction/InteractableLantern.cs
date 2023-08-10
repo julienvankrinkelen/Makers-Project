@@ -22,6 +22,7 @@ public class InteractableLantern : MonoBehaviour
     public GameObject Indicator;
     public GameObject InteractText;
 
+
     private void Start()
     {
         InteractText.SetActive(false);
@@ -54,6 +55,7 @@ public class InteractableLantern : MonoBehaviour
         {
             playerCombat.anim.SetTrigger("UseCandle");
             playerCombat.SoundItemUsed();
+            playerCombat.SoundLanternLighten();
             int currentLanternNumber = playerCollectibles.getLanternLightenedNumber(); // 0, 1 or 2 possible as the player is currently lighting another lantern
             Debug.Log("CURRENT LANTERN NUMBER = " + currentLanternNumber);
             doorScript.setCandleAnim(currentLanternNumber + 1);

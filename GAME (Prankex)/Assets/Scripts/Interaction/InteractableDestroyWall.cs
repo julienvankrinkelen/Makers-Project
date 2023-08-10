@@ -22,6 +22,7 @@ public class InteractableDestroyWall : MonoBehaviour
     public GameObject Indicator;
     public GameObject InteractText;
 
+
     private void Start()
     {
         InteractText.SetActive(false);
@@ -54,6 +55,7 @@ public class InteractableDestroyWall : MonoBehaviour
         {
             playerCombat.anim.SetTrigger("UseScroll");
             playerCombat.SoundItemUsed();
+            playerCombat.SoundWallDestroy();
             playerCollectibles.removeExplosiveScroll();
             canInteract = false;
             pressedDestroy = true;
