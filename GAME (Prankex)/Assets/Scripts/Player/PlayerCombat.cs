@@ -166,7 +166,7 @@ public class PlayerCombat : MonoBehaviour
         EnableCombat(false);
         playerMovement.EnableMovement(false);
 
-        // Loading Screenm
+        // Loading Screen
         panelTransiDeath.SetActive(true);
         deathAnim.SetBool("ShowLoadingScreen", true);
         // Die animation

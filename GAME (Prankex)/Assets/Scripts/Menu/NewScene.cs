@@ -17,24 +17,29 @@ public class NewScene : MonoBehaviour
     
     void Awake()
     {
+
         loadingScreen.SetActive(false);
         blackScreen.SetActive(true);
         videoPlayer = videoObject.GetComponent<VideoPlayer>();
         Debug.Log("ENTERING START NEW SCENE");
         loading = loadingScreen.GetComponent<Animator>();
         JustDeleteSave = PlayerPrefs.GetInt("JustDeleteSave");
-        if(JustDeleteSave == 1)
+        HUD.SetActive(false);
+        if (JustDeleteSave == 1) // In case the player starts a new game : plays cinematic.
         {
-            HUD.SetActive(false);
             Debug.Log("JUST DELETE SAVE = 1");
             //Play Loading screen & fondu transi
-            StartCoroutine(displayLoadingScreen());
+            StartCoroutine(displayCinematic());
         }
-        blackScreen.SetActive(false);
+        else //In case the player loads a new game
+        {
+            StartCoroutine(displayLoadingScreen());
+
+        }
 
     }
 
-    public IEnumerator displayLoadingScreen()
+    public IEnumerator displayCinematic()
     {
         loadingScreen.SetActive(true);
         videoPlayer.Play();
@@ -53,5 +58,24 @@ public class NewScene : MonoBehaviour
         HUD.SetActive(true);
         loadingScreen.SetActive(false);
 
+    }
+
+    public IEnumerator displayLoadingScreen()
+    {
+        loadingScreen.SetActive(true);
+        canvasLoading.SetActive(true);
+        
+        loading.SetBool("ShowLoadingScreen", true);
+
+        yield return new WaitForSecondsRealtime(2);
+
+        blackScreen.SetActive(false);
+
+        yield return new WaitForSecondsRealtime(4);
+
+        loading.SetBool("ShowLoadingScreen", false);
+        canvasLoading.SetActive(false);
+        HUD.SetActive(true);
+        loadingScreen.SetActive(false);
     }
 }

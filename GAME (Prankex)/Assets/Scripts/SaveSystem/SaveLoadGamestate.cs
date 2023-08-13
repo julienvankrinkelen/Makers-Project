@@ -125,6 +125,7 @@ public class SaveLoadGamestate : MonoBehaviour
     {
         //Tempo pour laisser le temps au jeu de charger tous les éléments, puis on les change
         yield return new WaitForSecondsRealtime(0.5f);
+        //yield return new WaitForSecondsRealtime(0);
         JustLoadedScene = 0;
         PlayerPrefs.SetInt("JustLoadedScene", JustLoadedScene);
         int saveExists = PlayerPrefs.GetInt("Save Exists");
