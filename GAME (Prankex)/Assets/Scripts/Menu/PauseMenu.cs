@@ -12,6 +12,8 @@ using UnityEngine.SceneManagement;
 public class PauseMenu : MonoBehaviour
 {
 
+    private bool canUnPause; //If player in the first pause menu (where echap = resume, not back)
+
     public GameObject pauseMenu;
     public GameObject lifeBar;
 
@@ -39,12 +41,9 @@ public class PauseMenu : MonoBehaviour
         playerInputActions.Player.Enable();
 
         playerInputActions.Player.Pause.performed += Pause;
-
-    }
-        // Start is called before the first frame update
-    void Start()
-    {
         pauseMenu.SetActive(false);
+        isPaused = false;
+
     }
 
     public void Pause(InputAction.CallbackContext context)
@@ -52,8 +51,9 @@ public class PauseMenu : MonoBehaviour
         if (!isPaused)
         {
             PauseGame();
+            setCanUnPause(true);
         }
-        else
+        else if (canUnPause)
         {
             ResumeGame();
         }
@@ -109,4 +109,11 @@ public class PauseMenu : MonoBehaviour
     {
         backSoundEffect.Play();
     }
+
+    public void setCanUnPause(bool boolean)
+    {
+        canUnPause = boolean;
+    }
+
+
 }

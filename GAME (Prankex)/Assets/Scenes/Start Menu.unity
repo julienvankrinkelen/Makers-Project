@@ -1514,6 +1514,7 @@ GameObject:
   - component: {fileID: 679258649}
   - component: {fileID: 679258647}
   - component: {fileID: 679258650}
+  - component: {fileID: 679258651}
   m_Layer: 0
   m_Name: ScriptMenu
   m_TagString: Untagged
@@ -1536,6 +1537,7 @@ MonoBehaviour:
   saveExists: 0
   panelChoice: {fileID: 1527877160}
   mainMenu: {fileID: 1873968899}
+  buttonLoadGame: {fileID: 12219088}
   clickSoundEffect: {fileID: 1359321362}
   backSoundEffect: {fileID: 926142163}
 --- !u!4 &679258649
@@ -1574,6 +1576,20 @@ MonoBehaviour:
   volumeGeneralTextUI: {fileID: 2001969915}
   toggleFullScreen: {fileID: 839761615}
   volumeMusic: {fileID: 1828703606}
+--- !u!114 &679258651
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 679258646}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bc56f839a8bf5b45973583d76e47744, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  menuClickSoundEffect: {fileID: 1359321362}
+  menuBackSoundEffect: {fileID: 926142163}
 --- !u!1 &715091642
 GameObject:
   m_ObjectHideFlags: 0

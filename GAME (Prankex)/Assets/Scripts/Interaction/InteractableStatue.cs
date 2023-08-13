@@ -12,6 +12,7 @@ public class InteractableStatue : MonoBehaviour
 {
     public PlayerInput playerInput;
     private PlayerInputActions playerInputActions;
+    public PlayerCombat playerCombat;
 
     public bool isInRange;
     public bool canInteract = true;
@@ -20,8 +21,6 @@ public class InteractableStatue : MonoBehaviour
     public GameObject Indicator;
     public GameObject InteractText;
     public GameObject panel;
-
-    [SerializeField] private AudioSource openStatueSoundEffect;
 
     private void Start()
     {
@@ -41,17 +40,16 @@ public class InteractableStatue : MonoBehaviour
     private void Update()
     {
         SeeInteraction();
-
     }
 
     public void Interact(InputAction.CallbackContext context)
     {
         if (isInRange && context.performed && canInteract == true)
         {
-            openStatueSoundEffect.Play();
             canInteract = false;
             interactAction.Invoke();
-
+            playerCombat.SoundOpenStatue();
+            playerCombat.EnableCombat(false);
         }
 
     }
@@ -73,6 +71,7 @@ public class InteractableStatue : MonoBehaviour
             Debug.Log("Player is not range of interactable object anymore");
             canInteract = true;
             panel.SetActive(false);
+            playerCombat.EnableCombat(true);
         }
     }
 

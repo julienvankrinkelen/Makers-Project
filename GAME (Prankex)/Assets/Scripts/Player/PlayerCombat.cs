@@ -35,6 +35,7 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] private AudioSource itemUsedSoundEffect;
     [SerializeField] private AudioSource interactClickSoundEffect;
     [SerializeField] private AudioSource healStatueSoundEffect;
+    [SerializeField] private AudioSource openStatueSoundEffect;
     [SerializeField] private AudioSource wallDestroySoundEffect;
     [SerializeField] private AudioSource bushDestroySoundEffect;
     [SerializeField] private AudioSource lanternLightenSoundEffect;
@@ -47,6 +48,7 @@ public class PlayerCombat : MonoBehaviour
     public float maxHealth = 4f;
     public float CurrentHealth;
     private bool IsDead = false;
+
     [SerializeField] private float DamageForce = 13;
     private void Start()
     {
@@ -272,6 +274,11 @@ public class PlayerCombat : MonoBehaviour
     public void SoundLevelUp()
     {
         levelUpSoundEffect.Play();
+    }
+
+    public void SoundOpenStatue()
+    {
+        openStatueSoundEffect.Play();
     }
 
 

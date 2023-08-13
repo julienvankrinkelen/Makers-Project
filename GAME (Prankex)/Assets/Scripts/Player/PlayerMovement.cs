@@ -54,7 +54,6 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] private AudioSource dashSoundEffect; 
     [SerializeField] private AudioSource runSoundEffect; 
-    [SerializeField] private AudioSource itemSoundEffect; 
    
     private float gravityScale = 2.3f;
     

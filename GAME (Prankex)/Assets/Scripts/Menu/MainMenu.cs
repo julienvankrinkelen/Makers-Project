@@ -12,10 +12,18 @@ public class MainMenu : MonoBehaviour
 
     public GameObject panelChoice;
     public GameObject mainMenu;
-
+    public Button buttonLoadGame;
     [SerializeField] private AudioSource clickSoundEffect;
     [SerializeField] private AudioSource backSoundEffect;
-  
+
+    private void Start()
+    {
+        saveExists = PlayerPrefs.GetInt("Save Exists");
+        if(saveExists == 0) // make load game button non interactive if save does not exist.
+        {
+            buttonLoadGame.enabled = false;
+        }
+    }
     public void PlayGame()
     {
         

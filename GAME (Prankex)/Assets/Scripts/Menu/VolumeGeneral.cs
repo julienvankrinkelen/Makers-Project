@@ -5,32 +5,30 @@ using UnityEngine;
 public class VolumeGeneral : MonoBehaviour
 {
 
-    private AudioSource audioSource;
-    // Start is called before the first frame update
     [Header("Player sfx")]
-    [SerializeField] private AudioSource runSoundEffect;
-    [SerializeField] private AudioSource itemUsedSoundEffect;
     [SerializeField] private AudioSource hurtSoundEffect;
     [SerializeField] private AudioSource dieSoundEffect;
-    [SerializeField] private AudioSource dashSoundEffect;
     [SerializeField] private AudioSource attackSoundEffect;
+    [SerializeField] private AudioSource itemUsedSoundEffect;
+    [SerializeField] private AudioSource interactClickSoundEffect;
+    [SerializeField] private AudioSource healStatueSoundEffect;
+    [SerializeField] private AudioSource wallDestroySoundEffect;
+    [SerializeField] private AudioSource bushDestroySoundEffect;
+    [SerializeField] private AudioSource lanternLightenSoundEffect;
+    [SerializeField] private AudioSource levelUpSoundEffect;
+    [SerializeField] private AudioSource dashSoundEffect;
+    [SerializeField] private AudioSource runSoundEffect;
+
+    [SerializeField] private AudioSource scrollObtainedSoundEffect;
+    [SerializeField] private AudioSource noteObtainedSoundEffect;
+    [SerializeField] private AudioSource dashObtainedSoundEffect;
+    [SerializeField] private AudioSource candleObtainedSoundEffect;
+    [SerializeField] private AudioSource bonusPickupSoundEffect;
+    [SerializeField] private AudioSource autelSoundEffect;
 
     [Header("UI sfx")]
     [SerializeField] private AudioSource menuClickSoundEffect;
-    [SerializeField] private AudioSource interactSoundEffect;
     [SerializeField] private AudioSource menuBackSoundEffect;
-
-    [Header("Props sfx")]
-    [SerializeField] private AudioSource murDestruSoundEffect;
-    [SerializeField] private AudioSource lanternLightenSoundEffect;
-    [SerializeField] private AudioSource scrollObtainedSoundEffect;
-    [SerializeField] private AudioSource noteObtainedSoundEffect;
-    [SerializeField] private AudioSource légendaireObtainedSoundEffect;
-    [SerializeField] private AudioSource buissonDestruSoundEffect;
-    [SerializeField] private AudioSource bonusPickupDestruSoundEffect;
-    [SerializeField] private AudioSource bonusLevelupDestruSoundEffect;
-    [SerializeField] private AudioSource autelDestruSoundEffect;
-    [SerializeField] private AudioSource autelHealDestruSoundEffect;
 
     [Header("Onibi sfx")]
     [SerializeField] private AudioSource onibiHurtSoundEffect00;
@@ -108,18 +106,103 @@ public class VolumeGeneral : MonoBehaviour
     [SerializeField] private AudioSource bossAttackSoundEffect;
 
 
-
-
-
-    void Start()
-    {
-        audioSource = GetComponent<AudioSource>();
-    }
-
     // Update is called once per frame
     void Update()
     {
         float volumeGeneralValue = PlayerPrefs.GetFloat("VolumeGeneralValue");
-        audioSource.volume = volumeGeneralValue;
+        hurtSoundEffect.volume = volumeGeneralValue;
+        dieSoundEffect.volume = volumeGeneralValue;
+        attackSoundEffect.volume = volumeGeneralValue;
+        itemUsedSoundEffect.volume = volumeGeneralValue;
+        interactClickSoundEffect.volume = volumeGeneralValue;
+        healStatueSoundEffect.volume = volumeGeneralValue;
+        wallDestroySoundEffect.volume = volumeGeneralValue;
+        bushDestroySoundEffect.volume = volumeGeneralValue;
+        lanternLightenSoundEffect.volume = volumeGeneralValue;
+        levelUpSoundEffect.volume = volumeGeneralValue;
+        dashSoundEffect.volume = volumeGeneralValue;
+        runSoundEffect.volume = volumeGeneralValue;
+
+        scrollObtainedSoundEffect.volume = volumeGeneralValue;
+        noteObtainedSoundEffect.volume = volumeGeneralValue;
+        dashObtainedSoundEffect.volume = volumeGeneralValue;
+        candleObtainedSoundEffect.volume = volumeGeneralValue;
+        bonusPickupSoundEffect.volume = volumeGeneralValue;
+        autelSoundEffect.volume = volumeGeneralValue;
+
+        menuClickSoundEffect.volume = volumeGeneralValue;
+        menuBackSoundEffect.volume = volumeGeneralValue;
+
+        onibiHurtSoundEffect00.volume = volumeGeneralValue;
+        dieSoundEffect00.volume = volumeGeneralValue;
+
+        onibiHurtSoundEffect01.volume = volumeGeneralValue;
+        dieSoundEffect01.volume = volumeGeneralValue;
+
+        onibiHurtSoundEffect02.volume = volumeGeneralValue;
+        dieSoundEffect02.volume = volumeGeneralValue;
+
+        onibiHurtSoundEffect03.volume = volumeGeneralValue;
+        dieSoundEffect03.volume = volumeGeneralValue;
+
+        onibiHurtSoundEffect04.volume = volumeGeneralValue;
+        dieSoundEffect04.volume = volumeGeneralValue;
+
+        onibiHurtSoundEffect05.volume = volumeGeneralValue;
+        dieSoundEffect05.volume = volumeGeneralValue;
+
+        onibiHurtSoundEffect06.volume = volumeGeneralValue;
+        dieSoundEffect06.volume = volumeGeneralValue;
+
+
+        karakasaHurtSoundEffect00.volume = volumeGeneralValue;
+        karakasaDieSoundEffect00.volume = volumeGeneralValue;
+        karakasaAttackSoundEffect00.volume = volumeGeneralValue;
+
+        karakasaHurtSoundEffect01.volume = volumeGeneralValue;
+        karakasaDieSoundEffect01.volume = volumeGeneralValue;
+        karakasaAttackSoundEffect01.volume = volumeGeneralValue;
+
+        karakasaHurtSoundEffect02.volume = volumeGeneralValue;
+        karakasaDieSoundEffect02.volume = volumeGeneralValue;
+        karakasaAttackSoundEffect02.volume = volumeGeneralValue;
+
+        karakasaHurtSoundEffect03.volume = volumeGeneralValue;
+        karakasaDieSoundEffect03.volume = volumeGeneralValue;
+        karakasaAttackSoundEffect03.volume = volumeGeneralValue;
+
+        karakasaHurtSoundEffect04.volume = volumeGeneralValue;
+        karakasaDieSoundEffect04.volume = volumeGeneralValue;
+        karakasaAttackSoundEffect04.volume = volumeGeneralValue;
+
+        karakasaHurtSoundEffect05.volume = volumeGeneralValue;
+        karakasaDieSoundEffect05.volume = volumeGeneralValue;
+        karakasaAttackSoundEffect05.volume = volumeGeneralValue;
+
+        karakasaHurtSoundEffect06.volume = volumeGeneralValue;
+        karakasaDieSoundEffect06.volume = volumeGeneralValue;
+        karakasaAttackSoundEffect06.volume = volumeGeneralValue;
+
+        karakasaHurtSoundEffect07.volume = volumeGeneralValue;
+        karakasaDieSoundEffect07.volume = volumeGeneralValue;
+        karakasaAttackSoundEffect07.volume = volumeGeneralValue;
+
+        karakasaHurtSoundEffect08.volume = volumeGeneralValue;
+        karakasaDieSoundEffect08.volume = volumeGeneralValue;
+        karakasaAttackSoundEffect08.volume = volumeGeneralValue;
+
+        karakasaHurtSoundEffect09.volume = volumeGeneralValue;
+        karakasaDieSoundEffect09.volume = volumeGeneralValue;
+        karakasaAttackSoundEffect09.volume = volumeGeneralValue;
+
+        karakasaHurtSoundEffect10.volume = volumeGeneralValue;
+        karakasaDieSoundEffect10.volume = volumeGeneralValue;
+        karakasaAttackSoundEffect10.volume = volumeGeneralValue;
+
+        bossTransiSoundEffect.volume = volumeGeneralValue;
+        bossThunderSoundEffect.volume = volumeGeneralValue;
+        bossIncantSoundEffect.volume = volumeGeneralValue;
+        bossDieSoundEffect.volume = volumeGeneralValue;
+        bossAttackSoundEffect.volume = volumeGeneralValue;
     }
 }
