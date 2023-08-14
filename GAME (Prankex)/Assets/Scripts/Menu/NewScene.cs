@@ -5,6 +5,10 @@ using UnityEngine.Video;
 
 public class NewScene : MonoBehaviour
 {
+    public PlayerMovement playerMovement;
+    public PlayerCombat playerCombat;
+    public VolumeMusic volumeMusic;
+
     int JustDeleteSave;
     public GameObject canvasLoading;
     public GameObject loadingScreen;
@@ -17,6 +21,8 @@ public class NewScene : MonoBehaviour
     
     void Awake()
     {
+        playerCombat.EnableCombat(false);
+        playerMovement.EnableMovement(false);
 
         loadingScreen.SetActive(false);
         blackScreen.SetActive(true);
@@ -41,6 +47,8 @@ public class NewScene : MonoBehaviour
 
     public IEnumerator displayCinematic()
     {
+        volumeMusic.CancelMusicVolume();
+
         loadingScreen.SetActive(true);
         videoPlayer.Play();
         blackScreen.SetActive(false);
@@ -57,6 +65,10 @@ public class NewScene : MonoBehaviour
         canvasLoading.SetActive(false);
         HUD.SetActive(true);
         loadingScreen.SetActive(false);
+        playerCombat.EnableCombat(true);
+        playerMovement.EnableMovement(true);
+
+        volumeMusic.ChangeVolumeMusic();
 
     }
 
@@ -77,5 +89,8 @@ public class NewScene : MonoBehaviour
         canvasLoading.SetActive(false);
         HUD.SetActive(true);
         loadingScreen.SetActive(false);
+        playerCombat.EnableCombat(true);
+        playerMovement.EnableMovement(true);
+        volumeMusic.ChangeVolumeMusic();
     }
 }

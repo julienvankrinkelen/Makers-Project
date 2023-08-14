@@ -81,7 +81,7 @@ public class InteractableStatue : MonoBehaviour
         {
             Indicator.SetActive(true);
             InteractText.SetActive(true);
-
+             
 
         }
         else
