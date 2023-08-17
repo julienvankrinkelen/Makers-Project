@@ -253,11 +253,13 @@ public class BossScript : MonoBehaviour
     public void Attack1()
     {
         anim.SetTrigger("Attack1");
+        attackSoundEffect.Play();
     }
 
     public void Attack2()
     {
         anim.SetTrigger("Attack2");
+        attackSoundEffect.Play();
     }
 
     private IEnumerator ActivateThenDeactivate1(float waittime)
@@ -304,6 +306,7 @@ public class BossScript : MonoBehaviour
 
         // time for transition animation
         anim.SetBool("Transition", true);
+        transiSoundEffect.Play();
         yield return new WaitForSecondsRealtime(1);
         rb.bodyType = RigidbodyType2D.Dynamic;
         anim.SetBool("Transition", false);
@@ -348,6 +351,7 @@ public class BossScript : MonoBehaviour
         }
         if (currentHealth <= 0)
         {
+            dieSoundEffect.Play();
             StartCoroutine(FightEnd());
         }
     }

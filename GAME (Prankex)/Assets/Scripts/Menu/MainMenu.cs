@@ -16,9 +16,13 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private AudioSource clickSoundEffect;
     [SerializeField] private AudioSource backSoundEffect;
 
+    public VolumeMusic volumeMusic;
+
     private void Start()
     {
+
         saveExists = PlayerPrefs.GetInt("Save Exists");
+        volumeMusic.ChangeVolumeMusic();
         if(saveExists == 0) // make load game button non interactive if save does not exist.
         {
             buttonLoadGame.enabled = false;

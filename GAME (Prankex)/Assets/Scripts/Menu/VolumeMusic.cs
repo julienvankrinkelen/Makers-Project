@@ -16,7 +16,6 @@ public class VolumeMusic : MonoBehaviour
     private float volumeMusicValue;
     private int fadeTime = 3;
 
-
     public void ChangeVolumeMusic()
     {
         volumeMusicValue = PlayerPrefs.GetFloat("VolumeMusicValue");

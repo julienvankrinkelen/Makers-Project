@@ -1540,6 +1540,7 @@ MonoBehaviour:
   buttonLoadGame: {fileID: 12219088}
   clickSoundEffect: {fileID: 1359321362}
   backSoundEffect: {fileID: 926142163}
+  volumeMusic: {fileID: 1828703606}
 --- !u!4 &679258649
 Transform:
   m_ObjectHideFlags: 0
@@ -1590,6 +1591,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   menuClickSoundEffect: {fileID: 1359321362}
   menuBackSoundEffect: {fileID: 926142163}
+  musicMenu: {fileID: 0}
 --- !u!1 &715091642
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MainVolumeGeneral : MonoBehaviour
+public class MainVolume: MonoBehaviour
 {
     [Header("UI sfx")]
     [SerializeField] private AudioSource menuClickSoundEffect;
     [SerializeField] private AudioSource menuBackSoundEffect;
+    [SerializeField] private AudioSource musicMenu;
 
     // Update is called once per frame
     void Update()

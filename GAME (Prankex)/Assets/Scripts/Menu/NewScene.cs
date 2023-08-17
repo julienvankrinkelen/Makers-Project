@@ -37,7 +37,7 @@ public class NewScene : MonoBehaviour
             //Play Loading screen & fondu transi
             StartCoroutine(displayCinematic());
         }
-        else //In case the player loads a new game
+        else //In case the player loads a game save
         {
             StartCoroutine(displayLoadingScreen());
 
@@ -74,6 +74,8 @@ public class NewScene : MonoBehaviour
 
     public IEnumerator displayLoadingScreen()
     {
+        volumeMusic.CancelMusicVolume();
+
         loadingScreen.SetActive(true);
         canvasLoading.SetActive(true);
         
