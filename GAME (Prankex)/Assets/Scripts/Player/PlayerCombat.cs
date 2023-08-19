@@ -41,6 +41,8 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] private AudioSource lanternLightenSoundEffect;
     [SerializeField] private AudioSource levelUpSoundEffect;
 
+    private float takeDamageCooldown;
+    private float takeDamageFixedTime = 0.5f;
 
     public bool ScrollSelected = false;
     public bool CandleSelected = false;
@@ -69,6 +71,11 @@ public class PlayerCombat : MonoBehaviour
 
         playerInputActions.Player.Slash.performed += Slash;
 
+    }
+
+    private void Update()
+    {
+        takeDamageCooldown -= Time.deltaTime;
     }
 
     public void Slash(InputAction.CallbackContext context)
@@ -114,16 +121,28 @@ public class PlayerCombat : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Traps") && CurrentHealth>0)
         {
-            TakeDamage(1);
+            TakeDamageJ(1,2);
         }
         if (collision.gameObject.CompareTag("Juice") && CurrentHealth>0)
         {
-            TakeDamageJ(2);
+            TakeDamageJ(2, 3);
+        }
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Traps") && CurrentHealth > 0)
+        {
+            TakeDamageJ(1, 2);
+        }
+        if (collision.gameObject.CompareTag("Juice") && CurrentHealth > 0)
+        {
+            TakeDamageJ(2, 3);
         }
     }
     public void TakeDamage(float damage)
     {
-        if (CurrentHealth>0)
+        if (CurrentHealth>0 && takeDamageCooldown < 0)
         {
 
             CurrentHealth -= damage;
@@ -132,21 +151,23 @@ public class PlayerCombat : MonoBehaviour
             // Hurt animation
             anim.SetTrigger("Hurt");
             hurtSoundEffect.Play();
+            takeDamageCooldown = takeDamageFixedTime;
         }
         if (CurrentHealth <= 0 && !IsDead)
         {
             StartCoroutine(Die());
         }
     }
-    public void TakeDamageJ(int damage)
+    public void TakeDamageJ(int damage, int knockback)
     {
-        if (CurrentHealth>0)
+        if (CurrentHealth > 0 && takeDamageCooldown < 0)
         {
             CurrentHealth -= damage;
-            rb.AddForce((Vector2.up * (DamageForce * 3)) + (Vector2.right * (DamageForce * 3)), ForceMode2D.Impulse);
+            rb.AddForce((Vector2.up * (DamageForce * knockback)) + (Vector2.right * (DamageForce * knockback)), ForceMode2D.Impulse);
 
             // Hurt animation
             anim.SetTrigger("Hurt");
+            takeDamageCooldown = takeDamageFixedTime;
         }
         if (CurrentHealth <= 0 && !IsDead)
         {
