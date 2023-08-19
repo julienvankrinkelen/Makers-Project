@@ -8,7 +8,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Start Menu.unity
     guid: b73de027f73f3514d9ed6ae8652469cf
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Cinematic.unity
     guid: b9236259e0a1570418c88573caa38c56
   - enabled: 1
