@@ -16,10 +16,7 @@ public class EnemyAttack : MonoBehaviour
         {
             playercollider.GetComponent<PlayerCombat>().TakeDamage(attackDamage);
         }
-        else
-        {
-
-        }
+        
     }
 
     

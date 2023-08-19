@@ -179,7 +179,7 @@ public class OnibiScript : MonoBehaviour
 
         if (rush == true)
         {
-            rb.AddForce(force * 3, ForceMode2D.Impulse);
+            rb.AddForce(force * 5, ForceMode2D.Impulse);
         }
         else
         {

@@ -45,6 +45,7 @@ public class BossScript : MonoBehaviour
     public Collider2D playercollider;
     public GameObject Zone1;
     public GameObject Zone2;
+    public GameObject Wall;
 
     public float attackRange = 0.5f;
     public int attackDamage = 2;
@@ -130,7 +131,7 @@ public class BossScript : MonoBehaviour
         float speedDif = targetSpeed - rb.velocity.x;
         float accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? acceleration : deceleration;
         float force = Mathf.Pow(Mathf.Abs(speedDif) * accelRate, velPower) * Mathf.Sign(speedDif);
-
+        
 
         // Movement
         // rb.AddForce(force * Vector2.right, ForceMode2D.Force);
@@ -162,7 +163,7 @@ public class BossScript : MonoBehaviour
         if (dash == true)
         {
             Debug.Log("Dashing");
-            rb.AddForce(force * Vector2.right, ForceMode2D.Impulse);
+            rb.AddForce(force/1.5f * Vector2.right , ForceMode2D.Impulse) ;
         }
 
         // Next Waypoint
@@ -222,7 +223,7 @@ public class BossScript : MonoBehaviour
             }
         }
 
-        if ((Vector2.Distance(playerTransform.position, transform.position) < 100) && Time.time >= nextAttackTime && playerCombat.CurrentHealth > 0  && Phasetwo && !dancing)
+        if ((Vector2.Distance(playerTransform.position, transform.position) < 150) && Time.time >= nextAttackTime && playerCombat.CurrentHealth > 0  && Phasetwo && !dancing)
         {
             dash = true;
             Debug.Log("Dashnow2");
@@ -233,11 +234,16 @@ public class BossScript : MonoBehaviour
         {
             dash = false;
         }
-
-        if (dash == true)
+        if (dash == true && transform.localScale.x == 1)
         {
             Debug.Log("Dashing2");
-            rb.AddForce(force * Vector2.one * 1.25f, ForceMode2D.Impulse);
+            rb.AddForce(direction * force * Vector2.one * 2f, ForceMode2D.Impulse);
+        }
+
+        if (dash == true && transform.localScale.x == -1)
+        {
+            Debug.Log("Dashing2");
+            rb.AddForce(direction * force * -Vector2.one * 2f, ForceMode2D.Impulse);
         }
         
         // Next Waypoint
@@ -280,6 +286,7 @@ public class BossScript : MonoBehaviour
     {
         // Blabla -> You there ? It never ends
         yield return new WaitForSecondsRealtime(2);
+        Wall.SetActive(true);
         StartCoroutine(ActivateThenDeactivate2(2));
         Phaseone = true;
         followEnabled = true;
@@ -287,6 +294,7 @@ public class BossScript : MonoBehaviour
         yield return new WaitForSecondsRealtime(3);
         rb.bodyType = RigidbodyType2D.Dynamic;
         attackok = true;
+        
     }
 
     private IEnumerator Dance1()
@@ -370,6 +378,7 @@ public class BossScript : MonoBehaviour
         // Die animation
         yield return new WaitForSeconds(3);
         anim.SetBool("Transition", false);
+        Wall.SetActive(false);
     }
 
     private bool TargetInDistance()
