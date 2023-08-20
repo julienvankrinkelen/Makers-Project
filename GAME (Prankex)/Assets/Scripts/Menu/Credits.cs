@@ -46,6 +46,9 @@ public class Credits : MonoBehaviour
     public IEnumerator CreditsPlaying()
     {
         //FadeOut
+
+        yield return new WaitForSecondsRealtime(5);
+
         fadeOut.SetTrigger("FadeOut");
 
         yield return new WaitForSecondsRealtime(2);

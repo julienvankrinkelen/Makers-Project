@@ -96,23 +96,23 @@ public class PlayerCombat : MonoBehaviour
         }
     }
 
-    public void OnTriggerEnter2D(Collider2D Collider2D)
+    public void OnTriggerEnter2D(Collider2D collider2D)
     {
-        if (Collider2D.CompareTag("Tanuki"))
+        if (collider2D.CompareTag("Tanuki"))
         {
-            Collider2D.GetComponent<TanukiScript>().TakeDamage(attackDamage);
+            collider2D.GetComponent<TanukiScript>().TakeDamage(attackDamage);
         }
-        else if(Collider2D.CompareTag("Onibi"))
+        else if(collider2D.CompareTag("Onibi"))
         {
-            Collider2D.GetComponent<OnibiScript>().TakeDamage(attackDamage);
+            collider2D.GetComponent<OnibiScript>().TakeDamage(attackDamage);
         }
-        else if(Collider2D.CompareTag("Enemy"))
+        else if(collider2D.CompareTag("Enemy"))
         {
-            Collider2D.GetComponent<EnemyScript>().TakeDamage(attackDamage);
+            collider2D.GetComponent<EnemyScript>().TakeDamage(attackDamage);
         }
-        else if (Collider2D.CompareTag("Boss"))
+        else if (collider2D.CompareTag("Boss"))
         {
-            Collider2D.GetComponent<BossScript>().TakeDamage(attackDamage);
+            collider2D.GetComponent<BossScript>().TakeDamage(attackDamage);
         }
 
     }

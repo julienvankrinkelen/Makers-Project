@@ -42,6 +42,7 @@ public class BossScript : MonoBehaviour
     public LayerMask playerLayer;
     public Transform playerTransform;
     public PlayerCombat playerCombat;
+    public PlayerMovement playerMovement;
     public Collider2D playercollider;
     public GameObject Zone1;
     public GameObject Zone2;
@@ -59,21 +60,31 @@ public class BossScript : MonoBehaviour
     [SerializeField] private AudioSource thunderSoundEffect;
     [SerializeField] private AudioSource attackSoundEffect;
 
+    [SerializeField] private Material flashingMaterial;
+    [SerializeField] private Material originalMaterial;
+    private float flashDuration = 0.30f;
+    [SerializeField] private SpriteRenderer spriteRenderer;
+
+    public BossRPStart bossRPStart;
+    private bool RpStarted = false;
+    public Credits credits;
+    
+
     private void Start()
     {
         seeker = GetComponent<Seeker>();
         rb = GetComponent<Rigidbody2D>();
         currentHealth = maxHealth;
-
         InvokeRepeating(nameof(UpdatePath), 0f, pathUpdateSeconds);
 
     }
     
     private void FixedUpdate()
     {
-        if (Vector2.Distance(playerTransform.position, transform.position) < 25 && anim.GetBool("IsDead") == false && playerCombat.CurrentHealth > 0 && !Phaseone && !Phasetwo && !dancing)
+        if (!RpStarted && Vector2.Distance(playerTransform.position, transform.position) < 15 && anim.GetBool("IsDead") == false && playerCombat.CurrentHealth > 0 && !Phaseone && !Phasetwo && !dancing)
         {
-            StartCoroutine(StartFight());
+            StartRP();
+            RpStarted = true;
         }
 
         if (TargetInDistance() && followEnabled && Phaseone && !Phasetwo)
@@ -270,6 +281,7 @@ public class BossScript : MonoBehaviour
 
     private IEnumerator ActivateThenDeactivate1(float waittime)
     {
+        StartCoroutine(ThunderSoundEffectPlay());
         Zone1.SetActive(true);
         yield return new WaitForSecondsRealtime(waittime);
         Zone1.SetActive(false);
@@ -277,21 +289,35 @@ public class BossScript : MonoBehaviour
 
     private IEnumerator ActivateThenDeactivate2(float waittime)
     {
+        StartCoroutine(ThunderSoundEffectPlay());
         Zone2.SetActive(true);
         yield return new WaitForSecondsRealtime(waittime);
         Zone2.SetActive(false);
     }
 
-    private IEnumerator StartFight()
+    private IEnumerator ThunderSoundEffectPlay()
     {
-        // Blabla -> You there ? It never ends
-        yield return new WaitForSecondsRealtime(2);
+        yield return new WaitForSeconds(1.2f);
+        thunderSoundEffect.Play();
+    }
+
+    public void StartRP()
+    {
+        bossRPStart.StartDialog();
+    }
+    public void StartFight()
+    {
+        StartCoroutine(StartFightRoutine());
+    }
+
+    private IEnumerator StartFightRoutine()
+    {
+        yield return new WaitForSecondsRealtime(1);
         Wall.SetActive(true);
         StartCoroutine(ActivateThenDeactivate2(2));
         Phaseone = true;
         followEnabled = true;
-        // You are just a mere pile of seconds
-        yield return new WaitForSecondsRealtime(3);
+        yield return new WaitForSecondsRealtime(1);
         rb.bodyType = RigidbodyType2D.Dynamic;
         attackok = true;
         
@@ -299,17 +325,22 @@ public class BossScript : MonoBehaviour
 
     private IEnumerator Dance1()
     {
+        
+
         dancing = true;
         transform.position = new Vector3 (-478, 116, 0);
         rb.bodyType = RigidbodyType2D.Static;
         anim.SetBool("Dance1", true);
         yield return new WaitForSecondsRealtime(2);
+        incantSoundEffect.Play();
         StartCoroutine(ActivateThenDeactivate1(2));
         yield return new WaitForSecondsRealtime(2);
         StartCoroutine(ActivateThenDeactivate2(2));
         yield return new WaitForSecondsRealtime(2);
         StartCoroutine(ActivateThenDeactivate1(2));
         yield return new WaitForSecondsRealtime(2);
+        incantSoundEffect.Stop();
+
         anim.SetBool("Dance1", false);
 
         // time for transition animation
@@ -323,16 +354,21 @@ public class BossScript : MonoBehaviour
         rb.gravityScale = 0.5f;
         Phasetwo = true;
         dancing = false;
+
+        
+
     }
 
     private IEnumerator Dance2()
     {
+
         dancing = true;
         // position a bit higher maybe
         transform.position = new Vector3(-478, 120, 0);
         rb.bodyType = RigidbodyType2D.Static;
         anim.SetBool("Dance2", true);
         yield return new WaitForSecondsRealtime(2);
+        incantSoundEffect.Play();
         StartCoroutine(ActivateThenDeactivate1(2));
         yield return new WaitForSecondsRealtime(2);
         StartCoroutine(ActivateThenDeactivate2(2));
@@ -342,28 +378,48 @@ public class BossScript : MonoBehaviour
         StartCoroutine(ActivateThenDeactivate2(2));
         yield return new WaitForSecondsRealtime(2);
         StartCoroutine(ActivateThenDeactivate1(2));
+        
         yield return new WaitForSecondsRealtime(2);
+        incantSoundEffect.Stop();
         anim.SetBool("Dance2", false);
         rb.bodyType = RigidbodyType2D.Dynamic;
         dancetwodone = true;
         dancing = false;
+
+
     }
 
 
-        public void TakeDamage(float damage)
+    public void TakeDamage(float damage)
     {
         if (!isDead && !dancing)
         {
             currentHealth -= damage;
             Debug.Log("Enemy health : " + currentHealth);
+
+            StartCoroutine(FlashCoroutine());
         }
         if (currentHealth <= 0)
         {
-            dieSoundEffect.Play();
             StartCoroutine(FightEnd());
         }
     }
 
+    private IEnumerator FlashCoroutine()
+    {
+        spriteRenderer.material = flashingMaterial;
+
+        // Animate transparency for flashing effect
+        float timer = 0;
+        while (timer < flashDuration)
+        {
+            flashingMaterial.color = new Color(1f, 0.4f, 0.4f);
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        spriteRenderer.material = originalMaterial;
+    }
 
 
     private IEnumerator FightEnd()
@@ -376,9 +432,12 @@ public class BossScript : MonoBehaviour
         anim.SetBool("Transition", true);
         isDead = true;
         // Die animation
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(1f);
+        dieSoundEffect.Play();
+        yield return new WaitForSeconds(2);
         anim.SetBool("Transition", false);
         Wall.SetActive(false);
+        credits.StartCredits();
     }
 
     private bool TargetInDistance()
