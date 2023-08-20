@@ -66,8 +66,8 @@ public class BossScript : MonoBehaviour
     [SerializeField] private SpriteRenderer spriteRenderer;
 
     public BossRPStart bossRPStart;
+    public BossRPEnd bossRPEnd;
     private bool RpStarted = false;
-    public Credits credits;
     
 
     private void Start()
@@ -432,12 +432,13 @@ public class BossScript : MonoBehaviour
         anim.SetBool("Transition", true);
         isDead = true;
         // Die animation
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1);
         dieSoundEffect.Play();
         yield return new WaitForSeconds(2);
         anim.SetBool("Transition", false);
         Wall.SetActive(false);
-        credits.StartCredits();
+        yield return new WaitForSeconds(2);
+        bossRPEnd.StartDialog();
     }
 
     private bool TargetInDistance()

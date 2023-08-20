@@ -47,7 +47,7 @@ public class Credits : MonoBehaviour
     {
         //FadeOut
 
-        yield return new WaitForSecondsRealtime(5);
+       // yield return new WaitForSecondsRealtime(5);
 
         fadeOut.SetTrigger("FadeOut");
 
@@ -66,7 +66,7 @@ public class Credits : MonoBehaviour
         //Duration of the video
         blackScreen.SetActive(false);
 
-        yield return new WaitForSecondsRealtime(16);
+        yield return new WaitForSecondsRealtime(29);
         
         //reset restrictions to avoid being blocked for next game ?
         playerMovement.EnableMovement(true);

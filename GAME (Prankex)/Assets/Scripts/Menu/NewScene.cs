@@ -51,9 +51,12 @@ public class NewScene : MonoBehaviour
 
         loadingScreen.SetActive(true);
         videoPlayer.Play();
+        yield return new WaitForSecondsRealtime(1);
+
         blackScreen.SetActive(false);
 
         yield return new WaitForSecondsRealtime(51);
+        
         canvasLoading.SetActive(true);
         loading.SetBool("ShowLoadingScreen", true);
         yield return new WaitForSecondsRealtime(1);

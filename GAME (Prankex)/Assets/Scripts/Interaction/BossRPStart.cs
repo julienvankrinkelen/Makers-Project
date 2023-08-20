@@ -117,28 +117,8 @@ public class BossRPStart : MonoBehaviour
             DialogueStarted = false;
             box.SetActive(false);
             bossScript.StartFight();
-            // StartCoroutine(canInteractTempo());
-
 
         }
     }
-    // nécessaire pour pouvoir relancer le dialogue sans sortir de la zone de détection.
-    //
-    // Il faut remettre canInteract à true (il l'était que quand on sortait et on re rentrait de la zone). On pourrait mettre canInteract à TRUE
-    // en même temps que les fonctions juste au-dessus, mais Problème encore :
-    // Le problème vient du fait que quand on appuie sur la touche d'interaction pour enlever la dernière ligne du dialogue,
-    // on remet context.performed à TRUE, et canInteract est alors aussi remis à TRUE si on le met juste au-dessus. Donc il faut le remettre à TRUE juste à après que 
-    // context.performed soit remis à 0 (appeler une temporisation très courte suffit).
-   /* private IEnumerator canInteractTempo()
-    {
-        yield return new WaitForSeconds(0.01f);
-        box.SetActive(false);
-
-    }
-   */
-
-
-
-
 
 }
