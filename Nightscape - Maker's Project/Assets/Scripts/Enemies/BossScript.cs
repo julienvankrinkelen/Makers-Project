@@ -68,6 +68,10 @@ public class BossScript : MonoBehaviour
     public BossRPStart bossRPStart;
     public BossRPEnd bossRPEnd;
     private bool RpStarted = false;
+
+    public AudioSource bossTrack;
+    public MusicZoneScript musicZoneScript;
+    public PauseMenu pauseMenu;
     
 
     private void Start()
@@ -304,6 +308,7 @@ public class BossScript : MonoBehaviour
     public void StartRP()
     {
         bossRPStart.StartDialog();
+        pauseMenu.EnablePauseEchap(false);
     }
     public void StartFight()
     {
@@ -399,8 +404,9 @@ public class BossScript : MonoBehaviour
 
             StartCoroutine(FlashCoroutine());
         }
-        if (currentHealth <= 0)
+        if (!isDead && currentHealth <= 0)
         {
+            isDead = true;
             StartCoroutine(FightEnd());
         }
     }
@@ -430,10 +436,10 @@ public class BossScript : MonoBehaviour
         anim.SetBool("IsDead", true);
         anim.SetBool("Phasetwo", false);
         anim.SetBool("Transition", true);
-        isDead = true;
         // Die animation
         yield return new WaitForSeconds(1);
         dieSoundEffect.Play();
+        musicZoneScript.FadeOutTrackSingle(bossTrack);
         yield return new WaitForSeconds(2);
         anim.SetBool("Transition", false);
         Wall.SetActive(false);

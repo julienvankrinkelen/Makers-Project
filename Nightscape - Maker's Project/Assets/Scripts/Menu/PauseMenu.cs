@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Linq;
 using System.Security.Cryptography;
 using TMPro;
 using UnityEngine;
@@ -114,5 +115,16 @@ public class PauseMenu : MonoBehaviour
         canUnPause = boolean;
     }
 
+    public void EnablePauseEchap(bool boolean)
+    {
+        if (!boolean)
+        {
+            playerInputActions.Player.Disable();
+        }
+        else
+        {
+            playerInputActions.Player.Enable();
+        }
+    }
 
 }

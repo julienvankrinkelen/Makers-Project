@@ -157,11 +157,12 @@ public class MusicZoneScript : MonoBehaviour
             oldTrack.volume = startVolume;
 
             yield return new WaitForSecondsRealtime(blackoutTime);
-            if (newTrack != null)
-            {
-                StartCoroutine(FadeInTrack(newTrack));
-            }
             
+
+        }
+        if (newTrack != null)
+        {
+            StartCoroutine(FadeInTrack(newTrack));
         }
         isTransitioning = false;
 
@@ -186,6 +187,11 @@ public class MusicZoneScript : MonoBehaviour
             Debug.Log("MUSIC CHANGED AGAIN DUE TO BOOL");            
              StartCoroutine(FadeOutTrack(lastTrack, nextTrack));
         }
+    }
+
+    public void FadeOutTrackSingle(AudioSource trackToFadeOut)
+    {
+        StartCoroutine(FadeOutTrack(trackToFadeOut, null));
     }
 
 }

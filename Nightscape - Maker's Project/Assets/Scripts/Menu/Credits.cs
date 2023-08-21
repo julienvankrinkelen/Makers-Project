@@ -11,6 +11,8 @@ public class Credits : MonoBehaviour
     public PlayerMovement playerMovement;
     public PlayerCombat playerCombat;
     public VolumeMusic volumeMusic;
+    public PauseMenu pauseMenu;
+
 
     public GameObject HUD;
     public GameObject canvasLoading;
@@ -47,7 +49,7 @@ public class Credits : MonoBehaviour
     {
         //FadeOut
 
-       // yield return new WaitForSecondsRealtime(5);
+        // yield return new WaitForSecondsRealtime(5);
 
         fadeOut.SetTrigger("FadeOut");
 
@@ -61,24 +63,22 @@ public class Credits : MonoBehaviour
         canvasLoading.SetActive(false);
         loadingScreen.SetActive(false);
 
-     
-        
+
+
         //Duration of the video
         blackScreen.SetActive(false);
 
         yield return new WaitForSecondsRealtime(29);
-        
+
         //reset restrictions to avoid being blocked for next game ?
         playerMovement.EnableMovement(true);
         playerCombat.EnableCombat(true);
+        pauseMenu.EnablePauseEchap(true);
+
         //Go back main menu
         PlayerPrefs.SetInt("Save Exists", 0);
         SceneManager.LoadScene("Start Menu");
 
     }
 
-    public void OnBecameVisible()
-    {
-            
-    }
 }
