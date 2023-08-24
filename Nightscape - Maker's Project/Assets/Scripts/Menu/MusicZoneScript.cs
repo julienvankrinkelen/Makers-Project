@@ -133,6 +133,7 @@ public class MusicZoneScript : MonoBehaviour
         
         if(lastTrack != null)
         {
+            Debug.Log("Playing Track with last zone = -1");
             lastTrack.Play();
         }
         yield return new WaitForSecondsRealtime(1);

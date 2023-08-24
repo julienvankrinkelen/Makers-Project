@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.Video;
 
@@ -9,6 +10,8 @@ public class NewScene : MonoBehaviour
     public PlayerCombat playerCombat;
     public VolumeMusic volumeMusic;
     public PauseMenu pauseMenu;
+    public MusicZoneScript musicZoneScript;
+    public GameObject musicObject;
 
     int JustDeleteSave;
     public GameObject canvasLoading;
@@ -26,6 +29,7 @@ public class NewScene : MonoBehaviour
         playerMovement.EnableMovement(false);
         pauseMenu.EnablePauseEchap(false);
         EnableShrinesHUD(false);
+        musicObject.SetActive(false);
 
         loadingScreen.SetActive(false);
         blackScreen.SetActive(true);
@@ -50,7 +54,7 @@ public class NewScene : MonoBehaviour
 
     public IEnumerator displayCinematic()
     {
-        volumeMusic.CancelMusicVolume();
+        
 
         loadingScreen.SetActive(true);
         videoPlayer.Play();
@@ -77,13 +81,15 @@ public class NewScene : MonoBehaviour
         pauseMenu.EnablePauseEchap(true);
         EnableShrinesHUD(true);
 
+        musicObject.SetActive(true);
         volumeMusic.ChangeVolumeMusic();
 
     }
 
     public IEnumerator displayLoadingScreen()
     {
-        volumeMusic.CancelMusicVolume();
+        //volumeMusic.ChangeVolumeMusic();
+        musicObject.SetActive(false);
 
         loadingScreen.SetActive(true);
         canvasLoading.SetActive(true);
@@ -106,6 +112,7 @@ public class NewScene : MonoBehaviour
         pauseMenu.EnablePauseEchap(true);
         EnableShrinesHUD(true);
 
+        musicObject.SetActive(true);
         volumeMusic.ChangeVolumeMusic();
     }
 

@@ -34,16 +34,4 @@ public class VolumeMusic : MonoBehaviour
         if (audioBoss != null) { audioBoss.volume = 0; }
     }
 
-    public void FadeInFirstTrack()
-    {
-        Debug.Log("Exiting cinematic, entering fade in after new game");
-
-        float targetVolume = 1;
-        //audio1.Play();
-        while (audio1.volume < targetVolume)
-        {
-            audio1.volume += targetVolume * Time.deltaTime / fadeTime;
-        }
-
-    }
 }
