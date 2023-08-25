@@ -46,6 +46,7 @@ public class BossScript : MonoBehaviour
     public Collider2D playercollider;
     public GameObject Zone1;
     public GameObject Zone2;
+    public GameObject Zone3;
     public GameObject Wall;
 
     public float attackRange = 0.5f;
@@ -299,6 +300,14 @@ public class BossScript : MonoBehaviour
         Zone2.SetActive(false);
     }
 
+    private IEnumerator ActivateThenDeactivate3(float waittime)
+    {
+        StartCoroutine(ThunderSoundEffectPlay());
+        Zone3.SetActive(true);
+        yield return new WaitForSecondsRealtime(waittime);
+        Zone3.SetActive(false);
+    }
+
     private IEnumerator ThunderSoundEffectPlay()
     {
         yield return new WaitForSeconds(1.2f);
@@ -378,7 +387,7 @@ public class BossScript : MonoBehaviour
         yield return new WaitForSecondsRealtime(2);
         StartCoroutine(ActivateThenDeactivate2(2));
         yield return new WaitForSecondsRealtime(2);
-        StartCoroutine(ActivateThenDeactivate1(2));
+        StartCoroutine(ActivateThenDeactivate3(2));
         yield return new WaitForSecondsRealtime(2);
         StartCoroutine(ActivateThenDeactivate2(2));
         yield return new WaitForSecondsRealtime(2);
