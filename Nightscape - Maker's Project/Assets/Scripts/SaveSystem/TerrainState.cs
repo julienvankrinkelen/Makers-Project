@@ -12,7 +12,7 @@ public class TerrainState : MonoBehaviour
     void Start()
     {
         wallDestroyed = new bool[12];
-        bushDestroyed = new bool[4];
+        bushDestroyed = new bool[3];
         doorLights = new bool[3];
 
         fillArray(wallDestroyed);

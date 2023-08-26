@@ -58,7 +58,7 @@ public class SaveLoadGamestate : MonoBehaviour
     public bool[] wallDestroyed = new bool[12];
 
     public GameObject[] bushes;
-    public bool[] bushDestroyed = new bool[4];
+    public bool[] bushDestroyed = new bool[3];
 
     public bool[] doorLights = new bool[3];
 
@@ -467,7 +467,7 @@ public class SaveLoadGamestate : MonoBehaviour
 
         }
 
-        gamestate.bushDestroyed = new bool[4];
+        gamestate.bushDestroyed = new bool[3];
         //bushes
         for (int i = 0; i < gamestate.bushDestroyed.Length; i++)
         {
