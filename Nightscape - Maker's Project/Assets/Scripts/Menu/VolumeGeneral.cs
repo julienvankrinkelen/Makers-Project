@@ -98,6 +98,19 @@ public class VolumeGeneral : MonoBehaviour
     [SerializeField] private AudioSource karakasaDieSoundEffect10;
     [SerializeField] private AudioSource karakasaAttackSoundEffect10;
 
+    [SerializeField] private AudioSource tanukiDieSoundEffect00;
+    [SerializeField] private AudioSource tanukiDieSoundEffect01;
+    [SerializeField] private AudioSource tanukiDieSoundEffect02;
+    [SerializeField] private AudioSource tanukiDieSoundEffect03;
+    [SerializeField] private AudioSource tanukiDieSoundEffect04;
+    [SerializeField] private AudioSource tanukiDieSoundEffect05;
+    [SerializeField] private AudioSource tanukiDieSoundEffect06;
+    [SerializeField] private AudioSource tanukiDieSoundEffect07;
+    [SerializeField] private AudioSource tanukiDieSoundEffect08;
+    [SerializeField] private AudioSource tanukiDieSoundEffect09;
+    [SerializeField] private AudioSource tanukiDieSoundEffect10;
+    [SerializeField] private AudioSource tanukiDieSoundEffect11;
+
     [Header("Boss sfx")]
     [SerializeField] private AudioSource bossTransiSoundEffect;
     [SerializeField] private AudioSource bossThunderSoundEffect;
@@ -204,5 +217,19 @@ public class VolumeGeneral : MonoBehaviour
         bossIncantSoundEffect.volume = volumeGeneralValue;
         bossDieSoundEffect.volume = volumeGeneralValue;
         bossAttackSoundEffect.volume = volumeGeneralValue;
+
+
+        tanukiDieSoundEffect00.volume = volumeGeneralValue;
+        tanukiDieSoundEffect01.volume = volumeGeneralValue;
+        tanukiDieSoundEffect02.volume = volumeGeneralValue;
+        tanukiDieSoundEffect03.volume = volumeGeneralValue;
+        tanukiDieSoundEffect04.volume = volumeGeneralValue;
+        tanukiDieSoundEffect05.volume = volumeGeneralValue;
+        tanukiDieSoundEffect06.volume = volumeGeneralValue;
+        tanukiDieSoundEffect07.volume = volumeGeneralValue;
+        tanukiDieSoundEffect08.volume = volumeGeneralValue;
+        tanukiDieSoundEffect09.volume = volumeGeneralValue;
+        tanukiDieSoundEffect10.volume = volumeGeneralValue;
+        tanukiDieSoundEffect11.volume = volumeGeneralValue;
     }
 }

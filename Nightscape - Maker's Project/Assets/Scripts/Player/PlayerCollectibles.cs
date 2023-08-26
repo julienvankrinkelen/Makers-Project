@@ -297,6 +297,13 @@ public class PlayerCollectibles : MonoBehaviour
         terrainState.lightDoor(i);
         Animator anim = lanterns[i].GetComponent<Animator>();
         anim.SetBool("Lantern_ON", boolean);
+        //lanterns[i].GetComponent<InteractableLantern>().SetIsLightened(false);
+
+    }
+
+    public void SetIsLightened()
+    {
+
     }
 
     public void setNumberExplosiveScroll(int scrollNumber)
@@ -356,6 +363,10 @@ public class PlayerCollectibles : MonoBehaviour
     public int getLanternLightenedNumber() // Return the total lightened lantern number. Not correlated to the lantern number (name / id)
     {
         return lanternLightenedNumber;
+    }
+    public void setLanternLightenedNumber(int nb)
+    {
+        lanternLightenedNumber = nb;
     }
     public int getNumberOfNotes()
     {

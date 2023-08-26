@@ -22,7 +22,7 @@ public class InteractableLantern : MonoBehaviour
     public GameObject Indicator;
     public GameObject InteractText;
 
-
+    private int LanternNumber;
     private void Start()
     {
         InteractText.SetActive(false);
@@ -35,6 +35,8 @@ public class InteractableLantern : MonoBehaviour
         playerInputActions = new PlayerInputActions();
         playerInputActions.Player.Enable();
         playerInputActions.Player.Object.performed += Object;
+        
+        LanternNumber = parseCollectibleName(gameObject.name);
     }
 
     private void Update()
@@ -49,7 +51,8 @@ public class InteractableLantern : MonoBehaviour
             && context.performed
             && canInteract == true
             && Time.time >= playerCombat.nextAttackTime
-            && !isLightened
+            //&& !isLightened
+            && !playerCollectibles.lanternLightened[LanternNumber]
             //&& playerCombat.CandleSelected
             && playerCollectibles.checkHasCandle())
         {
@@ -90,7 +93,7 @@ public class InteractableLantern : MonoBehaviour
 
     public void SeeInteraction()
     {
-        if (canInteract == true && isInRange == true && !isLightened && playerCollectibles.checkHasCandle())
+        if (canInteract == true && isInRange == true && !playerCollectibles.lanternLightened[LanternNumber] && playerCollectibles.checkHasCandle())
         {
             Indicator.SetActive(true);
             InteractText.SetActive(true);
@@ -103,5 +106,11 @@ public class InteractableLantern : MonoBehaviour
             Indicator.SetActive(false);
 
         }
+    }
+
+    private int parseCollectibleName(string collectible)
+    {
+        return int.Parse(collectible.Substring(collectible.Length - 2));
+
     }
 }

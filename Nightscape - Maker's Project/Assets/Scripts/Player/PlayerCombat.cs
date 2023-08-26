@@ -167,6 +167,7 @@ public class PlayerCombat : MonoBehaviour
 
             // Hurt animation
             anim.SetTrigger("Hurt");
+            hurtSoundEffect.Play();
             takeDamageCooldown = takeDamageFixedTime;
         }
         if (CurrentHealth <= 0 && !IsDead)

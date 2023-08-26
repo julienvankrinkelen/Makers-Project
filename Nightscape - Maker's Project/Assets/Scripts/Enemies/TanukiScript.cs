@@ -47,7 +47,7 @@ public class TanukiScript : MonoBehaviour
 
         scrollDrop.transform.position = transform.position;
     }
-
+    
     private void Flip()
     {
         if (Vector2.Distance(waypoints[currentWaypointIndex].transform.position, transform.position) < .1f  && isFacingTheRight)

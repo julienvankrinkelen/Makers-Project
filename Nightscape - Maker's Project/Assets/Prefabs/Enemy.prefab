@@ -568,7 +568,7 @@ MonoBehaviour:
   sprite: {fileID: 8911119437306238391}
   rb: {fileID: 8911119438131103495}
   playercollider: {fileID: 0}
-  maxHealth: 2
+  maxHealth: 3
   currentHealth: 0
   playerLayer:
     serializedVersion: 2

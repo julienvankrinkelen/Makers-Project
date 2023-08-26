@@ -255,6 +255,7 @@ public class SaveLoadGamestate : MonoBehaviour
                 {
                     playerCollectibles.setLanternLightened(i,true);
                     playerCollectibles.lanternLightened[i] = true;
+
                 }
                 else
                 {
@@ -311,6 +312,7 @@ public class SaveLoadGamestate : MonoBehaviour
                     terrainState.unlightDoor(i);
 
                 }
+                playerCollectibles.setLanternLightenedNumber(nbDoorLights);
                 doorScript.setCandleAnim(nbDoorLights);
 
             }

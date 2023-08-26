@@ -40,7 +40,6 @@ public class EnemyScript : MonoBehaviour
     void Start()
     {
         currentHealth = maxHealth;
-        // coin.SetActive(false);
 
     }
 
@@ -85,9 +84,9 @@ public class EnemyScript : MonoBehaviour
     {
         if (!isDead)
         {
-
+            Debug.Log("Enemy health was : " + currentHealth);
             currentHealth -= damage;
-            Debug.Log("Enemy health : " + currentHealth);
+            Debug.Log("Enemy health now : " + currentHealth);
             // Hurt animation
             anim.SetTrigger("Hurt");
             hurtSoundEffect.Play();
