@@ -287,16 +287,19 @@ public class PlayerCollectibles : MonoBehaviour
         int lanternNumber = parseCollectibleName(lanternName);
       //  Debug.Log("HAS LIGHTENED LANTERN NB : " + lanternNumber);
         setLanternLightened(lanternNumber, boolean);
-        lanternLightened[lanternNumber] = true;
+        lanternLightened[lanternNumber] = boolean;
         lanternLightenedNumber++;
 
     }
 
     public void setLanternLightened(int i, bool boolean)
     {
-        terrainState.lightDoor(i);
-        Animator anim = lanterns[i].GetComponent<Animator>();
-        anim.SetBool("Lantern_ON", boolean);
+        if(boolean)
+        {
+            terrainState.lightDoor(i);
+            Animator anim = lanterns[i].GetComponent<Animator>();
+            anim.SetBool("Lantern_ON", boolean);
+        }
         //lanterns[i].GetComponent<InteractableLantern>().SetIsLightened(false);
 
     }
