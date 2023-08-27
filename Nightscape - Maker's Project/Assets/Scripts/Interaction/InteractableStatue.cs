@@ -9,17 +9,17 @@ using UnityEngine.UI;
 
 public class InteractableStatue : MonoBehaviour
 {
-    public PlayerInput playerInput;
+    [SerializeField] private PlayerInput playerInput;
     private PlayerInputActions playerInputActions;
-    public PlayerCombat playerCombat;
+    [SerializeField] private PlayerCombat playerCombat;
 
-    public bool isInRange;
-    public bool canInteract = true;
-    public UnityEvent interactAction;
+    private bool isInRange;
+    private bool canInteract = true;
+    [SerializeField] private UnityEvent interactAction;
 
-    public GameObject Indicator;
-    public GameObject InteractText;
-    public GameObject panel;
+    [SerializeField] private GameObject Indicator;
+    [SerializeField] private GameObject InteractText;
+    [SerializeField] private GameObject panel;
 
     private void Start()
     {

@@ -6,23 +6,23 @@ using UnityEngine.Video;
 
 public class NewScene : MonoBehaviour
 {
-    public PlayerMovement playerMovement;
-    public PlayerCombat playerCombat;
-    public VolumeMusic volumeMusic;
-    public PauseMenu pauseMenu;
-    public MusicZoneScript musicZoneScript;
-    public GameObject musicObject;
+    [SerializeField] private PlayerMovement playerMovement;
+    [SerializeField] private PlayerCombat playerCombat;
+    [SerializeField] private VolumeMusic volumeMusic;
+    [SerializeField] private PauseMenu pauseMenu;
+    [SerializeField] private MusicZoneScript musicZoneScript;
+    [SerializeField] private GameObject musicObject;
 
     int JustDeleteSave;
-    public GameObject canvasLoading;
-    public GameObject loadingScreen;
+    [SerializeField] private GameObject canvasLoading;
+    [SerializeField] private GameObject loadingScreen;
     private Animator loading;
     private VideoPlayer videoPlayer;
-    public GameObject videoObject;
-    public GameObject blackScreen;
+    [SerializeField] private GameObject videoObject;
+    [SerializeField] private GameObject blackScreen;
     //HUD
-    public GameObject HUD;
-    public GameObject[] shrinesHUD;
+    [SerializeField] private GameObject HUD;
+    [SerializeField] private GameObject[] shrinesHUD;
     void Awake()
     {
         playerCombat.EnableCombat(false);
@@ -34,13 +34,13 @@ public class NewScene : MonoBehaviour
         loadingScreen.SetActive(false);
         blackScreen.SetActive(true);
         videoPlayer = videoObject.GetComponent<VideoPlayer>();
-        Debug.Log("ENTERING START NEW SCENE");
+       // Debug.Log("ENTERING START NEW SCENE");
         loading = loadingScreen.GetComponent<Animator>();
         JustDeleteSave = PlayerPrefs.GetInt("JustDeleteSave");
         HUD.SetActive(false);
         if (JustDeleteSave == 1) // In case the player starts a new game : plays cinematic.
         {
-            Debug.Log("JUST DELETE SAVE = 1");
+           // Debug.Log("JUST DELETE SAVE = 1");
             //Play Loading screen & fondu transi
             StartCoroutine(displayCinematic());
         }
@@ -88,7 +88,6 @@ public class NewScene : MonoBehaviour
 
     public IEnumerator displayLoadingScreen()
     {
-        //volumeMusic.ChangeVolumeMusic();
         musicObject.SetActive(false);
 
         loadingScreen.SetActive(true);

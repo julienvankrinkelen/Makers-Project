@@ -7,31 +7,31 @@ public class BossScript : MonoBehaviour
 {
 
     [Header("Pathfinding")]
-    public Transform target;
-    public float activateDistance = 50f;
-    public float pathUpdateSeconds = 0.2f;
+    [SerializeField] private Transform target;
+    private float activateDistance = 50f;
+    private float pathUpdateSeconds = 0.2f;
 
     [Header("Physics")]
-    public float speed = 8f;
+    private float speed = 8f;
     [SerializeField] private float acceleration = 13;
     [SerializeField] private float deceleration = 16;
     [SerializeField] private float velPower = 0.96f;
-    public float nextWaypointDistance = 3f;
-    public float jumpCheckOffset = 0.1f;
+    private float nextWaypointDistance = 3f;
+    private float jumpCheckOffset = 0.1f;
 
     [Header("Custom Behavior")]
-    public bool followEnabled = false;
-    public bool directionLookEnabled = true;
+    private bool followEnabled = false;
+    private bool directionLookEnabled = true;
 
     private Path path;
     private int currentWaypoint = 0;
-    bool isGrounded = false;
+    private bool isGrounded = false;
     Seeker seeker;
     Rigidbody2D rb;
-    public Animator anim;
+    [SerializeField] private Animator anim;
 
-    public float maxHealth = 40f;
-    public float currentHealth;
+    private float maxHealth = 40f;
+    private float currentHealth;
     private bool attackok = false;
     private bool Phaseone = false;
     private bool Phasetwo = false;
@@ -39,20 +39,20 @@ public class BossScript : MonoBehaviour
     private bool dancetwodone = false;
     private bool isDead = false;
 
-    public LayerMask playerLayer;
-    public Transform playerTransform;
-    public PlayerCombat playerCombat;
-    public PlayerMovement playerMovement;
-    public Collider2D playercollider;
-    public GameObject Zone1;
-    public GameObject Zone2;
-    public GameObject Zone3;
-    public GameObject Wall;
+    [SerializeField] private LayerMask playerLayer;
+    [SerializeField] private Transform playerTransform;
+    [SerializeField] private PlayerCombat playerCombat;
+    [SerializeField] private PlayerMovement playerMovement;
+    [SerializeField] private Collider2D playercollider;
+    [SerializeField] private GameObject Zone1;
+    [SerializeField] private GameObject Zone2;
+    [SerializeField] private GameObject Zone3;
+    [SerializeField] private GameObject Wall;
 
-    public float attackRange = 0.5f;
-    public int attackDamage = 2;
-    public float attackRate = 0.5f;
-    float nextAttackTime = 0f;
+    private float attackRange = 0.5f;
+    private int attackDamage = 2;
+    private float attackRate = 0.5f;
+    private float nextAttackTime = 0f;
     private bool dash = false;
 
     [SerializeField] private AudioSource dieSoundEffect;
@@ -66,13 +66,13 @@ public class BossScript : MonoBehaviour
     private float flashDuration = 0.30f;
     [SerializeField] private SpriteRenderer spriteRenderer;
 
-    public BossRPStart bossRPStart;
-    public BossRPEnd bossRPEnd;
+    [SerializeField] private BossRPStart bossRPStart;
+    [SerializeField] private BossRPEnd bossRPEnd;
     private bool RpStarted = false;
 
-    public AudioSource bossTrack;
-    public MusicZoneScript musicZoneScript;
-    public PauseMenu pauseMenu;
+    [SerializeField] private AudioSource bossTrack;
+    [SerializeField] private MusicZoneScript musicZoneScript;
+    [SerializeField] private PauseMenu pauseMenu;
     
 
     private void Start()

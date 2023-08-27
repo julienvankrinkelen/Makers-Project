@@ -16,35 +16,30 @@ public class ScriptHUD : MonoBehaviour
     public GameObject[] omamoriCirclesOn;
     public GameObject[] omamoriCirclesOff;
 
-    public TextMeshProUGUI textDaruma;
-    public TextMeshProUGUI textOmamori;
+    [SerializeField] private TextMeshProUGUI textDaruma;
+    [SerializeField] private TextMeshProUGUI textOmamori;
 
-    public GameObject scrollSpriteOn;
-    public GameObject scrollSpriteOff;
-    public TextMeshProUGUI textScroll;
+    [SerializeField] private GameObject scrollSpriteOn;
+    [SerializeField] private GameObject scrollSpriteOff;
+    [SerializeField] private TextMeshProUGUI textScroll;
 
-    public GameObject noteSpriteOn;
-    public GameObject noteSpriteOff;
-    public TextMeshProUGUI textNotes;
+    [SerializeField] private GameObject noteSpriteOn;
+    [SerializeField] private GameObject noteSpriteOff;
+    [SerializeField] private TextMeshProUGUI textNotes;
 
-    public GameObject candleSpriteOn;
-    public GameObject candleSpriteOff;
+    [SerializeField] private GameObject candleSpriteOn;
+    [SerializeField] private GameObject candleSpriteOff;
 
-    public GameObject dashSpriteOn;
-    public GameObject dashSpriteOff;
+    [SerializeField] private GameObject dashSpriteOn;
+    [SerializeField] private GameObject dashSpriteOff;
 
     
     //Taille du tableau Hearts et HeartShadows
     private int nbOfLifeAssets = 9;
     private int nbOfCircleAssets = 3;
-    public PlayerCombat player;
-    public PlayerCollectibles playerCollectibles;
-    // Update is called once per frame
+    [SerializeField] private PlayerCombat player;
+    [SerializeField] private PlayerCollectibles playerCollectibles;
 
-    private void Start()
-    {
-        
-    }
     void Update()
     {
         // En partant du principe que maxHealth >= currentHealth et que tout est bien géré.

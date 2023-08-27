@@ -8,15 +8,15 @@ using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
-    public int saveExists;
+    private int saveExists;
 
-    public GameObject panelChoice;
-    public GameObject mainMenu;
-    public Button buttonLoadGame;
+    [SerializeField] private GameObject panelChoice;
+    [SerializeField] private GameObject mainMenu;
+    [SerializeField] private Button buttonLoadGame;
     [SerializeField] private AudioSource clickSoundEffect;
     [SerializeField] private AudioSource backSoundEffect;
 
-    public VolumeMusic volumeMusic;
+    [SerializeField] private VolumeMusic volumeMusic;
 
     private void Start()
     {
@@ -32,7 +32,7 @@ public class MainMenu : MonoBehaviour
     {
         
         saveExists = PlayerPrefs.GetInt("Save Exists");
-        print(" IN PLAY GAME FCT : saveExists : " + saveExists);
+       // print(" IN PLAY GAME FCT : saveExists : " + saveExists);
         if (saveExists == 1)
         {
             panelChoice.SetActive(true);
@@ -47,7 +47,7 @@ public class MainMenu : MonoBehaviour
     public void LoadGame()
     {
         saveExists = PlayerPrefs.GetInt("Save Exists");
-        print("SAVE EXIST : " + saveExists);
+      //  print("SAVE EXIST : " + saveExists);
         if (saveExists == 1)
         {
             SceneManager.LoadScene("new map");

@@ -7,24 +7,24 @@ using UnityEngine.InputSystem;
 
 public class BossRPStart : MonoBehaviour
 {
-    public TextMeshProUGUI textComponent;
+    [SerializeField] private TextMeshProUGUI textComponent;
 
-    public float textSpeed;
+    [SerializeField] private float textSpeed;
     private int index;
-    public PlayerInput playerInput;
+    [SerializeField] private PlayerInput playerInput;
     private PlayerInputActions playerInputActions;
-    public PlayerMovement playerMovement;
-    public PlayerCombat playerCombat;
+    [SerializeField] private PlayerMovement playerMovement;
+    [SerializeField] private PlayerCombat playerCombat;
 
-    public GameObject box;
+    [SerializeField] private GameObject box;
 
-    public BossScript bossScript;
+    [SerializeField] private BossScript bossScript;
 
-    public bool DialogueStarted = false;
+    [SerializeField] private bool DialogueStarted = false;
 
     //ATTENTION : ici, une "line" correspond à une "dialogue line", pas une ligne au sens 1 paragraphe = 30 lignes.
     //D'où l'initialisation de textComponent quand on change de "line". Une line peut contenir plusieurs lignes de texte.
-    public string[] lines;
+    [SerializeField] private string[] lines;
 
     private void Awake()
     {
@@ -39,7 +39,7 @@ public class BossRPStart : MonoBehaviour
     {
         if (context.performed && DialogueStarted == true)
         {
-            print("INTERACTING IN DIALOG TEST");
+           // print("INTERACTING IN DIALOG TEST");
             print(index);
             //Si l'affichage de la ligne de dialogue est terminée : on passe à la suivante
             if (textComponent.text == lines[index])
@@ -73,32 +73,28 @@ public class BossRPStart : MonoBehaviour
         box.SetActive(true);
         textComponent.text = string.Empty;
         index = 0;
-       // DialogueStarted = true;
-        //Camera.ZoomActive = true;
+
         StartCoroutine(TypeLine());
     }
     //Ecrit une ligne entière (ligne à référencer soit dans le code, soit dans Unity... plus pratique dans le code à l'avenir bien sûr.
     public IEnumerator TypeLine()
     {
-        print("TYPO LINO");
+        // print("TYPO LINO");
         //Display les caractères les uns après les autres à la vitesse textSpeed
         foreach (char c in lines[index].ToCharArray())
         {
-            print("WRITING");
+            //print("WRITING");
             textComponent.text += c;
             yield return new WaitForSeconds(textSpeed);
-            //FIX : boolean ici pour créer décalage tempo avec 
-            // appel à Interact.performed
             DialogueStarted = true;
 
         }
-        print("FINISH WRITING");
+        //print("FINISH WRITING");
        
     }
     void NextLine()
     {
-        print("NEXTO LINO");
-        //Tant qu'il reste des lignes dans la liste de lignes
+        //print("NEXTO LINO");
         //Tant qu'il reste des lignes dans la liste de lignes
         if (index < lines.Length - 1)
         {
@@ -110,10 +106,8 @@ public class BossRPStart : MonoBehaviour
         else
         {
             //Si il ne reste plus aucune ligne à display, on quitte et on rend les mouvements libres 
-
             playerMovement.EnableMovement(true);
             playerCombat.EnableCombat(true);
-           // Camera.ZoomActive = false;
             DialogueStarted = false;
             box.SetActive(false);
             bossScript.StartFight();

@@ -5,8 +5,8 @@ using UnityEngine;
 public class MobsState : MonoBehaviour
 {
 
-    public EnemyScript enemyScript;
-    public OnibiScript onibiScript;
+    [SerializeField] private EnemyScript enemyScript;
+    [SerializeField] private OnibiScript onibiScript;
 
     public bool[] tanukiDied;
     public float[] karakasaLife;

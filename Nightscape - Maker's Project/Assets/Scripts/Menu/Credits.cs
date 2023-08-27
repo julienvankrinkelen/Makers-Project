@@ -8,19 +8,19 @@ using UnityEngine.Video;
 public class Credits : MonoBehaviour
 {
 
-    public PlayerMovement playerMovement;
-    public PlayerCombat playerCombat;
-    public VolumeMusic volumeMusic;
-    public PauseMenu pauseMenu;
+    [SerializeField] private PlayerMovement playerMovement;
+    [SerializeField] private PlayerCombat playerCombat;
+    [SerializeField] private VolumeMusic volumeMusic;
+    [SerializeField] private PauseMenu pauseMenu;
 
 
-    public GameObject HUD;
-    public GameObject canvasLoading;
-    public GameObject loadingScreen;
+    [SerializeField] private GameObject HUD;
+    [SerializeField] private GameObject canvasLoading;
+    [SerializeField] private GameObject loadingScreen;
     private Animator fadeOut;
-    public GameObject blackScreen;
+    [SerializeField] private GameObject blackScreen;
 
-    public VideoPlayer videoPlayer;
+    [SerializeField] private VideoPlayer videoPlayer;
 
     private void Start()
     {

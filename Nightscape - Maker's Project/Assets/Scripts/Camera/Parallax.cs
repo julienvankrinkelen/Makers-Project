@@ -4,18 +4,15 @@ using UnityEngine;
 
 public class Parallax : MonoBehaviour
 {
-    public Camera cam;
-    public Transform subject;
+    [SerializeField] private Camera cam;
+    [SerializeField] private Transform subject;
 
-    Vector2 startPosition;
-    float startZ;
-
-    Vector2 travel => (Vector2)cam.transform.position - startPosition;
-
-    float distanceFromSubject => transform.position.z - subject.position.z;
-    float clippingPlane => (cam.transform.position.z + (distanceFromSubject > 0 ? cam.farClipPlane : cam.nearClipPlane));
-
-    float parallaxFactor => Mathf.Abs(distanceFromSubject) / clippingPlane;
+    private Vector2 startPosition;
+    private float startZ;
+    private Vector2 travel => (Vector2)cam.transform.position - startPosition;
+    private float distanceFromSubject => transform.position.z - subject.position.z;
+    private float clippingPlane => (cam.transform.position.z + (distanceFromSubject > 0 ? cam.farClipPlane : cam.nearClipPlane));
+    private float parallaxFactor => Mathf.Abs(distanceFromSubject) / clippingPlane;
 
     public void Start()
     {

@@ -25,32 +25,32 @@ public class PlayerCollectibles : MonoBehaviour
     public bool[] notePicked;
     public bool[] lanternLightened;
 
-    public GameObject[] lanterns;
+    [SerializeField] private GameObject[] lanterns;
 
-    public GameObject messageDash;
-    public GameObject messageDashCanPress;
+    [SerializeField] private GameObject messageDash;
+    [SerializeField] private GameObject messageDashCanPress;
 
-    public GameObject messageCandle;
-    public GameObject messageCandleCanPress;
+    [SerializeField] private GameObject messageCandle;
+    [SerializeField] private GameObject messageCandleCanPress;
 
-    public GameObject messageOmamori;
-    public GameObject messageOmamoriCanPress;
+    [SerializeField] private GameObject messageOmamori;
+    [SerializeField] private GameObject messageOmamoriCanPress;
 
-    public GameObject messageDaruma;
-    public GameObject messageDarumaCanPress;
+    [SerializeField] private GameObject messageDaruma;
+    [SerializeField] private GameObject messageDarumaCanPress;
 
-    public GameObject messageScroll;
-    public GameObject messageScrollCanPress;
+    [SerializeField] private GameObject messageScroll;
+    [SerializeField] private GameObject messageScrollCanPress;
 
     // variables used to select item message to display in switch system 
-    public GameObject message;
-    public GameObject messageCanPress;
+    [SerializeField] private GameObject message;
+    [SerializeField] private GameObject messageCanPress;
 
 
-    public PlayerInput playerInput;
-    public PlayerInputActions playerInputActions;
-    public PlayerCombat playerCombat;
-    public PlayerMovement playerMovement;
+    [SerializeField] private PlayerInput playerInput;
+    [SerializeField] private PlayerInputActions playerInputActions;
+    [SerializeField] private PlayerCombat playerCombat;
+    [SerializeField] private PlayerMovement playerMovement;
 
     [SerializeField] private AudioSource DashObtainedSoundEffect;
     [SerializeField] private AudioSource CandleObtainedSoundEffect;
@@ -110,7 +110,7 @@ public class PlayerCollectibles : MonoBehaviour
         if (messageCanDisable)
         {
             messageCanPress.SetActive(false);
-            Debug.Log("Disable 2e Message Item");
+          //  Debug.Log("Disable 2e Message Item");
             playerCombat.InteractClickItemUsed();
 
             Time.timeScale = 1f;
@@ -148,7 +148,7 @@ public class PlayerCollectibles : MonoBehaviour
         }
         
         message.SetActive(true);
-        Debug.Log("Display 1er Message Item");
+      //  Debug.Log("Display 1er Message Item");
         playerMovement.EnableMovement(false);
         playerCombat.EnableCombat(false);
         Time.timeScale = 0f;
@@ -157,10 +157,10 @@ public class PlayerCollectibles : MonoBehaviour
         yield return new WaitForSecondsRealtime(3);
         messageCanDisable = true;
         message.SetActive(false);
-        Debug.Log("Disable 1er Message Item");
+     //   Debug.Log("Disable 1er Message Item");
 
         messageCanPress.SetActive(true);
-        Debug.Log("Display 2e Message Item");
+     //   Debug.Log("Display 2e Message Item");
 
     }
 
@@ -194,7 +194,7 @@ public class PlayerCollectibles : MonoBehaviour
     {
         string darumaName = daruma.name;
         int darumaNumber = parseCollectibleName(darumaName);
-        Debug.Log("HAS PICKED DARUMA NB : " + darumaNumber);
+      //  Debug.Log("HAS PICKED DARUMA NB : " + darumaNumber);
         darumaPicked[darumaNumber] = true;
 
         if (numberOfDaruma == 0)
@@ -214,7 +214,7 @@ public class PlayerCollectibles : MonoBehaviour
         //Stat buff atk
         if (numberOfDaruma % 3 == 0)
         {
-            Debug.Log("Number of Daruma : " + numberOfDaruma + " -> adding 1 atkDamage to player");
+          //  Debug.Log("Number of Daruma : " + numberOfDaruma + " -> adding 1 atkDamage to player");
             playerCombat.AddDamage(1);
             playerCombat.SoundLevelUp();
         }
@@ -223,7 +223,7 @@ public class PlayerCollectibles : MonoBehaviour
     public void pickScroll(GameObject scroll) {
         string scrollName = scroll.name;
         int scrollNumber = parseCollectibleName(scrollName);
-        Debug.Log("HAS PICKED SCROLL NB : " + scrollNumber);
+      //  Debug.Log("HAS PICKED SCROLL NB : " + scrollNumber);
 
         scrollPicked[scrollNumber] = true;
         if (numberScrollsPicked == 0)
@@ -246,7 +246,7 @@ public class PlayerCollectibles : MonoBehaviour
     {
         string omamoriName = omamori.name;
         int omamoriNumber = parseCollectibleName(omamoriName);
-        Debug.Log("HAS PICKED OMAMORI NB : " + omamoriNumber);
+      //  Debug.Log("HAS PICKED OMAMORI NB : " + omamoriNumber);
         omamoriPicked[omamoriNumber] = true;
 
         if (numberOfOmamori == 0){
@@ -265,7 +265,7 @@ public class PlayerCollectibles : MonoBehaviour
         //Stat buff hp tous les 3 omamori
         if(numberOfOmamori % 3 == 0)
         {
-            Debug.Log("Number of Omamori : " + numberOfOmamori + " -> adding 1 hp");
+          //  Debug.Log("Number of Omamori : " + numberOfOmamori + " -> adding 1 hp");
             playerCombat.AddLife(1);
             playerCombat.SoundLevelUp();
         }
@@ -275,7 +275,7 @@ public class PlayerCollectibles : MonoBehaviour
     {
         string noteName = note.name;
         int noteNumber = parseCollectibleName(noteName);
-        Debug.Log("HAS PICKED NOTE NB : " + noteNumber);
+      //  Debug.Log("HAS PICKED NOTE NB : " + noteNumber);
         notePicked[noteNumber] = true;
         numberOfNotes++; //Update number of notes
         NoteObtainedSoundEffect.Play();
@@ -285,7 +285,7 @@ public class PlayerCollectibles : MonoBehaviour
     {
         string lanternName = lantern.name;
         int lanternNumber = parseCollectibleName(lanternName);
-        Debug.Log("HAS LIGHTENED LANTERN NB : " + lanternNumber);
+      //  Debug.Log("HAS LIGHTENED LANTERN NB : " + lanternNumber);
         setLanternLightened(lanternNumber, boolean);
         lanternLightened[lanternNumber] = true;
         lanternLightenedNumber++;

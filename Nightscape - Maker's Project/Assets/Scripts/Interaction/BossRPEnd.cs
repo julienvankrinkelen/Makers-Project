@@ -7,27 +7,22 @@ using UnityEngine.InputSystem;
 
 public class BossRPEnd : MonoBehaviour
 {
-    public TextMeshProUGUI textComponent;
-    public TextMeshProUGUI nameComponent;
+    [SerializeField] private TextMeshProUGUI textComponent;
+    [SerializeField] private TextMeshProUGUI nameComponent;
 
-    public float textSpeed;
+    [SerializeField] private float textSpeed;
     private int index;
-    public PlayerInput playerInput;
+    [SerializeField] private PlayerInput playerInput;
     private PlayerInputActions playerInputActions;
-    public PlayerMovement playerMovement;
-    public PlayerCombat playerCombat;
+    [SerializeField] private PlayerMovement playerMovement;
+    [SerializeField] private PlayerCombat playerCombat;
 
-    public GameObject box;
+    [SerializeField] private GameObject box;
+    [SerializeField] private BossScript bossScript;
+    [SerializeField] private Credits credits;
 
-    public BossScript bossScript;
-
-    public Credits credits;
-
-    public bool DialogueStarted = false;
-
-    //ATTENTION : ici, une "line" correspond à une "dialogue line", pas une ligne au sens 1 paragraphe = 30 lignes.
-    //D'où l'initialisation de textComponent quand on change de "line". Une line peut contenir plusieurs lignes de texte.
-    public string[] lines;
+    [SerializeField] private bool DialogueStarted = false;
+    [SerializeField] private string[] lines;
 
     private void Awake()
     {
@@ -50,7 +45,7 @@ public class BossRPEnd : MonoBehaviour
                 playerCombat.InteractClickItemUsed();
                 NextLine();
             }
-            //Sinon on affiche le restant du text (pour les gens comme moi :))
+            //Sinon on affiche le restant du texte
             else
             {
                 playerCombat.InteractClickItemUsed();
@@ -76,32 +71,28 @@ public class BossRPEnd : MonoBehaviour
         box.SetActive(true);
         textComponent.text = string.Empty;
         index = 0;
-       // DialogueStarted = true;
-        //Camera.ZoomActive = true;
         StartCoroutine(TypeLine());
     }
-    //Ecrit une ligne entière (ligne à référencer soit dans le code, soit dans Unity... plus pratique dans le code à l'avenir bien sûr.
+
+    //Ecrit une ligne entière (ligne à référencer soit dans le code, soit dans Unity).
     public IEnumerator TypeLine()
     {
-        print("TYPO LINO");
+        //print("TYPO LINO");
         //Display les caractères les uns après les autres à la vitesse textSpeed
         foreach (char c in lines[index].ToCharArray())
         {
-            print("WRITING");
+           // print("WRITING");
             textComponent.text += c;
             yield return new WaitForSeconds(textSpeed);
-            //FIX : boolean ici pour créer décalage tempo avec 
-            // appel à Interact.performed
             DialogueStarted = true;
 
         }
-        print("FINISH WRITING");
+       // print("FINISH WRITING");
        
     }
     void NextLine()
     {
-        print("NEXTO LINO");
-        //Tant qu'il reste des lignes dans la liste de lignes
+      // print("NEXTO LINO");
         //Tant qu'il reste des lignes dans la liste de lignes
         if (index < lines.Length - 1)
         {
@@ -109,14 +100,13 @@ public class BossRPEnd : MonoBehaviour
             textComponent.text = string.Empty;
             if(index%2 == 0)
             {
-                print("INDEX : " + index);
-                print("HINA DISPLAYS");
+
                 nameComponent.text = "Hina";
             }
             else
             {
-                print("INDEX : " + index);
-                print("YORU DISPLAYS");
+               // print("INDEX : " + index);
+               // print("YORU DISPLAYS");
                 nameComponent.text = "Yoru";
             }
             index++;
@@ -128,7 +118,6 @@ public class BossRPEnd : MonoBehaviour
 
             playerMovement.EnableMovement(true);
             playerCombat.EnableCombat(true);
-           // Camera.ZoomActive = false;
             DialogueStarted = false;
             box.SetActive(false);
             credits.StartCredits();

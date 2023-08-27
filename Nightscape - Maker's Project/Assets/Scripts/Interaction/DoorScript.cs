@@ -8,7 +8,7 @@ public class DoorScript : MonoBehaviour
 
     private Animator anim;
     private EdgeCollider2D coll;
-    public BoxCollider2D playercollider;
+    [SerializeField] private BoxCollider2D playercollider;
 
 
     // Start is called before the first frame update

@@ -9,18 +9,17 @@ using UnityEngine.InputSystem;
 
 public class InteractableLantern : MonoBehaviour
 {
-    public PlayerCombat playerCombat;
-    public PlayerCollectibles playerCollectibles;
-    public PlayerInput playerInput;
+    [SerializeField] private PlayerCombat playerCombat;
+    [SerializeField] private PlayerCollectibles playerCollectibles;
+    [SerializeField] private PlayerInput playerInput;
     private PlayerInputActions playerInputActions;
-    public DoorScript doorScript;
+    [SerializeField] private DoorScript doorScript;
 
-    public bool isInRange;
-    public bool canInteract = true;
-    public bool isLightened = false;
+    private bool isInRange;
+    private bool canInteract = true;
     
-    public GameObject Indicator;
-    public GameObject InteractText;
+    [SerializeField] private GameObject Indicator;
+    [SerializeField] private GameObject InteractText;
 
     private int LanternNumber;
     private void Start()
@@ -51,9 +50,7 @@ public class InteractableLantern : MonoBehaviour
             && context.performed
             && canInteract == true
             && Time.time >= playerCombat.nextAttackTime
-            //&& !isLightened
             && !playerCollectibles.lanternLightened[LanternNumber]
-            //&& playerCombat.CandleSelected
             && playerCollectibles.checkHasCandle())
         {
             playerCombat.anim.SetTrigger("UseCandle");
@@ -64,11 +61,8 @@ public class InteractableLantern : MonoBehaviour
             doorScript.setCandleAnim(currentLanternNumber + 1);
             //Set the lantern number (00, 01 or 02) to TRUE in lanternLightened array (save / load mechanism)
             playerCollectibles.lightenLantern(this.transform.parent.gameObject, true);
-            // playerCombat.anim.SetTrigger("UseCandle");
             canInteract = false;
             playerCombat.nextAttackTime = Time.time + 1f / playerCombat.attackRate;
-            //On désactive car la lanterne est activée une fois pour toutes.
-            isLightened = true;
         }
     }
 

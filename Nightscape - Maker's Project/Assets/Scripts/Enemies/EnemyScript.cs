@@ -5,37 +5,35 @@ using Pathfinding;
 
 public class EnemyScript : MonoBehaviour
 {
-    public MobsState mobsState;
+    [SerializeField] private MobsState mobsState;
 
-    public Animator anim;
-    public SpriteRenderer sprite;
-    public Rigidbody2D rb;
-    public Collider2D playercollider;
+    [SerializeField] private Animator anim;
+    [SerializeField] private SpriteRenderer sprite;
+    [SerializeField] private Rigidbody2D rb;
+    [SerializeField] private Collider2D playercollider;
     
 
     public float maxHealth = 3f;
     public float currentHealth;
 
-    public LayerMask playerLayer;
-    public Transform attackPoint;
-    public Transform playerTransform;
-    public PlayerCombat playerCombat;
+    [SerializeField] private LayerMask playerLayer;
+    [SerializeField] private Transform attackPoint;
+    [SerializeField] private Transform playerTransform;
+    [SerializeField] private PlayerCombat playerCombat;
 
     [SerializeField] private AudioSource dieSoundEffect;
     [SerializeField] private AudioSource hurtSoundEffect;
     [SerializeField] private AudioSource attackSoundEffect;
 
-    public float attackRange = 0.5f;
-    public int attackDamage = 2;
-    public float attackRate = 0.5f;
-    float nextAttackTime = 0f;
+    private float attackRange = 0.5f;
+    private int attackDamage = 2;
+    private float attackRate = 0.5f;
+    private float nextAttackTime = 0f;
     [SerializeField] private float DamageForce = 13;
 
     private bool isDead = false;
 
-    // public GameObject coin;
-
-    public AIPath aiPath;
+    [SerializeField] private AIPath aiPath;
 
     void Start()
     {
@@ -127,7 +125,6 @@ public class EnemyScript : MonoBehaviour
         GetComponent<CircleCollider2D>().enabled = true;
         Physics2D.IgnoreCollision(GetComponent<CircleCollider2D>(), playercollider);
         GetComponent<EnemyAI>().enabled = false;
-        // coin.SetActive(true);
         StartCoroutine(Bunshin());
 
     }
@@ -135,11 +132,9 @@ public class EnemyScript : MonoBehaviour
     private IEnumerator Bunshin()
     {
         GetComponent<EnemyScript>().enabled = false;
-        // anim.SetBool("IsDead", true);
         // Die animation
         yield return new WaitForSeconds(1);
         gameObject.SetActive(false);
-        //coin.SetActive(true);
     }
 
 }

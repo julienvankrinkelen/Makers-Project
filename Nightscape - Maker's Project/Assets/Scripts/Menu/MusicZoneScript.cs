@@ -5,16 +5,16 @@ using UnityEngine;
 public class MusicZoneScript : MonoBehaviour
 {
 
-    public AudioSource track1;
-    public AudioSource track2;
-    public AudioSource track3;
-    public AudioSource trackBoss;
+    [SerializeField] private AudioSource track1;
+    [SerializeField] private AudioSource track2;
+    [SerializeField] private AudioSource track3;
+    [SerializeField] private AudioSource trackBoss;
 
     private AudioSource lastTrack;
     private AudioSource nextTrack;
 
-    public EdgeCollider2D edgeCollider;
-    public CapsuleCollider2D capsuleCollider;
+    [SerializeField] private EdgeCollider2D edgeCollider;
+    [SerializeField] private CapsuleCollider2D capsuleCollider;
 
     private int nextZone;
     private int lastZone = -1;

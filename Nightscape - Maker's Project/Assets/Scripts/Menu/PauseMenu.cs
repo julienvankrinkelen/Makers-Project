@@ -14,20 +14,20 @@ public class PauseMenu : MonoBehaviour
 
     private bool canUnPause; //If player in the first pause menu (where echap = resume, not back)
 
-    public GameObject pauseMenu;
-    public GameObject lifeBar;
+    [SerializeField] private GameObject pauseMenu;
+    [SerializeField] private GameObject lifeBar;
 
     private PlayerInput playerInput;
     private PlayerInputActions playerInputActions;
-    public PlayerMovement playerMovement;
-    public PlayerCombat playerCombat;
+    [SerializeField] private PlayerMovement playerMovement;
+    [SerializeField] private PlayerCombat playerCombat;
     
-    public PlayerCollectibles playerCollectibles;
+    [SerializeField] private PlayerCollectibles playerCollectibles;
 
-    public GameObject textNote;
-    public GameObject textScroll;
-    public GameObject textDash;
-    public GameObject textCandle;
+    [SerializeField] private GameObject textNote;
+    [SerializeField] private GameObject textScroll;
+    [SerializeField] private GameObject textDash;
+    [SerializeField] private GameObject textCandle;
 
     [SerializeField] private AudioSource clickSoundEffect;
     [SerializeField] private AudioSource backSoundEffect;

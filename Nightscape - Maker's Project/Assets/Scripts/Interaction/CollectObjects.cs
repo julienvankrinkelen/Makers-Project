@@ -10,21 +10,19 @@ using JetBrains.Annotations;
 public class CollectObjects : MonoBehaviour
 {
 
-    public PlayerCollectibles playerCollectibles;
+    [SerializeField] private PlayerCollectibles playerCollectibles;
 
     private string collectible;
     //Link to parent object of "Collectible circle". This parent contains the sprite etc.
     [SerializeField] private GameObject collectibleObject;
     void Start()
     {
-    
         print(playerCollectibles);
         collectible = gameObject.tag;
         collectibleObject.SetActive(true);
       
     }
    
-
     public void CollectObject()
     {
         
@@ -56,14 +54,11 @@ public class CollectObjects : MonoBehaviour
         collectibleObject.SetActive(false);
     }
         
-   
     public void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
             CollectObject();
-           
-
         }
     }
  

@@ -14,13 +14,10 @@ public class OptionsControl: MonoBehaviour
 
     [SerializeField] private Toggle toggleFullScreen;
 
-    public VolumeMusic volumeMusic;
+    [SerializeField] private VolumeMusic volumeMusic;
     private void Start()
     {
-        int startPref = PlayerPrefs.GetInt("fullScreen");
-        Debug.Log(startPref);
         LoadFullScreen();
-
         LoadValues();
     }
     public void VolumeMusicSlider(float volume)
@@ -60,8 +57,8 @@ public class OptionsControl: MonoBehaviour
         bool fullScreen = toggleFullScreen.isOn;
         PlayerPrefs.SetInt("fullScreen", BoolToInt(fullScreen));
         LoadFullScreen();
-        Debug.Log("Just Saved VALUE BOOL : " + fullScreen);
-        Debug.Log("Just Saved VALUE INT : " + BoolToInt(fullScreen));
+     //   Debug.Log("Just Saved VALUE BOOL : " + fullScreen);
+     //   Debug.Log("Just Saved VALUE INT : " + BoolToInt(fullScreen));
 
     }
     //Load fullScreen dans PlayerPrefs
@@ -71,7 +68,7 @@ public class OptionsControl: MonoBehaviour
         int fullScreenInt = PlayerPrefs.GetInt("fullScreen");
         bool fullScreen = IntToBool(fullScreenInt);
         toggleFullScreen.isOn = fullScreen;
-        Debug.Log("Just Loaded VALUE : " + fullScreen);
+     //   Debug.Log("Just Loaded VALUE : " + fullScreen);
         Screen.fullScreen = fullScreen;
 
     }

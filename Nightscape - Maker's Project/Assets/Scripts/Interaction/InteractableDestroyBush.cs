@@ -8,17 +8,17 @@ using UnityEngine.InputSystem;
 
 public class InteractableDestroyBush : MonoBehaviour
 {
-    public PlayerCombat playerCombat;
-    public PlayerCollectibles playerCollectibles;
-    public PlayerInput playerInput;
+    [SerializeField] private PlayerCombat playerCombat;
+    [SerializeField] private PlayerCollectibles playerCollectibles;
+    [SerializeField] private PlayerInput playerInput;
     private PlayerInputActions playerInputActions;
 
-    public bool isInRange;
-    public bool canInteract = true;
-    public UnityEvent interactAction;
+    private bool isInRange;
+    private bool canInteract = true;
+    [SerializeField] private UnityEvent interactAction;
 
-    public GameObject Indicator;
-    public GameObject InteractText;
+    [SerializeField] private GameObject Indicator;
+    [SerializeField] private GameObject InteractText;
 
     private void Start()
     {

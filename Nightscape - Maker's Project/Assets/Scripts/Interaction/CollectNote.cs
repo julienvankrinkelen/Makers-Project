@@ -7,19 +7,16 @@ using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 
-// Not interactable to NPC anymore : used to pick up notes on the ground and immediately read them.
 public class CollectNote : MonoBehaviour
 {
+    [SerializeField] private NoteDialog NoteDialog;
+    [SerializeField] private PlayerCollectibles playerCollectibles;
 
-
-    public NoteDialog NoteDialog;
-    public PlayerCollectibles playerCollectibles;
-
-    public bool isInRange;
-    public bool canInteract = true;
+    [SerializeField] private bool isInRange;
+    [SerializeField] private bool canInteract = true;
     
-    public SpriteRenderer spNote;
-    public GameObject note;
+    [SerializeField] private SpriteRenderer spNote;
+    [SerializeField] private GameObject note;
 
     private void CollectTheNote()
     {

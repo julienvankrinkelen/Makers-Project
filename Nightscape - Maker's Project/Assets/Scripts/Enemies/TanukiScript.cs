@@ -4,20 +4,20 @@ using UnityEngine;
 
 public class TanukiScript : MonoBehaviour
 {
-    public MobsState mobsState;
+    [SerializeField] private MobsState mobsState;
     [SerializeField] private GameObject[] waypoints;
     private int currentWaypointIndex = 0;
-    public Collider2D playercollider;
+    [SerializeField] private Collider2D playercollider;
 
     [SerializeField] private float speed = 1.5f;
     private bool isFacingTheRight;
     private bool IsDead;
-    public Animator anim;
+    [SerializeField] private Animator anim;
 
     public float maxHealth = 1;
-    float currentHealth;
+    private float currentHealth;
 
-    public GameObject scrollDrop;
+    [SerializeField] private GameObject scrollDrop;
 
     [SerializeField] private AudioSource DieSoundEffect;
 
@@ -25,7 +25,6 @@ public class TanukiScript : MonoBehaviour
     private void Start()
     {
         Physics2D.IgnoreCollision(GetComponent<Collider2D>(), playercollider);
-        // coin.SetActive(false);
         IsDead = false;
         currentHealth = maxHealth;
         scrollDrop.SetActive(false);

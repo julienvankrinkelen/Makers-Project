@@ -7,22 +7,22 @@ public class OnibiScript : MonoBehaviour
 {
     #region Declarations
     [Header("Pathfinding")]
-    public Transform target;
+    [SerializeField] private Transform target;
     private Path path;
     Seeker seeker;
-    public float activateDistance = 50f;
-    public float pathUpdateSeconds = 0.5f;
+    private float activateDistance = 50f;
+    private float pathUpdateSeconds = 0.5f;
     private int currentWaypoint = 0;
 
     [Header("Physics")]
-    public float speed = 500f;
-    public float nextWaypointDistance = 3f;
+    private float speed = 500f;
+    private float nextWaypointDistance = 3f;
 
     [Header("Custom Behavior")]
-    public bool followEnabled = false;
-    public bool directionLookEnabled = true;
+    private bool followEnabled = false;
+    private bool directionLookEnabled = true;
     Rigidbody2D rb;
-    public Animator anim;
+    [SerializeField] private Animator anim;
 
     [Header("Combat")]
     public float maxHealth = 5f;
@@ -30,13 +30,13 @@ public class OnibiScript : MonoBehaviour
     private bool isDead = false;
     bool rush = false;
 
-    public LayerMask playerLayer;
-    public Transform attackPoint;
+    [SerializeField] private LayerMask playerLayer;
+    [SerializeField] private Transform attackPoint;
 
-    public GameObject indicator;
-    public Collider2D hitbox;
-    public float attackRate = 0.25f;
-    float nextAttackTime = 0f;
+    [SerializeField] private GameObject indicator;
+    [SerializeField] private Collider2D hitbox;
+    private float attackRate = 0.25f;
+    private float nextAttackTime = 0f;
 
     [SerializeField] private AudioSource dieSoundEffect;
     [SerializeField] private AudioSource hurtSoundEffect;
@@ -55,13 +55,10 @@ public class OnibiScript : MonoBehaviour
 
     private void Update()
     {
-
-
         if (Vector2.Distance(target.position, attackPoint.position) < 10 && anim.GetBool("IsDead") == false && !isDead)
         {
             followEnabled = true;
         }
-
 
         if ((Vector2.Distance(target.position, attackPoint.position) < 5) && Time.time >= nextAttackTime)
         {
@@ -69,6 +66,7 @@ public class OnibiScript : MonoBehaviour
             StartCoroutine(Rush());
             nextAttackTime = Time.time + 1f / attackRate;
         }
+
         else
         {
             rush = false;
@@ -101,7 +99,6 @@ public class OnibiScript : MonoBehaviour
             // Hurt animation
             anim.SetTrigger("Hurt");
             hurtSoundEffect.Play();
-            // rb.AddForce((Vector2.up * (speed / 50)) + (Vector2.right * (speed / 50)), ForceMode2D.Impulse);
         }
         if (currentHealth <= 0)
         {
@@ -138,11 +135,9 @@ public class OnibiScript : MonoBehaviour
     private IEnumerator Bunshin()
     {
         GetComponent<OnibiScript>().enabled = false;
-        // anim.SetBool("IsDead", true);
         // Die animation
         yield return new WaitForSeconds(1);
         gameObject.SetActive(false);
-        //coin.SetActive(true);
     }
 
 
@@ -185,8 +180,6 @@ public class OnibiScript : MonoBehaviour
         {
             rb.AddForce(force, ForceMode2D.Force);
         }
-
-
 
         // Next Waypoint
         float distance = Vector2.Distance(rb.position, path.vectorPath[currentWaypoint]);
