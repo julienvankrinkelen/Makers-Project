@@ -14,7 +14,6 @@ public class VolumeMusic : MonoBehaviour
     [SerializeField] private AudioSource audioBoss;
     
     private float volumeMusicValue;
-    private int fadeTime = 3;
 
     public void ChangeVolumeMusic()
     {

@@ -294,19 +294,18 @@ public class PlayerCollectibles : MonoBehaviour
 
     public void setLanternLightened(int i, bool boolean)
     {
-        if(boolean)
+        Animator anim = lanterns[i].GetComponent<Animator>();
+        if (boolean)
         {
-            terrainState.lightDoor(i);
-            Animator anim = lanterns[i].GetComponent<Animator>();
-            anim.SetBool("Lantern_ON", boolean);
+            terrainState.lightDoor(i, true);
+            anim.SetBool("Lantern_ON", true);
         }
-        //lanterns[i].GetComponent<InteractableLantern>().SetIsLightened(false);
-
-    }
-
-    public void SetIsLightened()
-    {
-
+        else
+        {
+            terrainState.lightDoor(i, false);
+            Debug.Log("Setting anim bool to false");
+            anim.SetBool("Lantern_ON", false);
+        }
     }
 
     public void setNumberExplosiveScroll(int scrollNumber)

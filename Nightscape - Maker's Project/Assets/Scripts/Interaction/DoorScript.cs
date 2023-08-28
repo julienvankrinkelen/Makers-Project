@@ -32,16 +32,27 @@ public class DoorScript : MonoBehaviour
         else if(numberOfCandles == 1) 
         {
             anim.SetBool("FirstCandle", true);
+            anim.SetBool("TwoCandle", false);
+            anim.SetBool("ThreeCandle", false);
+
+            Physics2D.IgnoreCollision(coll, playercollider, false);
         }
         else if(numberOfCandles == 2)
         {
+            anim.SetBool("FirstCandle", false);
             anim.SetBool("TwoCandle", true);
+            anim.SetBool("ThreeCandle", false);
+
+            Physics2D.IgnoreCollision(coll, playercollider, false);
         }
         else if(numberOfCandles == 3)
-        {   
+        {
             //Three lanterns were lightened, door is unlocked : player can go through
-            anim.SetBool("ThreeCandle", true) ;
-            Physics2D.IgnoreCollision(coll, playercollider);
+            anim.SetBool("FirstCandle", false);
+            anim.SetBool("TwoCandle", false);
+            anim.SetBool("ThreeCandle", true);
+            
+            Physics2D.IgnoreCollision(coll, playercollider, true);
         }
     }
 }

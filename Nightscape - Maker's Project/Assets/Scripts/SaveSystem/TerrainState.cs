@@ -47,14 +47,9 @@ public class TerrainState : MonoBehaviour
         bushDestroyed[bushNumber] = true;
     }
 
-    public void lightDoor(int i)
+    public void lightDoor(int i, bool boolean)
     {
-        doorLights[i] = true;
-    }
-
-    public void unlightDoor(int i)
-    {
-        doorLights[i] = false;
+        doorLights[i] = boolean;
     }
 
     private int parseCollectibleName(string collectible)

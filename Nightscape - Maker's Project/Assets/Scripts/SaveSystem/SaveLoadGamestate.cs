@@ -251,6 +251,7 @@ public class SaveLoadGamestate : MonoBehaviour
             lanternLightened = data.lanternLightened;
             for (int i = 0; i < lanternLightened.Length; i++)
             {   //Si la lanterne a été allumée
+                Debug.Log("Lantern " + i + " : " + lanternLightened[i]);
                 if (lanternLightened[i])
                 {
                     playerCollectibles.setLanternLightened(i,true);
@@ -304,18 +305,18 @@ public class SaveLoadGamestate : MonoBehaviour
             {   //Si la light de la porte du boss a été allumée
                 if (doorLights[i])
                 {
-                    terrainState.lightDoor(i);
+                    terrainState.lightDoor(i, true);
                     nbDoorLights++;
                 }
                 else
                 {
-                    terrainState.unlightDoor(i);
-
+                    terrainState.lightDoor(i, false);
                 }
-                playerCollectibles.setLanternLightenedNumber(nbDoorLights);
-                doorScript.setCandleAnim(nbDoorLights);
-
+               
             }
+           // Debug.Log("NB DOOR LIGHTS = " + nbDoorLights);
+            playerCollectibles.setLanternLightenedNumber(nbDoorLights);
+            doorScript.setCandleAnim(nbDoorLights);
 
 
             //tanukis
