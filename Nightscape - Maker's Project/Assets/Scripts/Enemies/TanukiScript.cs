@@ -12,6 +12,7 @@ public class TanukiScript : MonoBehaviour
     [SerializeField] private float speed = 1.5f;
     private bool isFacingTheRight;
     private bool IsDead;
+    private bool MJing;
     [SerializeField] private Animator anim;
 
     public float maxHealth = 1;
@@ -31,7 +32,7 @@ public class TanukiScript : MonoBehaviour
     }
     private void Update()
     {
-        if (Vector2.Distance(waypoints[currentWaypointIndex].transform.position, transform.position) < .1f)
+        if (Vector2.Distance(waypoints[currentWaypointIndex].transform.position, transform.position) < 0.1)
         {
             currentWaypointIndex++;
             
@@ -49,19 +50,21 @@ public class TanukiScript : MonoBehaviour
     
     private void Flip()
     {
-        if (Vector2.Distance(waypoints[currentWaypointIndex].transform.position, transform.position) < .1f  && isFacingTheRight)
+        if (Vector2.Distance(waypoints[currentWaypointIndex].transform.position, transform.position) < 0.1  && isFacingTheRight && !MJing)
         {
             Vector3 localScale = transform.localScale;
             localScale.x = 1f;
             transform.localScale = localScale;
             isFacingTheRight = false;
+            StartCoroutine(StopMJ());
         }
-        else if (Vector2.Distance(waypoints[currentWaypointIndex].transform.position, transform.position) < .1f && !isFacingTheRight)
+        else if (Vector2.Distance(waypoints[currentWaypointIndex].transform.position, transform.position) < 0.1 && !isFacingTheRight && !MJing)
         {
             Vector3 localScale = transform.localScale;
             localScale.x = -1f;
             transform.localScale = localScale;
             isFacingTheRight = true;
+            StartCoroutine(StopMJ());
         }
     }
     public void TakeDamage(float damage)
@@ -93,5 +96,12 @@ public class TanukiScript : MonoBehaviour
         yield return new WaitForSeconds(1);
         gameObject.SetActive(false);
         scrollDrop.SetActive(true);
+    }
+
+    private IEnumerator StopMJ()
+    {
+        MJing = true;
+        yield return new WaitForSeconds(1);
+        MJing = false;
     }
 }
