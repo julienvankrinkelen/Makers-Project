@@ -801,35 +801,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  activateDistance: 50
-  pathUpdateSeconds: 0.5
-  speed: 8
   acceleration: 13
   deceleration: 16
   velPower: 0.96
-  nextWaypointDistance: 3
-  jumpCheckOffset: 0.1
-  followEnabled: 0
-  directionLookEnabled: 1
   anim: {fileID: 5078202162489085194}
-  maxHealth: 40
-  currentHealth: 0
   playerLayer:
     serializedVersion: 2
     m_Bits: 8
   playerTransform: {fileID: 0}
   playerCombat: {fileID: 0}
+  playerMovement: {fileID: 0}
   playercollider: {fileID: 0}
   Zone1: {fileID: 0}
   Zone2: {fileID: 0}
-  attackRange: 0.5
-  attackDamage: 2
-  attackRate: 0.5
+  Zone3: {fileID: 0}
+  Wall: {fileID: 0}
   dieSoundEffect: {fileID: 0}
   transiSoundEffect: {fileID: 0}
   incantSoundEffect: {fileID: 0}
   thunderSoundEffect: {fileID: 0}
   attackSoundEffect: {fileID: 0}
+  flashingMaterial: {fileID: 0}
+  originalMaterial: {fileID: 0}
+  spriteRenderer: {fileID: 0}
+  bossRPStart: {fileID: 0}
+  bossRPEnd: {fileID: 0}
+  bossTrack: {fileID: 0}
+  musicZoneScript: {fileID: 0}
+  pauseMenu: {fileID: 0}
 --- !u!1 &5078202162489085193
 GameObject:
   m_ObjectHideFlags: 0
@@ -844,7 +843,7 @@ GameObject:
   - component: {fileID: 5078202162489085198}
   m_Layer: 0
   m_Name: BossGFX
-  m_TagString: Boss
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -949,4 +948,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playercollider: {fileID: 0}
-  attackDamage: 1

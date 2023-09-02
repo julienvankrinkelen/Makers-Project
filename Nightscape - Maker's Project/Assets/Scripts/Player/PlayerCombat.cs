@@ -223,9 +223,9 @@ public class PlayerCombat : MonoBehaviour
             saveLoadGamestate.LoadGamestate();
             if (InBossCombat)
             {
-                GameObject[] boss;
-                boss = GameObject.FindGameObjectsWithTag("Boss");
+                GameObject[] boss = GameObject.FindGameObjectsWithTag("Boss");
 
+                Debug.Log("Boss length =  " + boss.Length);
                 for (int i = 0; i < boss.Length; i++)
                 {
                     if (boss[i].activeSelf == true)

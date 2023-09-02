@@ -172,6 +172,7 @@ public class BossScript : MonoBehaviour
 
     public void Autodestruction()
     {
+        Debug.Log("AUTODESTRU ");
         gameObject.SetActive(false);
     }
 
