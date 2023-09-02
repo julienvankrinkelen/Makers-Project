@@ -81,7 +81,29 @@ public class BossScript : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         currentHealth = maxHealth;
         InvokeRepeating(nameof(UpdatePath), 0f, pathUpdateSeconds);
-
+        currentHealth = maxHealth;
+        transform.position = new Vector3(-484.18f, 115.86f, 0);
+        Wall.SetActive(false);
+        /*
+        attackok = false;
+        Phaseone = false;
+        Phasetwo = false;
+        dancing = false;
+        dancetwodone = false;
+        isDead = false;
+        RpStarted = false;
+        followEnabled = false;
+        directionLookEnabled = true;
+        dash = false;
+        rb.bodyType = RigidbodyType2D.Static;
+        Wall.SetActive(false);
+        anim.SetTrigger("Reset");
+        anim.SetBool("Dance1", false);
+        anim.SetBool("Dance2", false);
+        anim.SetBool("Transition", false);
+        anim.SetBool("Phasetwo", false);
+        anim.SetBool("IsDead", false);
+        */
     }
     
     private void FixedUpdate()
@@ -90,6 +112,7 @@ public class BossScript : MonoBehaviour
         {
             StartRP();
             RpStarted = true;
+            playerCombat.InBossCombat = true;
         }
 
         if (TargetInDistance() && followEnabled && Phaseone && !Phasetwo)
@@ -111,9 +134,46 @@ public class BossScript : MonoBehaviour
             StartCoroutine(Dance2());
         }
 
+
     }
+    /*
+    public void OnEnable()
+    {
+        Debug.Log("Issou");
+    }
+    public void ResetBoss()
+    {
+        
+        currentHealth = maxHealth;
+        attackok = false;
+        Phaseone = false;
+        Phasetwo = false;
+        dancing = false;
+        dancetwodone = false;
+        isDead = false;
+        RpStarted = false;
+        followEnabled = false;
+        directionLookEnabled = true;
+        dash = false;
+        transform.position = new Vector3(-484.18f, 115.86f, 0);
+        rb.bodyType = RigidbodyType2D.Static;
+        Wall.SetActive(false);
+        anim.SetTrigger("Reset");
+        anim.SetBool("Dance1", false);
+        anim.SetBool("Dance2", false);
+        anim.SetBool("Transition", false);
+        anim.SetBool("Phasetwo", false);
+        anim.SetBool("IsDead", false);
+        
+        Destroy(gameObject.GetComponent<BossScript>());
+        gameObject.AddComponent<BossScript>();
+    }
+    */
 
-
+    public void Autodestruction()
+    {
+        gameObject.SetActive(false);
+    }
 
     private void UpdatePath()
     {
@@ -439,6 +499,7 @@ public class BossScript : MonoBehaviour
 
     private IEnumerator FightEnd()
     {
+        playerCombat.InBossCombat = false;
         followEnabled = false;
         transform.position = new Vector3(-478, 116, 0);
         rb.bodyType = RigidbodyType2D.Static;

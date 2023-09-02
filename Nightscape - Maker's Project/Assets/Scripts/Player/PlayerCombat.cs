@@ -11,6 +11,8 @@ public class PlayerCombat : MonoBehaviour
     public Transform PlayerTransform;
     public SaveLoadGamestate saveLoadGamestate;
     public PlayerMovement playerMovement;
+    // public GameObject Boss;
+    public GameObject Bosscopy;
 
     public GameObject deathAnimObject;
     public Animator deathAnim;
@@ -50,6 +52,7 @@ public class PlayerCombat : MonoBehaviour
     public float maxHealth = 4f;
     public float CurrentHealth;
     private bool IsDead = false;
+    public bool InBossCombat = false;
 
     [SerializeField] private float DamageForce = 13;
     private void Start()
@@ -218,6 +221,25 @@ public class PlayerCombat : MonoBehaviour
         {
             Debug.Log("Loading previous save after dying");
             saveLoadGamestate.LoadGamestate();
+            if (InBossCombat)
+            {
+                GameObject[] boss;
+                boss = GameObject.FindGameObjectsWithTag("Boss");
+
+                for (int i = 0; i < boss.Length; i++)
+                {
+                    if (boss[i].activeSelf == true)
+                    {
+                        boss[i].GetComponent<BossScript>().Autodestruction();
+                    }
+                }
+                GameObject bossclone = Instantiate(Bosscopy);
+                bossclone.SetActive(true);
+                // bossScript.ResetBoss();
+
+                InBossCombat = false;
+                
+            }
         }
         else
         {
