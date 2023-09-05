@@ -38,6 +38,7 @@ public class BossScript : MonoBehaviour
     private bool dancing = false;
     private bool dancetwodone = false;
     private bool isDead = false;
+    private bool Flip = false;
 
     [SerializeField] private LayerMask playerLayer;
     [SerializeField] private Transform playerTransform;
@@ -162,13 +163,15 @@ public class BossScript : MonoBehaviour
 
         if (directionLookEnabled == true)
         {
-            if (direction.x < 0f)
+            if (direction.x < -0.01f && !Flip)
             {
                 transform.localScale = new Vector3(-1f * Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+                StartCoroutine(FlipSecurity());
             }
-            else if (direction.x > -0f)
+            else if (direction.x > 0.01f && !Flip)
             {
                 transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+                StartCoroutine(FlipSecurity());
             }
         }
         if ((Vector2.Distance(playerTransform.position, transform.position) <= 50) && Time.time >= nextAttackTime && playerCombat.CurrentHealth > 0  && !dancing && attackok)
@@ -237,13 +240,15 @@ public class BossScript : MonoBehaviour
 
         if (directionLookEnabled == true)
         {
-            if (direction.x < 0f)
+            if (direction.x < -0.01f && !Flip)
             {
                 transform.localScale = new Vector3(-1f * Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+                StartCoroutine(FlipSecurity());
             }
-            else if (direction.x > -0f)
+            else if (direction.x > 0.01f && !Flip)
             {
                 transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+                StartCoroutine(FlipSecurity());
             }
         }
 
@@ -277,6 +282,13 @@ public class BossScript : MonoBehaviour
             currentWaypoint++;
         }
 
+    }
+
+    private IEnumerator FlipSecurity()
+    {
+        Flip = true;
+        yield return new WaitForSeconds(0.5f);
+        Flip = false;
     }
 
 
