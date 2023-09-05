@@ -13,6 +13,7 @@ public class PlayerCombat : MonoBehaviour
     public PlayerMovement playerMovement;
     // public GameObject Boss;
     public GameObject Bosscopy;
+    public PauseMenu pauseMenu;
 
     public GameObject deathAnimObject;
     public Animator deathAnim;
@@ -246,6 +247,9 @@ public class PlayerCombat : MonoBehaviour
             Debug.Log("Loading new game bc no save before dying");
             SceneManager.LoadScene("new map");
         }
+
+        pauseMenu.EnablePauseEchap(true);
+
 
     }
 

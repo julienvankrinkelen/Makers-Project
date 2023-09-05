@@ -84,26 +84,6 @@ public class BossScript : MonoBehaviour
         currentHealth = maxHealth;
         transform.position = new Vector3(-484.18f, 115.86f, 0);
         Wall.SetActive(false);
-        /*
-        attackok = false;
-        Phaseone = false;
-        Phasetwo = false;
-        dancing = false;
-        dancetwodone = false;
-        isDead = false;
-        RpStarted = false;
-        followEnabled = false;
-        directionLookEnabled = true;
-        dash = false;
-        rb.bodyType = RigidbodyType2D.Static;
-        Wall.SetActive(false);
-        anim.SetTrigger("Reset");
-        anim.SetBool("Dance1", false);
-        anim.SetBool("Dance2", false);
-        anim.SetBool("Transition", false);
-        anim.SetBool("Phasetwo", false);
-        anim.SetBool("IsDead", false);
-        */
     }
     
     private void FixedUpdate()
@@ -136,39 +116,6 @@ public class BossScript : MonoBehaviour
 
 
     }
-    /*
-    public void OnEnable()
-    {
-        Debug.Log("Issou");
-    }
-    public void ResetBoss()
-    {
-        
-        currentHealth = maxHealth;
-        attackok = false;
-        Phaseone = false;
-        Phasetwo = false;
-        dancing = false;
-        dancetwodone = false;
-        isDead = false;
-        RpStarted = false;
-        followEnabled = false;
-        directionLookEnabled = true;
-        dash = false;
-        transform.position = new Vector3(-484.18f, 115.86f, 0);
-        rb.bodyType = RigidbodyType2D.Static;
-        Wall.SetActive(false);
-        anim.SetTrigger("Reset");
-        anim.SetBool("Dance1", false);
-        anim.SetBool("Dance2", false);
-        anim.SetBool("Transition", false);
-        anim.SetBool("Phasetwo", false);
-        anim.SetBool("IsDead", false);
-        
-        Destroy(gameObject.GetComponent<BossScript>());
-        gameObject.AddComponent<BossScript>();
-    }
-    */
 
     public void Autodestruction()
     {
@@ -336,13 +283,20 @@ public class BossScript : MonoBehaviour
     public void Attack1()
     {
         anim.SetTrigger("Attack1");
+        StartCoroutine(SlashDelayed());
+    }
+
+    public IEnumerator SlashDelayed()
+    {
+        yield return new WaitForSecondsRealtime(0.5f);
         attackSoundEffect.Play();
+        
     }
 
     public void Attack2()
     {
         anim.SetTrigger("Attack2");
-        attackSoundEffect.Play();
+        StartCoroutine(SlashDelayed());
     }
 
     private IEnumerator ActivateThenDeactivate1(float waittime)
